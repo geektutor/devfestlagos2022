@@ -1,4 +1,16 @@
 include: package:flutter_lints/flutter.yaml
+
 linter:
   rules:
+    prefer_const_declarations: true
+    use_key_in_widget_constructors: true
+    prefer_const_constructors: true
     public_member_api_docs: false
+    sort_construcators_first: false
+    directives_ordering: false
+    depend_on_referenced_packages: false
+    lines_longer_than_80_chars: false
+    no_leading_underscores_for_local_identifiers: false
+    avoid_void_async: false
+    library_private_types_in_public_api: false
+    body_might_complete_normally_nullable: false
