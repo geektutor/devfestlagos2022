@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "139760166020",
+    "project_id": "devfest-lagos-2022",
+    "storage_bucket": "devfest-lagos-2022.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:139760166020:android:62830c772acbbdf2bb8ed1",
+        "android_client_info": {
+          "package_name": "google.devfest2022.devfest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "139760166020-s1cktt50dlk4pk03t42ug89c7sdpbf50.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDF1O0HLhFPHnLj-12S8sDU9jMg3W_ulZY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "139760166020-s1cktt50dlk4pk03t42ug89c7sdpbf50.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
