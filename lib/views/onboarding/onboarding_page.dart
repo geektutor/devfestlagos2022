@@ -1,8 +1,10 @@
 import 'package:devfest/core/router/router.dart';
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
+import 'package:devfest/widgets/app_bar.dart';
 import 'package:devfest/widgets/stories/flutter_stories.dart';
 import 'package:devfest/widgets/touchable_opacity.dart';
+import 'package:devfest/widgets/devfest_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
@@ -44,9 +46,25 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   final controller = StoryController();
 
+  int currIndex = 0;
+
+  Color get bgColor => storyList[currIndex].bgColor;
+
+  @override
+  void initState() {
+    super.initState();
+    controller.onChange = (val) {
+      setState(() {
+        currIndex = val + 1;
+      });
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: bgColor,
+      appBar: EmptyAppBar(color: bgColor),
       body: Stack(
         children: [
           Positioned.fill(
@@ -56,11 +74,14 @@ class _OnboardingPageState extends State<OnboardingPage> {
               fullscreen: false,
               onFlashForward: () => context.go(Routes.signInPage),
               momentDurationGetter: (idx) => _momentDuration,
-              momentBuilder: (context, index) => _OnboardingBuilder(
-                item: storyList[index],
-                controller: controller,
-                index: index,
-              ),
+              topOffset: 40,
+              momentBuilder: (context, index) {
+                return _OnboardingBuilder(
+                  item: storyList[index],
+                  controller: controller,
+                  index: index,
+                );
+              },
             ),
           ),
         ],
@@ -82,31 +103,30 @@ class _OnboardingBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: item.bgColor,
-      child: Column(
-        children: [
-          const Gap(100),
-          Text(
-            item.title,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 28,
-              color: AppColors.grey0,
-              fontWeight: FontWeight.bold,
-            ),
+    return Column(
+      children: [
+        const Gap(100),
+        Text(
+          item.title,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: 28,
+            color: AppColors.grey0,
+            fontWeight: FontWeight.bold,
           ),
-          const Gap(6),
-          Text(
-            item.subtitle,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 16,
-              color: AppColors.grey6,
-              fontWeight: FontWeight.w500,
-            ),
+        ),
+        const Gap(6),
+        Text(
+          item.subtitle,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: 16,
+            color: AppColors.grey6,
+            fontWeight: FontWeight.w500,
           ),
-          const Spacer(),
+        ),
+        const Spacer(),
+        if (index != 2) ...[
           TouchableOpacity(
             onTap: () => controller?.next(),
             child: const Text(
@@ -118,10 +138,15 @@ class _OnboardingBuilder extends StatelessWidget {
               ),
             ),
           ),
-          const Spacer(),
-          SvgPicture.asset(item.image.svg),
+        ] else ...[
+          DevFestButton(
+            text: 'Lets Go!',
+            onTap: () => context.go(Routes.signInPage),
+          )
         ],
-      ),
+        const Spacer(),
+        SvgPicture.asset(item.image.svg),
+      ],
     );
   }
 }

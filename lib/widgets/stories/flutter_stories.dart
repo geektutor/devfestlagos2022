@@ -168,6 +168,10 @@ class _StoryState extends State<Story> with SingleTickerProviderStateMixin {
   bool _isInFullscreenMode = false;
 
   void _switchToNextOrFinish() {
+    if (widget.controller?.onChange != null) {
+      widget.controller?.onChange!(_currentIdx);
+    }
+
     _controller.stop();
     if (_currentIdx + 1 >= widget.momentCount &&
         widget.onFlashForward != null) {
@@ -288,8 +292,8 @@ class _StoryState extends State<Story> with SingleTickerProviderStateMixin {
         ),
         Positioned(
           top: widget.topOffset ?? MediaQuery.of(context).padding.top,
-          left: 8.0 - widget.progressSegmentGap / 2,
-          right: 8.0 - widget.progressSegmentGap / 2,
+          left: 20.0 - widget.progressSegmentGap / 2,
+          right: 20.0 - widget.progressSegmentGap / 2,
           child: AnimatedOpacity(
             opacity: _isInFullscreenMode ? 0.0 : 1.0,
             duration: widget.progressOpacityDuration,
@@ -344,4 +348,5 @@ class _StoryState extends State<Story> with SingleTickerProviderStateMixin {
 class StoryController {
   late VoidCallback prev;
   late VoidCallback next;
+  Function(int)? onChange;
 }

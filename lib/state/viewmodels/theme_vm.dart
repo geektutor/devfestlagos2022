@@ -44,9 +44,9 @@ class ThemeVM extends ChangeNotifier {
         systemNavigationBarDividerColor: Colors.transparent,
         /* set Status bar icons color in Android devices.*/
         statusBarIconBrightness:
-            (Platform.isIOS ? Brightness.light : Brightness.dark),
+            (Platform.isIOS ? Brightness.dark : Brightness.dark),
         /* set Status bar icon color in iOS. */
-        statusBarBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
         systemNavigationBarColor: systemNavigationBarColor,
         systemNavigationBarIconBrightness: Brightness.light,
       );
