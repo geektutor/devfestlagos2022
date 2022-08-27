@@ -21,10 +21,6 @@ class ThemeVM extends ChangeNotifier {
         colorScheme: const ColorScheme.light(
           primary: Colors.blue,
         ),
-        /* textSelectionTheme: TextSelectionThemeData(
-            cursorColor: kEdenGreen,
-            selectionHandleColor: kEdenGreen,
-            selectionColor: kEdenGreen.withOpacity(0.1)) ,*/
         useMaterial3: false,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       );

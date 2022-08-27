@@ -200,7 +200,7 @@ class _StoryState extends State<Story> with SingleTickerProviderStateMixin {
     }
   }
 
-  void _onTapDown(TapDownDetails details) => _controller.stop();
+ // void _onTapDown(TapDownDetails details) => _controller.stop();
 
   void _onTapUp(TapUpDetails details) {
     if (widget.controller == null) {

@@ -1,4 +1,5 @@
 import 'package:devfest/core/router/routes.dart';
+import 'package:devfest/views/controller_page/controller_page.dart';
 import 'package:devfest/views/onboarding/onboarding_page.dart';
 import 'package:devfest/views/signin_page/signin_page.dart';
 import 'package:devfest/views/splash_page.dart';
@@ -18,6 +19,10 @@ final router = GoRouter(
     GoRoute(
       path: Routes.signInPage,
       builder: (context, state) => const SignInPage(),
+    ),
+    GoRoute(
+      path: Routes.controllerPage,
+      builder: (context, state) => const ControllerPage(),
     ),
   ],
 );

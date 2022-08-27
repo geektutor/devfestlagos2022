@@ -1,5 +1,5 @@
 import 'package:devfest/core/router/router.dart';
-import 'package:devfest/state/providers.dart';
+import 'package:devfest/core/state/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

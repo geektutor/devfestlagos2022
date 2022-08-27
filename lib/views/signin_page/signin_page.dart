@@ -1,4 +1,3 @@
-import 'package:dartz/dartz.dart';
 import 'package:devfest/core/router/router.dart';
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
@@ -136,14 +135,14 @@ class SignInPage extends StatelessWidget {
                   const Gap(80),
                   DevFestButton(
                     text: 'Verify Email Address',
-                    onTap: () => context.go(Routes.signInPage),
+                    onTap: () => context.go(Routes.controllerPage),
                   ),
                   const Gap(30),
                   DevFestButton(
                     text: 'Skip For Now',
                     color: Colors.transparent,
                     textColor: AppColors.grey16,
-                    onTap: () => context.go(Routes.signInPage),
+                    onTap: () => context.go(Routes.controllerPage),
                   ),
                 ],
               ),
