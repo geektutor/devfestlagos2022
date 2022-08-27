@@ -1,7 +1,7 @@
 import 'package:devfest/core/router/router.dart';
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
-import 'package:devfest/widgets/devfest_button.dart';
+import 'package:devfest/widgets/button.dart';
 import 'package:devfest/widgets/touchable_opacity.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +55,7 @@ class SignInPage extends StatelessWidget {
                     style: TextStyle(
                       color: AppColors.grey0,
                       fontSize: 32,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                   const Gap(8),

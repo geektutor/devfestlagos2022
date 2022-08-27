@@ -15,6 +15,18 @@ class ControllerVM extends ChangeNotifier {
     notifyListeners();
   }
 
+  Widget? _currentPage;
+  Widget? get currentPage => _currentPage;
+  set currentPage(Widget? val) {
+    _currentPage = val;
+    notifyListeners();
+  }
+
+  Widget get defaultPage => IndexedStack(
+        index: currentTab,
+        children: [...pages.map((e) => e.page)],
+      );
+
   final pages = <ControllerPageItem>[
     const ControllerPageItem(
       page: HomePage(
@@ -55,6 +67,12 @@ class ControllerVM extends ChangeNotifier {
 
   /// Handle bottom navigation bar index change
   void onPageChanged(int index) {
+    if (currentTab == index) {
+      return;
+    }
     currentTab = index;
+    returnToDefaultPage();
   }
+
+  void returnToDefaultPage() => currentPage = defaultPage;
 }

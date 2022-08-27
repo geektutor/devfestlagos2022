@@ -19,12 +19,12 @@ class _ControllerPageState extends ConsumerState<ControllerPage>
   Widget build(BuildContext context) {
     final currentTab = ref.watch(
       controllerVM.select(
-        (v) => v.currentTab,
+        (it) => it.currentTab,
       ),
     );
 
-    final pages = ref.watch(controllerVM.select(
-      (v) => v.pages.map((e) => e.page).toList(),
+    final defaultPage = ref.watch(controllerVM.select(
+      (it) => it.defaultPage,
     ));
 
     return Scaffold(
@@ -32,10 +32,7 @@ class _ControllerPageState extends ConsumerState<ControllerPage>
       appBar: const EmptyAppBar(),
       // this to prevent the default sliding behaviour
       drawerEnableOpenDragGesture: false,
-      body: IndexedStack(
-        index: currentTab,
-        children: pages,
-      ),
+      body: defaultPage,
       bottomNavigationBar: const DevFestControllerBottomNav(),
     );
   }
