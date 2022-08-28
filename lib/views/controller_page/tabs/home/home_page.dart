@@ -1,16 +1,18 @@
 import 'package:card_swiper/card_swiper.dart';
+import 'package:devfest/core/state/providers.dart';
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
 import 'package:devfest/widgets/pill_widget.dart';
 import 'package:devfest/widgets/touchable_opacity.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends HookConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     return SafeArea(
       child: ListView(
         children: [
@@ -46,7 +48,7 @@ class HomePage extends StatelessWidget {
                     ),
                     const Spacer(),
                     TouchableOpacity(
-                      onTap: () {},
+                      onTap: () => ref.read(controllerVM).goToTalkCategories(),
                       child: const Text(
                         'View All',
                         style: TextStyle(
@@ -213,7 +215,7 @@ class AgendaCardWidget extends StatelessWidget {
                   'ONGOING',
                   style: TextStyle(
                     color: AppColors.yellowPrimary,
-                    fontSize: 16,
+                    fontSize: 12,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

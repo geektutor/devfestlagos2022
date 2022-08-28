@@ -17,9 +17,9 @@ class _ControllerPageState extends ConsumerState<ControllerPage>
     with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
-    final currentTab = ref.watch(
+    final currentPage = ref.watch(
       controllerVM.select(
-        (it) => it.currentTab,
+        (it) => it.currentPage,
       ),
     );
 
@@ -32,7 +32,7 @@ class _ControllerPageState extends ConsumerState<ControllerPage>
       appBar: const EmptyAppBar(),
       // this to prevent the default sliding behaviour
       drawerEnableOpenDragGesture: false,
-      body: defaultPage,
+      body: currentPage ?? defaultPage,
       bottomNavigationBar: const DevFestControllerBottomNav(),
     );
   }
