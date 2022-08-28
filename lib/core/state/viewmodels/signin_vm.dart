@@ -11,7 +11,6 @@ class SigninVM extends ChangeNotifier {
   SigninVM(this.read);
 
   void scanQrCode() {
-    // TODO: Implement QR Scanning during implementation
     Routes.currentContext.go(
       Routes.alertPage,
       extra: {

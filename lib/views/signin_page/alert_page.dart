@@ -12,23 +12,20 @@ class AlertParams {
   final AlertType type;
   final String title;
   final String description;
-  final void Function()? primaryAction;
+  final void Function() primaryAction;
   final void Function()? secondaryAction;
-  final String? primaryBtnText;
+  final String primaryBtnText;
   final String? secondaryBtnText;
 
   AlertParams({
     required this.type,
     required this.title,
     required this.description,
-    this.primaryAction,
+    required this.primaryAction,
     this.secondaryAction,
-    this.primaryBtnText,
+    required this.primaryBtnText,
     this.secondaryBtnText,
-  })  : assert((primaryAction != null && primaryBtnText != null) ||
-            (primaryAction == null && primaryBtnText == null)),
-        assert((secondaryAction != null && secondaryBtnText != null) ||
-            (secondaryAction == null && secondaryBtnText == null));
+  });
 }
 
 class AlertPage extends StatelessWidget {
@@ -91,7 +88,7 @@ class AlertPage extends StatelessWidget {
                   style: const TextStyle(
                     color: AppColors.grey0,
                     fontSize: 32,
-                    height: 40 / 32,
+                    height: 1.25,
                     fontWeight: FontWeight.w500,
                   ),
                   textAlign: TextAlign.center,
@@ -102,24 +99,23 @@ class AlertPage extends StatelessWidget {
                   style: const TextStyle(
                     color: AppColors.grey6,
                     fontSize: 16,
-                    height: 22 / 16,
+                    height: 1.4,
                     fontWeight: FontWeight.w500,
                   ),
                   textAlign: TextAlign.center,
                 ),
                 const Spacer(),
-                if (params.primaryAction != null)
-                  DevFestButton(
-                    width: double.infinity,
-                    text: params.primaryBtnText!,
-                    onTap: params.primaryAction,
-                  ),
+                DevFestButton(
+                  width: double.infinity,
+                  text: params.primaryBtnText,
+                  onTap: params.primaryAction,
+                ),
                 if (params.secondaryAction != null)
                   DevFestButton(
                       color: Colors.transparent,
                       textColor: AppColors.grey16,
                       width: double.infinity,
-                      text: params.secondaryBtnText!,
+                      text: params.secondaryBtnText ?? 'Skip For Now',
                       onTap: params.secondaryAction)
               ],
             ),

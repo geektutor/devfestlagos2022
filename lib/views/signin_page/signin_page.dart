@@ -12,6 +12,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../core/state/providers.dart';
+import '../../widgets/custom_dialog.dart';
 
 class SignInPage extends StatefulHookConsumerWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -21,107 +22,6 @@ class SignInPage extends StatefulHookConsumerWidget {
 }
 
 class _SignInPageState extends ConsumerState<SignInPage> {
-  void _showDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          insetPadding: const EdgeInsets.symmetric(horizontal: 32),
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(16),
-            ),
-          ),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Align(
-                  alignment: Alignment.topRight,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.maybePop(context);
-                    },
-                    child: Container(
-                      height: 26,
-                      width: 26,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: AppColors.grey6,
-                          width: 3,
-                        ),
-                        color: AppColors.lightYellow,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.close,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 84,
-                  width: 84,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: AppColors.yellowPrimary,
-                      width: 3,
-                    ),
-                    color: AppColors.lightYellow,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Center(
-                    child: Text(
-                      '🤔',
-                      style: TextStyle(
-                        color: AppColors.grey6,
-                        fontSize: 36,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ),
-                const Gap(16),
-                Column(
-                  children: const [
-                    Text(
-                      'This email has not been registered yet',
-                      style: TextStyle(
-                        color: AppColors.grey0,
-                        fontSize: 24,
-                        height: 30 / 24,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    Gap(8),
-                    Text(
-                      'Visit Devfest.com to register your email address',
-                      style: TextStyle(
-                        color: AppColors.grey6,
-                        fontSize: 16,
-                        height: 22 / 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-                const Gap(24),
-                const DevFestButton(
-                  text: 'Register Email Address',
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     var vm = ref.read(signinVM);
@@ -183,14 +83,15 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                       Routes.alertPage,
                       extra: {
                         'type': AlertParams(
-                            type: AlertType.almost,
-                            title: 'Almost there!',
-                            description:
-                                'All that is left is to scan the nearest QR code to check-in to the event. You can also do this later.',
-                            primaryAction: () => vm.scanQrCode(),
-                            primaryBtnText: 'Scan QR Code',
-                            secondaryAction: () => vm.skip(),
-                            secondaryBtnText: 'Skip For Now')
+                          type: AlertType.almost,
+                          title: 'Almost there!',
+                          description:
+                              'All that is left is to scan the nearest QR code to check-in to the event. You can also do this later.',
+                          primaryAction: () => vm.scanQrCode(),
+                          primaryBtnText: 'Scan QR Code',
+                          secondaryAction: () => vm.skip(),
+                          secondaryBtnText: 'Skip For Now',
+                        )
                       },
                     ),
                     child: Container(
@@ -259,7 +160,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                   const Gap(80),
                   DevFestButton(
                     text: 'Verify Email Address',
-                    onTap: _showDialog,
+                    onTap: () => const CustomDialogWidget().show(context),
                   ),
                   const Gap(30),
                   DevFestButton(
