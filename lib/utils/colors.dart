@@ -9,6 +9,7 @@ class AppColors {
 
   static const blue1 = Color(0xFFC6DAFC);
   static const blue2 = Color(0xFF8EB6F8);
+  static const blue7 = Color(0xFF356AC3);
   static const blueIcon = Color(0xFF0759E1);
   static const blueIconBackground = Color(0xFFD3E3FD);
   static const blueBackground = Color(0xFFF2F5FC);
@@ -26,11 +27,13 @@ class AppColors {
 
   static const lightRed = Color(0xFFFEF2F1);
   static const redPrimary = Color(0xFFEA4335);
+  static const lightRed2 = Color(0xFFFBDDDA);
 
   static const grey0 = Color(0xFF222222);
   static const grey2 = Color(0xFF202124);
   static const grey4 = Color(0xFF36373A);
   static const grey6 = Color(0xFF4D4D50);
+  static const grey8 = Color(0xFF636466);
   static const grey12 = Color(0xFF797A7C);
   static const grey16 = Color(0xFFBABBBE);
   static const greyWhite40 = Color(0xFFE8EAED);
