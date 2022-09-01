@@ -14,12 +14,6 @@ class _ControllerPageState extends ConsumerState<ControllerPage>
     with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
-    final currentTab = ref.watch(
-      controllerVM.select(
-        (it) => it.currentTab,
-      ),
-    );
-
     final defaultPage = ref.watch(controllerVM.select(
       (it) => it.defaultPage,
     ));

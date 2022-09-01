@@ -69,7 +69,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '139760166020',
     projectId: 'devfest-lagos-2022',
     storageBucket: 'devfest-lagos-2022.appspot.com',
-    iosClientId: '139760166020-7de8n1epkf7tmsopp9u63icm5r84f3vs.apps.googleusercontent.com',
+    iosClientId:
+        '139760166020-7de8n1epkf7tmsopp9u63icm5r84f3vs.apps.googleusercontent.com',
     iosBundleId: 'google.devfest2022.devfest',
   );
 }

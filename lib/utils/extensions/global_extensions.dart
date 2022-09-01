@@ -1,3 +1,5 @@
+import 'package:devfest/utils/colors.dart';
+import 'package:devfest/views/signin_page/alert_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
@@ -167,4 +169,51 @@ extension WidgetUtilitiesX on Widget {
         ),
         child: this,
       );
+}
+
+extension AlertText on AlertType {
+  String get icon {
+    switch (this) {
+      case AlertType.almost:
+        return '🤙🏼';
+      case AlertType.error:
+        return '😓';
+      case AlertType.failure:
+        return '😢';
+      case AlertType.success:
+        return '🥳';
+      default:
+        return "🤔";
+    }
+  }
+
+  Color get bgcolor {
+    switch (this) {
+      case AlertType.almost:
+        return AppColors.lightYellow;
+      case AlertType.error:
+        return AppColors.lightRed;
+      case AlertType.failure:
+        return AppColors.lightYellow;
+      case AlertType.success:
+        return AppColors.lightGreen;
+      default:
+        return AppColors.lightYellow;
+    }
+  }
+
+  Color get bordercolor {
+    switch (this) {
+      case AlertType.almost:
+        return AppColors.yellowPrimary;
+      case AlertType.error:
+        return AppColors.redPrimary;
+      case AlertType.failure:
+        return AppColors.yellowPrimary;
+      case AlertType.success:
+        return AppColors.greenPrimary;
+      default:
+        return AppColors.yellowPrimary;
+    }
+  }
 }

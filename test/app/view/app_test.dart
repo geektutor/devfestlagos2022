@@ -5,15 +5,8 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import 'package:devfest/app/app.dart';
-import 'package:devfest/views/splash_page.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('App', () {
-    testWidgets('renders CounterPage', (tester) async {
-      await tester.pumpWidget(const App());
-      expect(find.byType(SplashPage), findsOneWidget);
-    });
-  });
+  group('App', () {});
 }
