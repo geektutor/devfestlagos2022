@@ -9,8 +9,7 @@ import 'package:devfest/views/splash_page.dart';
 import 'package:go_router/go_router.dart';
 
 final router = GoRouter(
-  initialLocation: Routes.controllerPage,
-  //initialLocation: Routes.onboardingPage,
+  initialLocation: Routes.onboardingPage,
   routes: <GoRoute>[
     GoRoute(
       path: Routes.splashPage,

@@ -7,12 +7,12 @@
 
 import 'dart:async';
 import 'dart:developer';
-//uncomment
-//import 'package:firebase_core/firebase_core.dart';
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-//uncomment
-//import 'firebase_options.dart';
+
+import 'firebase_options.dart';
 
 class AppProviderObserver extends ProviderObserver {
   @override
@@ -46,10 +46,10 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   await runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
-      //uncomment
-      // await Firebase.initializeApp(
-      //     //  options: DefaultFirebaseOptions.currentPlatform,
-      //     );
+
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
       runApp(await builder());
     },
     (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),

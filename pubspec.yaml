@@ -10,11 +10,12 @@ dependencies:
   bloc: ^8.0.3
   cached_network_image: ^3.2.1
   card_swiper : ^2.0.1
- # cloud_firestore: ^3.4.6
+  cloud_firestore: ^3.4.6
   dartx: ^1.1.0
   dartz: ^0.10.1
   equatable: ^2.0.5
- # firebase_core: ^1.21.1
+
+  firebase_core: ^1.21.1
   flutter:
     sdk: flutter
  
