@@ -38,7 +38,7 @@ class SpeakerCard extends HookConsumerWidget {
       onTap: () {
         context.go('/more_info_page');
         speakers.updateSpeaker(
-            backgroundImage: backgroundImage,
+            bgImage: backgroundImage,
             title: title,
             avatar: avatar,
             firstName: firstName,
@@ -46,7 +46,6 @@ class SpeakerCard extends HookConsumerWidget {
             role: role,
             time: time,
             venue: venue);
-        print(speakers.firstName);
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
