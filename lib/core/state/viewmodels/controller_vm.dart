@@ -1,5 +1,6 @@
 import 'package:devfest/views/controller_page/controller_page_item.dart';
 import 'package:devfest/views/controller_page/tabs/home/home_page.dart';
+import 'package:devfest/views/controller_page/tabs/profile/profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -57,7 +58,7 @@ class ControllerVM extends ChangeNotifier {
       name: 'Speakers',
     ),
     const ControllerPageItem(
-      page: HomePage(
+      page: ProfilePage(
         key: PageStorageKey<String>('You'),
       ),
       image: 'you',
