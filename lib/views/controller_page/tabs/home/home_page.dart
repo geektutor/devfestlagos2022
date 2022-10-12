@@ -1,6 +1,7 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
+import 'package:devfest/widgets/app_bar.dart';
 import 'package:devfest/widgets/pill_widget.dart';
 import 'package:devfest/widgets/touchable_opacity.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +12,10 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: ListView(
+    return Scaffold(
+      backgroundColor: AppColors.white,
+      appBar: const EmptyAppBar(),
+      body: ListView(
         children: [
           const Gap(10),
           const Padding(
