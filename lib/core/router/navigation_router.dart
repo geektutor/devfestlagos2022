@@ -3,6 +3,8 @@ import 'package:devfest/views/controller_page/controller_page.dart';
 import 'package:devfest/views/onboarding/onboarding_page.dart';
 import 'package:devfest/views/signin_page/alert_page.dart';
 import 'package:devfest/views/signin_page/signin_page.dart';
+import 'package:devfest/views/speakers_page/more_info.dart';
+import 'package:devfest/views/speakers_page/speakers_page.dart';
 import 'package:devfest/views/splash_page.dart';
 import 'package:go_router/go_router.dart';
 
@@ -35,5 +37,11 @@ final router = GoRouter(
       path: Routes.controllerPage,
       builder: (context, state) => const ControllerPage(),
     ),
+    GoRoute(
+        path: Routes.speakerPage,
+        builder: ((context, state) => const SpeakersPage())),
+    GoRoute(
+        path: Routes.moreInfoPage,
+        builder: ((context, state) => const MoreInfoPage())),
   ],
 );

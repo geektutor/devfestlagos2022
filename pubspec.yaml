@@ -14,6 +14,7 @@ dependencies:
   dartx: ^1.1.0
   dartz: ^0.10.1
   equatable: ^2.0.5
+
   firebase_core: ^1.21.1
   flutter:
     sdk: flutter
@@ -66,4 +67,4 @@ flutter:
         - asset: assets/fonts/ProductSans-Black.ttf
           weight: 900
 
-    
+
