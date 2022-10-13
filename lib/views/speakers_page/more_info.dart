@@ -36,7 +36,7 @@ class MoreInfoPage extends HookConsumerWidget {
                   onPressed: () {
                     context.canPop();
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.arrow_back,
                     color: AppColors.white,
                   ),
@@ -47,16 +47,16 @@ class MoreInfoPage extends HookConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Gap(24),
+                const Gap(24),
                 Text(
                   speakers.title,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.w500,
                       color: AppColors.grey0),
                 ),
-                Gap(8),
-                Text(
+                const Gap(8),
+                const Text(
                   'Venue Entrance',
                   style: TextStyle(
                     fontSize: 18,
@@ -67,12 +67,12 @@ class MoreInfoPage extends HookConsumerWidget {
                 ),
                 Text(
                   speakers.time,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: AppColors.grey12),
                 ),
-                Gap(16),
+                const Gap(16),
                 Row(
                   children: [
                     Image.asset(
@@ -80,21 +80,21 @@ class MoreInfoPage extends HookConsumerWidget {
                       width: 40,
                       height: 40,
                     ),
-                    Gap(16),
+                    const Gap(16),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           '${speakers.firstName} ${speakers.lastName}',
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
                               color: AppColors.grey0),
                         ),
-                        Gap(4),
+                        const Gap(4),
                         Text(
                           speakers.role,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
                               color: AppColors.grey8),
@@ -103,8 +103,8 @@ class MoreInfoPage extends HookConsumerWidget {
                     )
                   ],
                 ),
-                Gap(16),
-                Chip(
+                const Gap(16),
+                const Chip(
                   label: Text(
                     'PENDING',
                     style: TextStyle(
@@ -116,16 +116,16 @@ class MoreInfoPage extends HookConsumerWidget {
                       EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   backgroundColor: AppColors.lightRed2,
                 ),
-                Gap(24),
-                Text(
+                const Gap(24),
+                const Text(
                   'In this talk, Aise instructs all adventurers looking into Web3 and tells them how to find opportunities best suited for them.',
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: AppColors.grey6),
                 ),
-                Gap(32),
-                Text(
+                const Gap(32),
+                const Text(
                   'VENUE',
                   style: TextStyle(
                       fontSize: 18,
@@ -152,14 +152,14 @@ class MoreInfoPage extends HookConsumerWidget {
                       child: Chip(
                         label: Text(
                           speakers.venue,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w700,
                               color: AppColors.grey6,
                               letterSpacing: 1.1),
                         ),
-                        labelPadding:
-                            EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        labelPadding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
                         backgroundColor: AppColors.white,
                       ),
                     )

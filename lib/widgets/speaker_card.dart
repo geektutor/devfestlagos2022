@@ -17,17 +17,18 @@ class SpeakerCard extends HookConsumerWidget {
       time,
       venue;
   final String? category;
-  const SpeakerCard({
-    required this.backgroundImage,
-    required this.title,
-    required this.avatar,
-    required this.firstName,
-    required this.lastName,
-    required this.role,
-    required this.time,
-    required this.venue,
-    this.category,
-  });
+  const SpeakerCard(
+      {required this.backgroundImage,
+      required this.title,
+      required this.avatar,
+      required this.firstName,
+      required this.lastName,
+      required this.role,
+      required this.time,
+      required this.venue,
+      this.category,
+      key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, ref) {
@@ -53,7 +54,7 @@ class SpeakerCard extends HookConsumerWidget {
             padding: const EdgeInsets.only(bottom: 12.0, top: 20),
             child: Container(
               height: 219,
-              padding: EdgeInsets.only(left: 24, right: 24, bottom: 8),
+              padding: const EdgeInsets.only(left: 24, right: 24, bottom: 8),
               decoration: BoxDecoration(
                 color: Colors.black,
                 borderRadius: BorderRadius.circular(20),
@@ -67,12 +68,12 @@ class SpeakerCard extends HookConsumerWidget {
                   Text(
                     title,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w500,
                         color: AppColors.white),
                   ),
-                  Gap(16),
+                  const Gap(16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -81,21 +82,21 @@ class SpeakerCard extends HookConsumerWidget {
                         width: 40,
                         height: 40,
                       ),
-                      Gap(8),
+                      const Gap(8),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             '$firstName $lastName',
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.white),
                           ),
-                          Gap(4),
+                          const Gap(4),
                           Text(
                             role,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400,
                                 color: AppColors.white),
@@ -104,10 +105,10 @@ class SpeakerCard extends HookConsumerWidget {
                       )
                     ],
                   ),
-                  Gap(27),
+                  const Gap(27),
                   Text(
                     '$time . $venue',
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                         color: AppColors.white),
@@ -119,13 +120,13 @@ class SpeakerCard extends HookConsumerWidget {
 
           //category
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
                 border: Border.all(color: AppColors.grey16),
                 borderRadius: BorderRadius.circular(10)),
             child: Text(
               category!,
-              style: TextStyle(
+              style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
                   color: AppColors.grey6),
