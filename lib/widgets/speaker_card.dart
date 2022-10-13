@@ -3,7 +3,6 @@ import 'package:devfest/utils/colors.dart';
 import 'package:devfest/widgets/touchable_opacity.dart';
 import 'package:flutter/material.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -17,8 +16,8 @@ class SpeakerCard extends HookConsumerWidget {
       role,
       time,
       venue;
-  String? category;
-  SpeakerCard({
+  final String? category;
+  const SpeakerCard({
     required this.backgroundImage,
     required this.title,
     required this.avatar,

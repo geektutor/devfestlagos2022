@@ -136,11 +136,11 @@ class MoreInfoPage extends HookConsumerWidget {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(20),
-                      child: Container(
+                      child: SizedBox(
                         width: double.infinity,
                         height: 161,
                         child: Image.asset(
-                          '$trimmedVenue'.png,
+                          trimmedVenue.png,
                           width: 40,
                           height: 40,
                         ),
