@@ -3,7 +3,6 @@ import 'package:devfest/widgets/speaker_card.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:devfest/widgets/touchable_opacity.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class SpeakersPage extends StatefulWidget {
   const SpeakersPage({Key? key}) : super(key: key);
@@ -61,17 +60,17 @@ class _SpeakersPageState extends State<SpeakersPage> {
       backgroundColor: AppColors.white,
       body: SafeArea(
         child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 24),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           children: [
-            Gap(28),
-            Text(
+            const Gap(28),
+            const Text(
               'Speakers',
               style: TextStyle(
                   color: AppColors.grey0,
                   fontSize: 28,
                   fontWeight: FontWeight.w500),
             ),
-            Gap(24),
+            const Gap(24),
             SizedBox(
               height: 31,
               child: ListView.builder(
@@ -99,7 +98,7 @@ class _SpeakersPageState extends State<SpeakersPage> {
                                     ? AppColors.blue7
                                     : AppColors.grey6),
                           ),
-                          labelPadding: EdgeInsets.symmetric(
+                          labelPadding: const EdgeInsets.symmetric(
                             horizontal: 8,
                           ),
                           side: BorderSide(
@@ -109,7 +108,7 @@ class _SpeakersPageState extends State<SpeakersPage> {
                               width: 2),
                         ),
                       ),
-                      Gap(8),
+                      const Gap(8),
                     ],
                   );
                 }),
