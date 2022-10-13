@@ -68,7 +68,7 @@ class SpeakersVM extends ChangeNotifier {
 
   void updateSpeaker(
       {var bgImage, title, avatar, firstName, lastName, role, time, venue}) {
-    this.backgroundImage = bgImage;
+    backgroundImage = bgImage;
     this.title = title;
     this.avatar = avatar;
     this.firstName = firstName;

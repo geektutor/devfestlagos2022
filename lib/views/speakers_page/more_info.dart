@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MoreInfoPage extends HookConsumerWidget {
-  // const MoreInfoPage({Key? key}) : super(key: key);
+  const MoreInfoPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ref) {

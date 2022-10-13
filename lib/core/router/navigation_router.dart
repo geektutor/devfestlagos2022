@@ -39,9 +39,9 @@ final router = GoRouter(
     ),
     GoRoute(
         path: Routes.speakerPage,
-        builder: ((context, state) => SpeakersPage())),
+        builder: ((context, state) => const SpeakersPage())),
     GoRoute(
         path: Routes.moreInfoPage,
-        builder: ((context, state) => MoreInfoPage())),
+        builder: ((context, state) => const MoreInfoPage())),
   ],
 );
