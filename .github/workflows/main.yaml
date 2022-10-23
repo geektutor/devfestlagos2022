@@ -1,6 +1,10 @@
 name: devfest
 
 on:
+  push: # calls action on push
+    branches: [ main ] # calls action on main branch
+  pull_request: # calls action on pull request
+    branches: [ main ] # calls action on main branch
   workflow_call:
     inputs:
       concurrency:
