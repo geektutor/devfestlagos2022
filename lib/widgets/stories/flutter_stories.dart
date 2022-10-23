@@ -168,7 +168,8 @@ class _StoryState extends State<Story> with SingleTickerProviderStateMixin {
   bool _isInFullscreenMode = false;
 
   void _switchToNextOrFinish() {
-    if (widget.controller?.onChange != null) {
+    if (widget.controller?.onChange != null &&
+        _currentIdx + 1 < widget.momentCount) {
       widget.controller?.onChange!(_currentIdx);
     }
 
