@@ -81,4 +81,14 @@ class ControllerVM extends ChangeNotifier {
   void goToTalkCategories() {
     AppNavigator.pushNamed(Routes.allTalkPage);
   }
+
+  void goToAgenda() {
+    currentTab = 2;
+    notifyListeners();
+  }
+
+  void goToSpeakers() {
+    currentTab = 3;
+    notifyListeners();
+  }
 }

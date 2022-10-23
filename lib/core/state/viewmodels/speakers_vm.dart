@@ -48,7 +48,7 @@ class SpeakersVM extends ChangeNotifier {
   String get time => _time;
   String get timne => _time;
   set time(String time) {
-    _time = time = _time;
+    _time = time;
     notifyListeners();
   }
 
