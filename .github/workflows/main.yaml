@@ -11,14 +11,23 @@ env:
   java_version: "12.x"
 
 jobs:
-  format-and-build:
-    name: formatting, code linting and build android client
+  build:
+    defaults:
+      run:
+        working-directory: .
+
     runs-on: ubuntu-latest
+
     steps:
+      - name: 📚 Git Checkout
       - uses: actions/checkout@v1
+
+      - name: Setup Java
       - uses: actions/setup-java@v1
         with:
           java-version: ${{ env.java_version }}
+      
+      - name: 🐦 Setup Flutter
       - name: Cache Flutter dependencies
         uses: actions/cache@v1
         with:
@@ -27,11 +36,15 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: ${{ env.flutter_version }}
+      
       - name: Install dependencies
         run: flutter pub get
+      
       - name: Format code
        run: flutter format --dry-run . --set-exit-if-changed
+      
       - name: Lint analysis
         run: flutter analyze --no-pub
+      
       - name: Build
         run: flutter build apk
