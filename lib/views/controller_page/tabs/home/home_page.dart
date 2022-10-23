@@ -6,6 +6,7 @@ import 'package:devfest/widgets/app_bar.dart';
 import 'package:devfest/widgets/pill_widget.dart';
 import 'package:devfest/widgets/touchable_opacity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -71,24 +72,44 @@ class HomePage extends HookConsumerWidget {
                     runSpacing: 8,
                     children: const [
                       DevFestPillWidget(
-                        image: 'robot',
+                        icon: Icon(
+                          PhosphorIcons.robot,
+                          size: 21,
+                          color: AppColors.pillContent,
+                        ),
                         title: 'Machine Learning',
                       ),
                       DevFestPillWidget(
-                        image: 'web',
+                        icon: Icon(
+                          PhosphorIcons.globe,
+                          size: 21,
+                          color: AppColors.pillContent,
+                        ),
                         title: 'Web',
                       ),
                       DevFestPillWidget(
-                        image: 'design',
+                        icon: Icon(
+                          PhosphorIcons.paint_brush,
+                          size: 21,
+                          color: AppColors.pillContent,
+                        ),
                         title: 'Design',
                       ),
                       DevFestPillWidget(
-                        image: 'android',
+                        icon: Icon(
+                          PhosphorIcons.android_logo,
+                          size: 21,
+                          color: AppColors.pillContent,
+                        ),
                         title: 'Android',
                       ),
                       DevFestPillWidget(
-                        image: 'flutter',
-                        title: 'Flutter',
+                        icon: Icon(
+                          PhosphorIcons.device_mobile,
+                          size: 21,
+                          color: AppColors.pillContent,
+                        ),
+                        title: 'Mobile',
                       ),
                     ],
                   ),

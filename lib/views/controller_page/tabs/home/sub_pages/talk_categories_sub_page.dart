@@ -3,28 +3,45 @@ import 'package:devfest/utils/colors.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
 import 'package:devfest/widgets/touchable_opacity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../../widgets/app_bar.dart';
 
+class TalkCategory {
+  String name;
+  Icon icon;
+
+  TalkCategory({required this.name, required this.icon});
+}
+
 class TalkCategoriesSubPage extends HookConsumerWidget {
   const TalkCategoriesSubPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ref) {
-    List<String> categories = [
-      'Web',
-      'Machine Learning',
-      'Design',
-      'Android',
-      'Mobile',
-      'Career Tips',
-      'Mental Health',
-      'Product Management',
-      'Game Development',
-      'Web3'
+    List<TalkCategory> categories = [
+      TalkCategory(name: 'Web', icon: const Icon(PhosphorIcons.globe)),
+      TalkCategory(
+          name: 'Machine Learning', icon: const Icon(PhosphorIcons.robot)),
+      TalkCategory(name: 'Design', icon: const Icon(PhosphorIcons.paint_brush)),
+      TalkCategory(
+          name: 'Android', icon: const Icon(PhosphorIcons.android_logo)),
+      TalkCategory(
+          name: 'Mobile', icon: const Icon(PhosphorIcons.device_mobile)),
+      TalkCategory(
+          name: 'Career Tips', icon: const Icon(PhosphorIcons.suitcase)),
+      TalkCategory(
+          name: 'Mental Health', icon: const Icon(PhosphorIcons.smiley)),
+      TalkCategory(
+          name: 'Product Management',
+          icon: const Icon(PhosphorIcons.handshake)),
+      TalkCategory(
+          name: 'Game Development',
+          icon: const Icon(PhosphorIcons.game_controller)),
+      TalkCategory(name: 'Web3', icon: const Icon(PhosphorIcons.currency_eth)),
     ];
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -61,10 +78,10 @@ class TalkCategoriesSubPage extends HookConsumerWidget {
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            SvgPicture.asset('robot'.svg),
+                            e.icon,
                             const Gap(11.5),
                             Text(
-                              e,
+                              e.name,
                               style: const TextStyle(
                                 color: AppColors.grey0,
                                 fontSize: 16,

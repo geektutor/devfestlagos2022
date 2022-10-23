@@ -17,6 +17,7 @@ class AppColors {
   static const lightBlue = Color(0xFFF1F6FE);
 
   static const pillBackground = Color(0xFFF1F5F4);
+  static const pillContent = Color(0xFF143048);
 
   static const lightYellow = Color(0xFFFFFBF0);
   static const yellow1 = Color(0xFFFEF4D7);

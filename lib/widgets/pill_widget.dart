@@ -1,19 +1,18 @@
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/widgets/touchable_opacity.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:devfest/utils/extensions/extensions.dart';
 import 'package:gap/gap.dart';
 
 class DevFestPillWidget extends StatelessWidget {
   const DevFestPillWidget({
     super.key,
     required this.title,
-    required this.image,
+    required this.icon,
   });
 
-  final String title, image;
+  final String title;
+  final Icon icon;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,7 @@ class DevFestPillWidget extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SvgPicture.asset(image.svg),
+              icon,
               const Gap(11.5),
               Text(
                 title,
