@@ -14,6 +14,12 @@ class _ControllerPageState extends ConsumerState<ControllerPage>
     with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
+    final currentPage = ref.watch(
+      controllerVM.select(
+        (it) => it.currentPage,
+      ),
+    );
+
     final defaultPage = ref.watch(controllerVM.select(
       (it) => it.defaultPage,
     ));
@@ -21,7 +27,7 @@ class _ControllerPageState extends ConsumerState<ControllerPage>
     return Scaffold(
       // this to prevent the default sliding behaviour
       drawerEnableOpenDragGesture: false,
-      body: defaultPage,
+      body: currentPage ?? defaultPage,
       bottomNavigationBar: const DevFestControllerBottomNav(),
     );
   }

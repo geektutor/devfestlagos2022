@@ -1,3 +1,4 @@
+import 'package:devfest/core/router/navigator.dart';
 import 'package:devfest/views/controller_page/controller_page_item.dart';
 import 'package:devfest/views/controller_page/tabs/home/home_page.dart';
 import 'package:devfest/views/controller_page/tabs/profile/profile_page.dart';
@@ -73,8 +74,11 @@ class ControllerVM extends ChangeNotifier {
       return;
     }
     currentTab = index;
-    returnToDefaultPage();
   }
 
-  void returnToDefaultPage() => currentPage = defaultPage;
+  void returnToDefaultPage() => AppNavigator.pop();
+
+  void goToTalkCategories() {
+    AppNavigator.pushNamed(Routes.allTalkPage);
+  }
 }
