@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:devfest/views/controller_page/widgets/agenda_status_chip.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class SpeakersVM extends ChangeNotifier {
   String _backgroundImage = '';
@@ -46,7 +47,6 @@ class SpeakersVM extends ChangeNotifier {
 
   String _time = '';
   String get time => _time;
-  String get timne => _time;
   set time(String time) {
     _time = time;
     notifyListeners();
@@ -66,15 +66,33 @@ class SpeakersVM extends ChangeNotifier {
     notifyListeners();
   }
 
+  AgendaStatus _status = AgendaStatus.pending;
+  AgendaStatus get status => _status;
+  set status(AgendaStatus status) {
+    _status = status;
+    notifyListeners();
+  }
+
   void updateSpeaker(
-      {var bgImage, title, avatar, firstName, lastName, role, time, venue}) {
+      {var bgImage,
+      title,
+      avatar,
+      firstName,
+      lastName,
+      synopsis,
+      role,
+      time,
+      venue,
+      status}) {
     backgroundImage = bgImage;
     this.title = title;
     this.avatar = avatar;
     this.firstName = firstName;
     this.lastName = lastName;
+    this.synopsis = synopsis;
     this.role = role;
     this.time = time;
     this.venue = venue;
+    this.status = status;
   }
 }

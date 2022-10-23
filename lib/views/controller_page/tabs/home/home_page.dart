@@ -2,6 +2,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:devfest/core/state/providers.dart';
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
+import 'package:devfest/views/controller_page/widgets/agenda_status_chip.dart';
 import 'package:devfest/widgets/app_bar.dart';
 import 'package:devfest/widgets/pill_widget.dart';
 import 'package:devfest/widgets/touchable_opacity.dart';
@@ -12,6 +13,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../widgets/speaker_card.dart';
 import '../../../speakers_page/speakers_page.dart';
+import '../../widgets/agenda_card.dart';
 
 class HomePage extends HookConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -142,7 +144,21 @@ class HomePage extends HookConsumerWidget {
                     ],
                   ),
                   const Gap(16),
-                  const AgendaCardWidget(),
+                  AgendaCardWidget(
+                    agenda: Agenda(
+                      startTime: DateTime(2022, 10, 23, 9),
+                      endTime: DateTime(2022, 10, 23, 10),
+                      status: AgendaStatus.ongoing,
+                      sessionTitle: 'WTM + WW Breakfast / Registration',
+                      venue: 'Hall A',
+                      firstName: 'Sodiq',
+                      lastName: 'Akinjobi',
+                      avatar: 'Sodiq',
+                      role: 'Lead Product Manager, Google',
+                      backgroundImage: 'Rectangle_1',
+                      sessionSynopsis: 'Attendees Registration.',
+                    ),
+                  ),
                   const Gap(32),
                   Row(
                     children: [
@@ -184,111 +200,6 @@ class HomePage extends HookConsumerWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class AgendaCardWidget extends StatelessWidget {
-  const AgendaCardWidget({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: context.screenHeight(.19),
-      decoration: BoxDecoration(
-        color: AppColors.greyWhite80.withOpacity(0.3),
-        borderRadius: BorderRadius.circular(18),
-      ),
-      child: Row(
-        children: [
-          const Gap(30),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(
-                alignment: Alignment.bottomCenter,
-                height: 32,
-                width: 32,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.primaryBlue,
-                ),
-                child: const Center(
-                  child: Text(
-                    '1',
-                    style: TextStyle(
-                      color: AppColors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                alignment: Alignment.bottomCenter,
-                height: context.screenHeight(.13),
-                width: 4,
-                color: AppColors.blue1,
-              ),
-            ],
-          ),
-          const Gap(18),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Gap(26),
-              const Text(
-                'WTM + WW Breakfast / Registration',
-                style: TextStyle(
-                  color: AppColors.grey0,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const Gap(8),
-              const Text(
-                'Venue Entrance',
-                style: TextStyle(
-                  color: AppColors.grey12,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const Gap(8),
-              const Text(
-                '9.00 am - 10.00 am',
-                style: TextStyle(
-                  color: AppColors.grey12,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const Gap(24),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.yellow1,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: const Text(
-                  'ONGOING',
-                  style: TextStyle(
-                    color: AppColors.yellowPrimary,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ],
-          )
-        ],
       ),
     );
   }
