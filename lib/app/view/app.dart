@@ -1,4 +1,3 @@
-import 'package:devfest/core/router/router.dart';
 import 'package:devfest/core/state/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -6,6 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:devfest/bootstrap.dart';
 import 'package:devfest/l10n/l10n.dart';
+
+import '../../core/router/navigator.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -33,10 +34,10 @@ class ProviderScopeApp extends HookConsumerWidget {
 
     return AnnotatedRegion(
       value: theme.style,
-      child: MaterialApp.router(
-        routeInformationProvider: router.routeInformationProvider,
-        routeInformationParser: router.routeInformationParser,
-        routerDelegate: router.routerDelegate,
+      child: MaterialApp(
+        navigatorKey: AppNavigator.key,
+        onGenerateRoute: AppRouter.generateRoutes,
+        initialRoute: Routes.onboardingPage,
         debugShowCheckedModeBanner: false,
         theme: theme.themeData,
         localizationsDelegates: const [

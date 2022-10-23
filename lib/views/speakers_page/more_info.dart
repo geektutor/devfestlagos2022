@@ -3,8 +3,10 @@ import 'package:devfest/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../core/router/navigator.dart';
 
 class MoreInfoPage extends HookConsumerWidget {
   const MoreInfoPage({Key? key}) : super(key: key);
@@ -34,7 +36,7 @@ class MoreInfoPage extends HookConsumerWidget {
                 top: 49,
                 child: IconButton(
                   onPressed: () {
-                    context.canPop();
+                    AppNavigator.maybePop();
                   },
                   icon: const Icon(
                     Icons.arrow_back,

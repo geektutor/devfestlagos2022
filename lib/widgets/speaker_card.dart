@@ -4,8 +4,10 @@ import 'package:devfest/widgets/touchable_opacity.dart';
 import 'package:flutter/material.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../core/router/navigator.dart';
 
 class SpeakerCard extends HookConsumerWidget {
   final String backgroundImage,
@@ -36,7 +38,7 @@ class SpeakerCard extends HookConsumerWidget {
 
     return TouchableOpacity(
       onTap: () {
-        context.go('/more_info_page');
+        AppNavigator.pushNamed(Routes.moreInfoPage);
         speakers.updateSpeaker(
             bgImage: backgroundImage,
             title: title,
