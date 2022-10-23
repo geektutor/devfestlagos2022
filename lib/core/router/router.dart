@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../views/controller_page/controller_page.dart';
+import '../../views/controller_page/tabs/home/sub_pages/talk_categories_sub_page.dart';
 import '../../views/signin_page/alert_page.dart';
 import '../../views/speakers_page/more_info.dart';
 import '../../views/speakers_page/speakers_page.dart';
@@ -58,6 +59,12 @@ abstract class AppRouter {
         return getPageRoute(
           settings: settings,
           view: const MoreInfoPage(),
+        );
+
+      case Routes.allTalkPage:
+        return getPageRoute(
+          settings: settings,
+          view: const TalkCategoriesSubPage(),
         );
 
       default:

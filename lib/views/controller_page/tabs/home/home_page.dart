@@ -14,11 +14,11 @@ class HomePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.white,
-        appBar: const EmptyAppBar(),
-        body: ListView(
+    return Scaffold(
+      backgroundColor: AppColors.white,
+      appBar: const EmptyAppBar(),
+      body: SafeArea(
+        child: ListView(
           children: [
             const Gap(10),
             const Padding(

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:devfest/widgets/touchable_opacity.dart';
 
+import '../../widgets/app_bar.dart';
+
 class SpeakersPage extends StatefulWidget {
   const SpeakersPage({Key? key}) : super(key: key);
   @override
@@ -58,11 +60,13 @@ class _SpeakersPageState extends State<SpeakersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
+      appBar: const EmptyAppBar(
+        color: AppColors.white,
+      ),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           children: [
-            const Gap(28),
             const Text(
               'Speakers',
               style: TextStyle(

@@ -8,4 +8,5 @@ abstract class Routes {
   static const controllerPage = '/controller_page';
   static const speakerPage = '/speaker_page';
   static const moreInfoPage = '/more_info_page';
+  static const allTalkPage = '/all_talk_page';
 }
