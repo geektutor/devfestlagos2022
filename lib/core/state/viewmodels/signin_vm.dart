@@ -1,9 +1,8 @@
+import 'package:devfest/core/router/navigator.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../views/signin_page/alert_page.dart';
-import '../../router/routes.dart';
 
 class SigninVM extends ChangeNotifier {
   final Reader read;
@@ -11,9 +10,9 @@ class SigninVM extends ChangeNotifier {
   SigninVM(this.read);
 
   void scanQrCode() {
-    Routes.currentContext.go(
+    AppNavigator.pushNamed(
       Routes.alertPage,
-      extra: {
+      arguments: {
         'type': AlertParams(
           type: AlertType.success,
           title: 'Welcome to DevFest Lagos, Samuel! 🤗',
@@ -27,6 +26,6 @@ class SigninVM extends ChangeNotifier {
   }
 
   void skip() {
-    Routes.currentContext.go(Routes.controllerPage);
+    AppNavigator.pushNamed(Routes.controllerPage);
   }
 }

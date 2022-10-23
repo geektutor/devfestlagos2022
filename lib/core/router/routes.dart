@@ -1,12 +1,5 @@
-import 'package:flutter/material.dart';
-
-import 'navigation_router.dart';
-
 abstract class Routes {
   Routes._();
-
-  static final key = router.routerDelegate.navigatorKey;
-  static BuildContext get currentContext => key.currentState!.context;
 
   static const splashPage = '/';
   static const onboardingPage = '/onboarding_page';

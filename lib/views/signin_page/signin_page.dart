@@ -1,4 +1,3 @@
-import 'package:devfest/core/router/router.dart';
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
 import 'package:devfest/views/signin_page/alert_page.dart';
@@ -8,9 +7,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../core/router/navigator.dart';
 import '../../core/state/providers.dart';
 import '../../widgets/custom_dialog.dart';
 
@@ -79,9 +79,9 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                   ),
                   const Gap(32),
                   TouchableOpacity(
-                    onTap: () => context.go(
+                    onTap: () => AppNavigator.pushNamed(
                       Routes.alertPage,
-                      extra: {
+                      arguments: {
                         'type': AlertParams(
                           type: AlertType.almost,
                           title: 'Almost there!',
@@ -167,7 +167,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                     text: 'Skip For Now',
                     color: Colors.transparent,
                     textColor: AppColors.grey16,
-                    onTap: () => context.go(Routes.controllerPage),
+                    onTap: () => AppNavigator.pushNamed(Routes.controllerPage),
                   ),
                 ],
               ),
