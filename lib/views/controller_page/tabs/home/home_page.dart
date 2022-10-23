@@ -2,6 +2,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:devfest/core/state/providers.dart';
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
+import 'package:devfest/widgets/app_bar.dart';
 import 'package:devfest/widgets/pill_widget.dart';
 import 'package:devfest/widgets/touchable_opacity.dart';
 import 'package:flutter/material.dart';
@@ -14,110 +15,115 @@ class HomePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     return SafeArea(
-      child: ListView(
-        children: [
-          const Gap(10),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24),
-            child: Text(
-              'Hi there, Samuel 🤗',
-              style: TextStyle(
-                color: AppColors.grey0,
-                fontSize: 28,
-                fontWeight: FontWeight.w500,
+      child: Scaffold(
+        backgroundColor: AppColors.white,
+        appBar: const EmptyAppBar(),
+        body: ListView(
+          children: [
+            const Gap(10),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24),
+              child: Text(
+                'Hi there, Samuel 🤗',
+                style: TextStyle(
+                  color: AppColors.grey0,
+                  fontSize: 28,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
-          ),
-          const Gap(20),
-          const HomeSlider(),
-          const Gap(29),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    const Text(
-                      'Talk Categories',
-                      style: TextStyle(
-                        color: AppColors.grey0,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const Spacer(),
-                    TouchableOpacity(
-                      onTap: () => ref.read(controllerVM).goToTalkCategories(),
-                      child: const Text(
-                        'View All',
+            const Gap(20),
+            const HomeSlider(),
+            const Gap(29),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Text(
+                        'Talk Categories',
                         style: TextStyle(
-                          color: AppColors.primaryBlue,
+                          color: AppColors.grey0,
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                const Gap(16),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: const [
-                    DevFestPillWidget(
-                      image: 'robot',
-                      title: 'Machine Learning',
-                    ),
-                    DevFestPillWidget(
-                      image: 'web',
-                      title: 'Web',
-                    ),
-                    DevFestPillWidget(
-                      image: 'design',
-                      title: 'Design',
-                    ),
-                    DevFestPillWidget(
-                      image: 'android',
-                      title: 'Android',
-                    ),
-                    DevFestPillWidget(
-                      image: 'flutter',
-                      title: 'Flutter',
-                    ),
-                  ],
-                ),
-                const Gap(32),
-                Row(
-                  children: [
-                    const Text(
-                      'Agenda',
-                      style: TextStyle(
-                        color: AppColors.grey0,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
+                      const Spacer(),
+                      TouchableOpacity(
+                        onTap: () =>
+                            ref.read(controllerVM).goToTalkCategories(),
+                        child: const Text(
+                          'View All',
+                          style: TextStyle(
+                            color: AppColors.primaryBlue,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ),
-                    ),
-                    const Spacer(),
-                    TouchableOpacity(
-                      onTap: () {},
-                      child: const Text(
-                        'View Agenda',
+                    ],
+                  ),
+                  const Gap(16),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: const [
+                      DevFestPillWidget(
+                        image: 'robot',
+                        title: 'Machine Learning',
+                      ),
+                      DevFestPillWidget(
+                        image: 'web',
+                        title: 'Web',
+                      ),
+                      DevFestPillWidget(
+                        image: 'design',
+                        title: 'Design',
+                      ),
+                      DevFestPillWidget(
+                        image: 'android',
+                        title: 'Android',
+                      ),
+                      DevFestPillWidget(
+                        image: 'flutter',
+                        title: 'Flutter',
+                      ),
+                    ],
+                  ),
+                  const Gap(32),
+                  Row(
+                    children: [
+                      const Text(
+                        'Agenda',
                         style: TextStyle(
-                          color: AppColors.primaryBlue,
+                          color: AppColors.grey0,
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                const Gap(16),
-                const AgendaCardWidget()
-              ],
+                      const Spacer(),
+                      TouchableOpacity(
+                        onTap: () {},
+                        child: const Text(
+                          'View Agenda',
+                          style: TextStyle(
+                            color: AppColors.primaryBlue,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Gap(16),
+                  const AgendaCardWidget()
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

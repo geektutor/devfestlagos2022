@@ -1,19 +1,30 @@
-import 'package:devfest/core/router/router.dart';
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
+import 'package:devfest/views/signin_page/alert_page.dart';
 import 'package:devfest/widgets/button.dart';
 import 'package:devfest/widgets/touchable_opacity.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
 
-class SignInPage extends StatelessWidget {
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../core/router/navigator.dart';
+import '../../core/state/providers.dart';
+import '../../widgets/custom_dialog.dart';
+
+class SignInPage extends StatefulHookConsumerWidget {
   const SignInPage({Key? key}) : super(key: key);
 
   @override
+  ConsumerState<SignInPage> createState() => _SignInPageState();
+}
+
+class _SignInPageState extends ConsumerState<SignInPage> {
+  @override
   Widget build(BuildContext context) {
+    var vm = ref.read(signinVM);
     return Scaffold(
       backgroundColor: AppColors.white,
       body: Stack(
@@ -68,7 +79,21 @@ class SignInPage extends StatelessWidget {
                   ),
                   const Gap(32),
                   TouchableOpacity(
-                    onTap: () {},
+                    onTap: () => AppNavigator.pushNamed(
+                      Routes.alertPage,
+                      arguments: {
+                        'type': AlertParams(
+                          type: AlertType.almost,
+                          title: 'Almost there!',
+                          description:
+                              'All that is left is to scan the nearest QR code to check-in to the event. You can also do this later.',
+                          primaryAction: () => vm.scanQrCode(),
+                          primaryBtnText: 'Scan QR Code',
+                          secondaryAction: () => vm.skip(),
+                          secondaryBtnText: 'Skip For Now',
+                        )
+                      },
+                    ),
                     child: Container(
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(vertical: 24),
@@ -135,14 +160,14 @@ class SignInPage extends StatelessWidget {
                   const Gap(80),
                   DevFestButton(
                     text: 'Verify Email Address',
-                    onTap: () => context.go(Routes.controllerPage),
+                    onTap: () => const CustomDialogWidget().show(context),
                   ),
                   const Gap(30),
                   DevFestButton(
                     text: 'Skip For Now',
                     color: Colors.transparent,
                     textColor: AppColors.grey16,
-                    onTap: () => context.go(Routes.controllerPage),
+                    onTap: () => AppNavigator.pushNamed(Routes.controllerPage),
                   ),
                 ],
               ),

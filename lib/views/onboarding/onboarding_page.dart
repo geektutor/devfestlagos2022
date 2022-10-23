@@ -1,4 +1,3 @@
-import 'package:devfest/core/router/router.dart';
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
 import 'package:devfest/widgets/app_bar.dart';
@@ -8,7 +7,8 @@ import 'package:devfest/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
+
+import '../../core/router/navigator.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -72,7 +72,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
               controller: controller,
               momentCount: storyList.length,
               fullscreen: false,
-              onFlashForward: () => context.go(Routes.signInPage),
+              onFlashForward: () => AppNavigator.pushNamed(Routes.signInPage),
               momentDurationGetter: (idx) => _momentDuration,
               topOffset: 40,
               momentBuilder: (context, index) {
@@ -141,7 +141,7 @@ class _OnboardingBuilder extends StatelessWidget {
         ] else ...[
           DevFestButton(
             text: 'Lets Go!',
-            onTap: () => context.go(Routes.signInPage),
+            onTap: () => AppNavigator.pushNamed(Routes.signInPage),
           )
         ],
         const Spacer(),
