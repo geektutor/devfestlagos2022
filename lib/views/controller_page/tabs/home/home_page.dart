@@ -10,6 +10,9 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../widgets/speaker_card.dart';
+import '../../../speakers_page/speakers_page.dart';
+
 class HomePage extends HookConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -126,7 +129,7 @@ class HomePage extends HookConsumerWidget {
                       ),
                       const Spacer(),
                       TouchableOpacity(
-                        onTap: () {},
+                        onTap: () => ref.read(controllerVM).goToAgenda(),
                         child: const Text(
                           'View Agenda',
                           style: TextStyle(
@@ -139,7 +142,43 @@ class HomePage extends HookConsumerWidget {
                     ],
                   ),
                   const Gap(16),
-                  const AgendaCardWidget()
+                  const AgendaCardWidget(),
+                  const Gap(32),
+                  Row(
+                    children: [
+                      const Text(
+                        'Speakers',
+                        style: TextStyle(
+                          color: AppColors.grey0,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const Spacer(),
+                      TouchableOpacity(
+                        onTap: () => ref.read(controllerVM).goToSpeakers(),
+                        child: const Text(
+                          'View Speakers',
+                          style: TextStyle(
+                            color: AppColors.primaryBlue,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SpeakerCard(
+                    backgroundImage: speakerDets.first.backgroundImage,
+                    title: speakerDets.first.topic,
+                    avatar: speakerDets.first.avatar,
+                    firstName: speakerDets.first.firstName,
+                    lastName: speakerDets.first.lastName,
+                    role: speakerDets.first.role,
+                    time: speakerDets.first.time,
+                    venue: speakerDets.first.venue,
+                    category: speakerDets.first.category,
+                  )
                 ],
               ),
             ),

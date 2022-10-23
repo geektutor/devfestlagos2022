@@ -27,6 +27,7 @@ class TouchableOpacity extends StatefulWidget {
     this.onTapDown,
     this.onTapUp,
     this.onTapCancel,
+    this.padding,
   }) : super(key: key);
   final Widget? child;
   final double? width;
@@ -40,6 +41,7 @@ class TouchableOpacity extends StatefulWidget {
   final VoidCallback? onTapDown;
   final VoidCallback? onTapUp;
   final VoidCallback? onTapCancel;
+  final EdgeInsetsGeometry? padding;
 
   @override
   _TouchableOpacity createState() => _TouchableOpacity();
@@ -92,6 +94,7 @@ class _TouchableOpacity extends State<TouchableOpacity> {
           child: Container(
             width: widget.width,
             height: widget.height,
+            padding: widget.padding,
             decoration: widget.decoration,
             child: widget.child,
           ),
