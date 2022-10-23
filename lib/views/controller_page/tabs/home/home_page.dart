@@ -1,13 +1,16 @@
 import 'package:card_swiper/card_swiper.dart';
+import 'package:devfest/core/router/navigator.dart';
 import 'package:devfest/core/state/providers.dart';
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
 import 'package:devfest/views/controller_page/widgets/agenda_status_chip.dart';
+import 'package:devfest/views/controller_page/widgets/info_card_widget.dart';
 import 'package:devfest/widgets/app_bar.dart';
 import 'package:devfest/widgets/pill_widget.dart';
 import 'package:devfest/widgets/touchable_opacity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -194,7 +197,69 @@ class HomePage extends HookConsumerWidget {
                     time: speakerDets.first.time,
                     venue: speakerDets.first.venue,
                     category: speakerDets.first.category,
-                  )
+                  ),
+                  const Gap(32),
+                  Row(
+                    children: [
+                      const Text(
+                        'Sponsors',
+                        style: TextStyle(
+                          color: AppColors.grey0,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const Spacer(),
+                      TouchableOpacity(
+                        onTap: () =>
+                            AppNavigator.pushNamed(Routes.sponsorsPage),
+                        child: const Text(
+                          'View Sponsors',
+                          style: TextStyle(
+                            color: AppColors.primaryBlue,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: SvgPicture.asset('sponsors'.svg),
+                  ),
+                  const Gap(32),
+                  Row(
+                    children: [
+                      const Text(
+                        'Team',
+                        style: TextStyle(
+                          color: AppColors.grey0,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const Spacer(),
+                      TouchableOpacity(
+                        onTap: () => AppNavigator.pushNamed(Routes.teamPage),
+                        child: const Text(
+                          'View Team',
+                          style: TextStyle(
+                            color: AppColors.primaryBlue,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 20, bottom: 10),
+                    child: InfoCardWidget(
+                      title: 'Sodiq Akinjobi',
+                      subtitle: 'Product Lead, Google',
+                    ),
+                  ),
                 ],
               ),
             ),
