@@ -9,4 +9,6 @@ abstract class Routes {
   static const speakerPage = '/speaker_page';
   static const moreInfoPage = '/more_info_page';
   static const allTalkPage = '/all_talk_page';
+  static const sponsorsPage = '/sponsors_page';
+  static const teamPage = '/team_page';
 }
