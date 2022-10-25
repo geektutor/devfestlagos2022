@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:devfest/views/maps_page/maps_page.dart';
+import 'package:devfest/views/maps_page/maps_search_page.dart';
 import 'package:devfest/views/onboarding/onboarding_page.dart';
 import 'package:devfest/views/signin_page/signin_page.dart';
 import 'package:devfest/views/splash_page.dart';
@@ -66,6 +68,12 @@ abstract class AppRouter {
           settings: settings,
           view: const TalkCategoriesSubPage(),
         );
+
+      case Routes.mapsPage:
+        return getPageRoute(settings: settings, view: const MapsPage());
+
+      case Routes.mapsSearch:
+        return getPageRoute(settings: settings, view: const MapSearchPage());
 
       default:
         return getPageRoute(

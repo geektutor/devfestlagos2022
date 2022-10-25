@@ -18,9 +18,11 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_phosphor_icons: ^0.0.1+6
+  flutter_polyline_points: ^1.0.0
   flutter_svg: ^1.1.4
   gap: ^2.0.0
   google_fonts: ^3.0.1
+  google_maps_flutter: ^2.2.1
   hooks_riverpod: ^1.0.4
   intl: ^0.17.0
   logger: ^1.1.0
