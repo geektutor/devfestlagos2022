@@ -71,7 +71,7 @@ class _MapsPageState extends ConsumerState<MapsPage> {
                     polylineId: PolylineId("route"),
                     points: polylineCoordinates,
                     color: Colors.blue,
-                    width: 6)
+                    width: 7)
               },
             ),
             Positioned(
