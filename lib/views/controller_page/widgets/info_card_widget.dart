@@ -76,8 +76,8 @@ class InfoCardWidget extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          if (subtitle != null) const Gap(5),
-                          if (subtitle != null)
+                          if (subtitle != null) ...[
+                            const Gap(5),
                             Text(
                               subtitle!,
                               style: const TextStyle(
@@ -86,6 +86,7 @@ class InfoCardWidget extends StatelessWidget {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
+                          ],
                         ],
                       ),
                       Icon(
