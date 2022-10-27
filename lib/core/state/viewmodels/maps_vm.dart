@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:devfest/core/router/navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:devfest/views/maps_page/maps_search_page.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -55,7 +56,7 @@ class MapsVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  LatLng source = const LatLng(6.5355, 3.3087);
+  //LatLng source = const LatLng(6.5355, 3.3087);
 
   LatLng destination =
       const LatLng(6.4230432, 3.4450862); //Landmark event center.
@@ -72,6 +73,26 @@ class MapsVM extends ChangeNotifier {
 
   Timer? _debounce;
 
+  places.DetailsResult? startPosition;
+
+  bool _directionsClicked = false;
+  get getDirectionsClicked => _directionsClicked;
+  set setDirectionsClicked(clicked) {
+    _directionsClicked = clicked;
+    notifyListeners();
+  }
+
+  void toggleDirections() {
+    setDirectionsClicked = !getDirectionsClicked;
+    notifyListeners();
+  }
+
+  late FocusNode _startFocusNode;
+  get getStartFocusNode => _startFocusNode;
+  void setStartFocusNode(focusNode) {
+    _startFocusNode = focusNode;
+  }
+
   void getCurrentLocation() async {
     Location location = Location();
 
@@ -81,16 +102,31 @@ class MapsVM extends ChangeNotifier {
 
     location.onLocationChanged.listen((newLocation) {
       setCurentLocation = newLocation;
-      googleMapController.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(
-            zoom: 13.5,
-            target: LatLng(newLocation.latitude!, newLocation.longitude!),
-          ),
-        ),
-      );
+      // googleMapController.animateCamera(
+      //   CameraUpdate.newCameraPosition(
+      //     CameraPosition(
+      //       zoom: 13.5,
+      //       target: LatLng(newLocation.latitude!, newLocation.longitude!),
+      //     ),
+      //   ),
+      // );
       notifyListeners();
     });
+  }
+
+  void getStartLocation() async {
+    GoogleMapController googleMapController = await _controller.future;
+
+    googleMapController.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          zoom: 13.5,
+          target: LatLng(startPosition!.geometry!.location!.lat!,
+              startPosition!.geometry!.location!.lng!),
+        ),
+      ),
+    );
+    notifyListeners();
   }
 
   void getPolyPoint() async {
@@ -98,7 +134,9 @@ class MapsVM extends ChangeNotifier {
 
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
       AppConstants.google_api_key,
-      PointLatLng(source.latitude, source.longitude),
+      PointLatLng(startPosition!.geometry!.location!.lat!,
+          startPosition!.geometry!.location!.lng!),
+      //PointLatLng(source.latitude, source.longitude),
       PointLatLng(destination.latitude, destination.longitude),
     );
 
@@ -119,6 +157,10 @@ class MapsVM extends ChangeNotifier {
     setGooglePlace(places.GooglePlace(AppConstants.google_api_key));
   }
 
+  void initializeFocusNode(focusnode) {
+    setStartFocusNode(focusnode);
+  }
+
   void onMapCreated(GoogleMapController mapcontroller) {
     _controller.complete(mapcontroller);
   }
@@ -135,15 +177,45 @@ class MapsVM extends ChangeNotifier {
 
   void onChanged(value) {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce = Timer(const Duration(milliseconds: 2000), () {
+    _debounce = Timer(const Duration(milliseconds: 1000), () {
       if (value.isNotEmpty) {
         //places api
         autoCompleteSearch(value);
       } else {
         //clear out the resut
+        predictions = [];
+        startPosition = null;
+        notifyListeners();
       }
     });
   }
+
+  Future onTap(index) async {
+    final placeId = predictions[index].placeId!;
+    final details = await googlePlace.details.get(placeId);
+
+    if (details != null && details.result != null) {
+      if (getStartFocusNode.hasFocus) {
+        startPosition = details.result;
+        yourlocation_ctrl.text = details.result!.name!;
+        //clear predictions after user selection
+        predictions = [];
+        notifyListeners();
+      }
+      //GO BACK
+      if (startPosition != null) {
+        getPolyPoint();
+        AppNavigator.pop();
+      }
+    }
+  }
+
+  void clearSearchField() {
+    predictions = [];
+    yourlocation_ctrl.clear();
+    notifyListeners();
+  }
 }
+
 
 //void setGooglePlace(places.GooglePlace googlePlace) {}

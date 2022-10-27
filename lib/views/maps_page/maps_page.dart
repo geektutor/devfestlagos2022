@@ -19,9 +19,7 @@ class _MapsPageState extends ConsumerState<MapsPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
     ref.watch(mapsVm).getCurrentLocation();
-    ref.watch(mapsVm).getPolyPoint();
   }
 
   @override
@@ -43,17 +41,24 @@ class _MapsPageState extends ConsumerState<MapsPage> {
                     initialCameraPosition: CameraPosition(
                         target: LatLng(vm.getCurentLocation!.latitude!,
                             vm.getCurentLocation!.longitude!),
-                        zoom: 13.2),
+                        zoom: 14.2),
                     markers: {
-                      Marker(
-                        markerId: MarkerId("currentLocation"),
-                        position: LatLng(vm.getCurentLocation!.latitude!,
-                            vm.getCurentLocation!.longitude!),
-                      ),
-                      Marker(
-                        markerId: MarkerId("source"),
-                        position: vm.source,
-                      ),
+                      vm.startPosition == null
+                          ? Marker(
+                              markerId: MarkerId("currentLocation"),
+                              position: LatLng(vm.getCurentLocation!.latitude!,
+                                  vm.getCurentLocation!.longitude!),
+                            )
+                          : Marker(
+                              markerId: MarkerId("currentLocation"),
+                              position: LatLng(
+                                  vm.startPosition!.geometry!.location!.lat!,
+                                  vm.startPosition!.geometry!.location!.lng!),
+                            ),
+                      // Marker(
+                      //   markerId: MarkerId("source"),
+                      //   position: vm.source,
+                      // ),
                       Marker(
                           markerId: MarkerId('destination'),
                           position: vm.destination)
@@ -72,15 +77,7 @@ class _MapsPageState extends ConsumerState<MapsPage> {
                     right: 24,
                     child: GestureDetector(
                       onTap: () {
-                        // AppNavigator.pushNamed(Routes.mapsSearch);
-                        var pickedLocation = Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MapSearchPage()));
-                        print(pickedLocation.runtimeType);
-                        setState(() {
-                          vm.currentLocation = pickedLocation;
-                        });
+                        AppNavigator.pushNamed(Routes.mapsSearch);
                       },
                       child: Container(
                         //  width: double.infinity,
@@ -111,7 +108,7 @@ class _MapsPageState extends ConsumerState<MapsPage> {
 
                   //Directions Component
                   Visibility(
-                      visible: vm.currentLocation != null,
+                      visible: vm.startPosition != null,
                       child: Positioned(
                         top: 144,
                         left: 24,
@@ -137,6 +134,8 @@ class _MapsPageState extends ConsumerState<MapsPage> {
                                     width: 16,
                                   ),
                                   Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'Your Destination ETA is',
@@ -161,24 +160,31 @@ class _MapsPageState extends ConsumerState<MapsPage> {
                                 height: 24,
                               ),
                               //View Direction Button
-                              SizedBox(
-                                width: double.infinity,
-                                child: ElevatedButton(
-                                  onPressed: () {},
-                                  child: Text(
-                                    'View Directions',
-                                    style: TextStyle(
-                                        color: AppColors.white, fontSize: 18),
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: Color(0xff4285F4),
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 24),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(88)))),
-                                ),
-                              ),
+                              vm.getDirectionsClicked == false
+                                  ? SizedBox(
+                                      width: double.infinity,
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          vm.getStartLocation();
+                                          //indicate that user has clicked View Directions
+                                          vm.toggleDirections();
+                                        },
+                                        child: Text(
+                                          'View Directions',
+                                          style: TextStyle(
+                                              color: AppColors.white,
+                                              fontSize: 18),
+                                        ),
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor: Color(0xff4285F4),
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 24),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(88)))),
+                                      ),
+                                    )
+                                  : SizedBox(),
                             ],
                           ),
                         ),
