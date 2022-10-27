@@ -1,6 +1,8 @@
 import 'package:card_swiper/card_swiper.dart';
+import 'package:devfest/core/model/user_info.dart';
 import 'package:devfest/core/router/navigator.dart';
 import 'package:devfest/core/state/providers.dart';
+import 'package:devfest/services/firestore_db.dart';
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
 import 'package:devfest/views/controller_page/widgets/agenda_status_chip.dart';
@@ -23,250 +25,260 @@ class HomePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    return Scaffold(
-      backgroundColor: AppColors.white,
-      appBar: const EmptyAppBar(),
-      body: SafeArea(
-        child: ListView(
-          children: [
-            const Gap(10),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              child: Text(
-                'Hi there, Samuel 🤗',
-                style: TextStyle(
-                  color: AppColors.grey0,
-                  fontSize: 28,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            const Gap(20),
-            const HomeSlider(),
-            const Gap(29),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+    final user = ref.read(authProvider).currentUser;
+    return StreamBuilder<UserAttendanceInfoModel?>(
+        initialData: const UserAttendanceInfoModel(),
+        stream:
+            FirestoreUserDBService.instance.userInfoStream(user?.email ?? ''),
+        builder: (context, snapshot) {
+          final userInfo = snapshot.data;
+          return Scaffold(
+            backgroundColor: AppColors.white,
+            appBar: const EmptyAppBar(),
+            body: SafeArea(
+              child: ListView(
                 children: [
-                  Row(
-                    children: [
-                      const Text(
-                        'Talk Categories',
-                        style: TextStyle(
-                          color: AppColors.grey0,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                        ),
+                  const Gap(10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Text(
+                      'Hi there, ${userInfo?.firstName ?? ''} 🤗',
+                      style: const TextStyle(
+                        color: AppColors.grey0,
+                        fontSize: 28,
+                        fontWeight: FontWeight.w500,
                       ),
-                      const Spacer(),
-                      TouchableOpacity(
-                        onTap: () =>
-                            ref.read(controllerVM).goToTalkCategories(),
-                        child: const Text(
-                          'View All',
-                          style: TextStyle(
-                            color: AppColors.primaryBlue,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Gap(16),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: const [
-                      DevFestPillWidget(
-                        icon: Icon(
-                          PhosphorIcons.robot,
-                          size: 21,
-                          color: AppColors.pillContent,
-                        ),
-                        title: 'Machine Learning',
-                      ),
-                      DevFestPillWidget(
-                        icon: Icon(
-                          PhosphorIcons.globe,
-                          size: 21,
-                          color: AppColors.pillContent,
-                        ),
-                        title: 'Web',
-                      ),
-                      DevFestPillWidget(
-                        icon: Icon(
-                          PhosphorIcons.paint_brush,
-                          size: 21,
-                          color: AppColors.pillContent,
-                        ),
-                        title: 'Design',
-                      ),
-                      DevFestPillWidget(
-                        icon: Icon(
-                          PhosphorIcons.android_logo,
-                          size: 21,
-                          color: AppColors.pillContent,
-                        ),
-                        title: 'Android',
-                      ),
-                      DevFestPillWidget(
-                        icon: Icon(
-                          PhosphorIcons.device_mobile,
-                          size: 21,
-                          color: AppColors.pillContent,
-                        ),
-                        title: 'Mobile',
-                      ),
-                    ],
-                  ),
-                  const Gap(32),
-                  Row(
-                    children: [
-                      const Text(
-                        'Agenda',
-                        style: TextStyle(
-                          color: AppColors.grey0,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      const Spacer(),
-                      TouchableOpacity(
-                        onTap: () => ref.read(controllerVM).goToAgenda(),
-                        child: const Text(
-                          'View Agenda',
-                          style: TextStyle(
-                            color: AppColors.primaryBlue,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Gap(16),
-                  AgendaCardWidget(
-                    agenda: Agenda(
-                      startTime: DateTime(2022, 10, 23, 9),
-                      endTime: DateTime(2022, 10, 23, 10),
-                      status: AgendaStatus.ongoing,
-                      sessionTitle: 'WTM + WW Breakfast / Registration',
-                      venue: 'Hall A',
-                      firstName: 'Sodiq',
-                      lastName: 'Akinjobi',
-                      avatar: 'Sodiq',
-                      role: 'Lead Product Manager, Google',
-                      backgroundImage: 'Rectangle_1',
-                      sessionSynopsis: 'Attendees Registration.',
                     ),
                   ),
-                  const Gap(32),
-                  Row(
-                    children: [
-                      const Text(
-                        'Speakers',
-                        style: TextStyle(
-                          color: AppColors.grey0,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      const Spacer(),
-                      TouchableOpacity(
-                        onTap: () => ref.read(controllerVM).goToSpeakers(),
-                        child: const Text(
-                          'View Speakers',
-                          style: TextStyle(
-                            color: AppColors.primaryBlue,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SpeakerCard(
-                    backgroundImage: speakerDets.first.backgroundImage,
-                    title: speakerDets.first.topic,
-                    avatar: speakerDets.first.avatar,
-                    firstName: speakerDets.first.firstName,
-                    lastName: speakerDets.first.lastName,
-                    role: speakerDets.first.role,
-                    time: speakerDets.first.time,
-                    venue: speakerDets.first.venue,
-                    category: speakerDets.first.category,
-                  ),
-                  const Gap(32),
-                  Row(
-                    children: [
-                      const Text(
-                        'Sponsors',
-                        style: TextStyle(
-                          color: AppColors.grey0,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      const Spacer(),
-                      TouchableOpacity(
-                        onTap: () =>
-                            AppNavigator.pushNamed(Routes.sponsorsPage),
-                        child: const Text(
-                          'View Sponsors',
-                          style: TextStyle(
-                            color: AppColors.primaryBlue,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  const Gap(20),
+                  const HomeSlider(),
+                  const Gap(29),
                   Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: SvgPicture.asset('sponsors'.svg),
-                  ),
-                  const Gap(32),
-                  Row(
-                    children: [
-                      const Text(
-                        'Team',
-                        style: TextStyle(
-                          color: AppColors.grey0,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            const Text(
+                              'Talk Categories',
+                              style: TextStyle(
+                                color: AppColors.grey0,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const Spacer(),
+                            TouchableOpacity(
+                              onTap: () =>
+                                  ref.read(controllerVM).goToTalkCategories(),
+                              child: const Text(
+                                'View All',
+                                style: TextStyle(
+                                  color: AppColors.primaryBlue,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      const Spacer(),
-                      TouchableOpacity(
-                        onTap: () => AppNavigator.pushNamed(Routes.teamPage),
-                        child: const Text(
-                          'View Team',
-                          style: TextStyle(
-                            color: AppColors.primaryBlue,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
+                        const Gap(16),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: const [
+                            DevFestPillWidget(
+                              icon: Icon(
+                                PhosphorIcons.robot,
+                                size: 21,
+                                color: AppColors.pillContent,
+                              ),
+                              title: 'Machine Learning',
+                            ),
+                            DevFestPillWidget(
+                              icon: Icon(
+                                PhosphorIcons.globe,
+                                size: 21,
+                                color: AppColors.pillContent,
+                              ),
+                              title: 'Web',
+                            ),
+                            DevFestPillWidget(
+                              icon: Icon(
+                                PhosphorIcons.paint_brush,
+                                size: 21,
+                                color: AppColors.pillContent,
+                              ),
+                              title: 'Design',
+                            ),
+                            DevFestPillWidget(
+                              icon: Icon(
+                                PhosphorIcons.android_logo,
+                                size: 21,
+                                color: AppColors.pillContent,
+                              ),
+                              title: 'Android',
+                            ),
+                            DevFestPillWidget(
+                              icon: Icon(
+                                PhosphorIcons.device_mobile,
+                                size: 21,
+                                color: AppColors.pillContent,
+                              ),
+                              title: 'Mobile',
+                            ),
+                          ],
+                        ),
+                        const Gap(32),
+                        Row(
+                          children: [
+                            const Text(
+                              'Agenda',
+                              style: TextStyle(
+                                color: AppColors.grey0,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const Spacer(),
+                            TouchableOpacity(
+                              onTap: () => ref.read(controllerVM).goToAgenda(),
+                              child: const Text(
+                                'View Agenda',
+                                style: TextStyle(
+                                  color: AppColors.primaryBlue,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Gap(16),
+                        AgendaCardWidget(
+                          agenda: Agenda(
+                            startTime: DateTime(2022, 10, 23, 9),
+                            endTime: DateTime(2022, 10, 23, 10),
+                            status: AgendaStatus.ongoing,
+                            sessionTitle: 'WTM + WW Breakfast / Registration',
+                            venue: 'Hall A',
+                            firstName: 'Sodiq',
+                            lastName: 'Akinjobi',
+                            avatar: 'Sodiq',
+                            role: 'Lead Product Manager, Google',
+                            backgroundImage: 'Rectangle_1',
+                            sessionSynopsis: 'Attendees Registration.',
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 20, bottom: 10),
-                    child: InfoCardWidget(
-                      title: 'Sodiq Akinjobi',
-                      subtitle: 'Product Lead, Google',
+                        const Gap(32),
+                        Row(
+                          children: [
+                            const Text(
+                              'Speakers',
+                              style: TextStyle(
+                                color: AppColors.grey0,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const Spacer(),
+                            TouchableOpacity(
+                              onTap: () =>
+                                  ref.read(controllerVM).goToSpeakers(),
+                              child: const Text(
+                                'View Speakers',
+                                style: TextStyle(
+                                  color: AppColors.primaryBlue,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SpeakerCard(
+                          backgroundImage: speakerDets.first.backgroundImage,
+                          title: speakerDets.first.topic,
+                          avatar: speakerDets.first.avatar,
+                          firstName: speakerDets.first.firstName,
+                          lastName: speakerDets.first.lastName,
+                          role: speakerDets.first.role,
+                          time: speakerDets.first.time,
+                          venue: speakerDets.first.venue,
+                          category: speakerDets.first.category,
+                        ),
+                        const Gap(32),
+                        Row(
+                          children: [
+                            const Text(
+                              'Sponsors',
+                              style: TextStyle(
+                                color: AppColors.grey0,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const Spacer(),
+                            TouchableOpacity(
+                              onTap: () =>
+                                  AppNavigator.pushNamed(Routes.sponsorsPage),
+                              child: const Text(
+                                'View Sponsors',
+                                style: TextStyle(
+                                  color: AppColors.primaryBlue,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: SvgPicture.asset('sponsors'.svg),
+                        ),
+                        const Gap(32),
+                        Row(
+                          children: [
+                            const Text(
+                              'Team',
+                              style: TextStyle(
+                                color: AppColors.grey0,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const Spacer(),
+                            TouchableOpacity(
+                              onTap: () =>
+                                  AppNavigator.pushNamed(Routes.teamPage),
+                              child: const Text(
+                                'View Team',
+                                style: TextStyle(
+                                  color: AppColors.primaryBlue,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 20, bottom: 10),
+                          child: InfoCardWidget(
+                            title: 'Sodiq Akinjobi',
+                            subtitle: 'Product Lead, Google',
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
+          );
+        });
   }
 }
 

@@ -1,12 +1,15 @@
+import 'package:devfest/core/state/providers.dart';
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
 import 'package:devfest/widgets/app_bar.dart';
+import 'package:devfest/widgets/button.dart';
 import 'package:devfest/widgets/stories/flutter_stories.dart';
 import 'package:devfest/widgets/touchable_opacity.dart';
-import 'package:devfest/widgets/button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../core/router/navigator.dart';
 
@@ -62,30 +65,48 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: bgColor,
-      appBar: EmptyAppBar(color: bgColor),
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Story(
-              controller: controller,
-              momentCount: storyList.length,
-              fullscreen: false,
-              onFlashForward: () => AppNavigator.pushNamed(Routes.signInPage),
-              momentDurationGetter: (idx) => _momentDuration,
-              topOffset: 40,
-              momentBuilder: (context, index) {
-                return _OnboardingBuilder(
-                  item: storyList[index],
-                  controller: controller,
-                  index: index,
-                );
-              },
-            ),
-          ),
-        ],
-      ),
+    return Consumer(
+      builder: (BuildContext context, WidgetRef ref, Widget? child) {
+        var vm = ref.read(signinVM);
+        var auth = ref.read(authProvider);
+
+        return StreamBuilder<User?>(
+            stream: auth.authStateChanges,
+            builder: (context, snapshot) {
+              if (snapshot.data != null) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  vm.skip();
+                });
+              }
+
+              return Scaffold(
+                backgroundColor: bgColor,
+                appBar: EmptyAppBar(color: bgColor),
+                body: Stack(
+                  children: [
+                    Positioned.fill(
+                      child: Story(
+                        controller: controller,
+                        momentCount: storyList.length,
+                        fullscreen: false,
+                        onFlashForward: () =>
+                            AppNavigator.pushNamed(Routes.signInPage),
+                        momentDurationGetter: (idx) => _momentDuration,
+                        topOffset: 40,
+                        momentBuilder: (context, index) {
+                          return _OnboardingBuilder(
+                            item: storyList[index],
+                            controller: controller,
+                            index: index,
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            });
+      },
     );
   }
 }
