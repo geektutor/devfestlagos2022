@@ -17,6 +17,13 @@ class MapSearchPage extends StatefulHookConsumerWidget {
 
 class _MapSearchPageState extends ConsumerState<MapSearchPage> {
   @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    ref.watch(mapsVm).initializePlaces();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var vm = ref.watch(mapsVm);
 
@@ -99,12 +106,17 @@ class _MapSearchPageState extends ConsumerState<MapSearchPage> {
                     child: Column(
                       children: [
                         buildLocationTextField(
-                            vm.your_location_ctrl, 'Your Location'),
+                          controller: vm.yourlocation_ctrl,
+                          title: 'Your Location',
+                          onChanged: vm.onChanged,
+                        ),
                         SizedBox(
                           height: 16,
                         ),
                         buildLocationTextField(
-                            vm.landmark_ctrl, 'Landmark Event Center'),
+                            controller: vm.landmarkctrl,
+                            title: 'Landmark Event Center',
+                            enabled: false),
                       ],
                     ),
                   )
@@ -180,7 +192,12 @@ Widget buildDot({required double size, required Color color, Widget? child}) {
   );
 }
 
-Widget buildLocationTextField(TextEditingController controller, String title) {
+Widget buildLocationTextField({
+  required TextEditingController controller,
+  required String title,
+  bool? enabled,
+  void Function(String)? onChanged,
+}) {
   return TextField(
     controller: controller,
     decoration: InputDecoration(
@@ -188,5 +205,7 @@ Widget buildLocationTextField(TextEditingController controller, String title) {
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5),
             borderSide: BorderSide(color: AppColors.grey16))),
+    enabled: enabled,
+    onChanged: onChanged,
   );
 }

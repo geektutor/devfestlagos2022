@@ -15,6 +15,7 @@ dependencies:
   flutter:
     sdk: flutter
  
+  
   flutter_localizations:
     sdk: flutter
   flutter_phosphor_icons: ^0.0.1+6
@@ -23,8 +24,10 @@ dependencies:
   gap: ^2.0.0
   google_fonts: ^3.0.1
   google_maps_flutter: ^2.2.1
+  google_place: ^0.4.7
   hooks_riverpod: ^1.0.4
   intl: ^0.17.0
+  location: ^4.4.0
   logger: ^1.1.0
   modal_bottom_sheet: ^2.1.0
   page_transition: ^2.0.9

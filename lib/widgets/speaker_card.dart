@@ -18,8 +18,9 @@ class SpeakerCard extends HookConsumerWidget {
       role,
       time,
       venue;
+  String synopsis = '';
   final String? category;
-  const SpeakerCard(
+  SpeakerCard(
       {required this.backgroundImage,
       required this.title,
       required this.avatar,
@@ -40,15 +41,15 @@ class SpeakerCard extends HookConsumerWidget {
       onTap: () {
         AppNavigator.pushNamed(Routes.moreInfoPage);
         speakers.updateSpeaker(
-          bgImage: backgroundImage,
-          title: title,
-          avatar: avatar,
-          firstName: firstName,
-          lastName: lastName,
-          role: role,
-          time: time,
-          venue: venue,
-        );
+            bgImage: backgroundImage,
+            title: title,
+            avatar: avatar,
+            firstName: firstName,
+            lastName: lastName,
+            role: role,
+            time: time,
+            venue: venue,
+            synopsis: synopsis);
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
