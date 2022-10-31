@@ -1,30 +1,21 @@
 import 'package:devfest/core/state/providers.dart';
 import 'package:devfest/utils/colors.dart';
+import 'package:devfest/utils/extensions/extensions.dart';
 import 'package:devfest/widgets/touchable_opacity.dart';
 import 'package:flutter/material.dart';
-import 'package:devfest/utils/extensions/extensions.dart';
 import 'package:gap/gap.dart';
-
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../core/router/navigator.dart';
 
 class SpeakerCard extends HookConsumerWidget {
-  final String backgroundImage,
-      title,
-      avatar,
-      firstName,
-      lastName,
-      role,
-      time,
-      venue;
+  final String backgroundImage, title, avatar, name, role, time, venue;
   final String? category;
   const SpeakerCard(
       {required this.backgroundImage,
       required this.title,
       required this.avatar,
-      required this.firstName,
-      required this.lastName,
+      required this.name,
       required this.role,
       required this.time,
       required this.venue,
@@ -43,8 +34,7 @@ class SpeakerCard extends HookConsumerWidget {
             bgImage: backgroundImage,
             title: title,
             avatar: avatar,
-            firstName: firstName,
-            lastName: lastName,
+            name: name,
             role: role,
             time: time,
             venue: venue);
@@ -79,17 +69,22 @@ class SpeakerCard extends HookConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset(
-                        avatar.png,
+                      Image.network(
+                        avatar,
                         width: 40,
                         height: 40,
+                        errorBuilder: (_, __, ___) => Image.asset(
+                          'Sodiq'.png,
+                          height: 40,
+                          width: 40,
+                        ),
                       ),
                       const Gap(8),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '$firstName $lastName',
+                            name,
                             style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,

@@ -1,22 +1,25 @@
+import 'package:devfest/core/state/providers.dart';
 import 'package:devfest/utils/constants.dart';
 import 'package:devfest/views/controller_page/widgets/agenda_card.dart';
 import 'package:devfest/views/controller_page/widgets/agenda_status_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../core/model/session_response.dart';
 import '../../../../utils/colors.dart';
 import '../../../../widgets/app_bar.dart';
 
 // DateTime(2022, 10, 23, 9);
 
-class AgendaPage extends StatefulWidget {
+class AgendaPage extends ConsumerStatefulWidget {
   const AgendaPage({super.key});
 
   @override
-  State<AgendaPage> createState() => _AgendaPageState();
+  ConsumerState<AgendaPage> createState() => _AgendaPageState();
 }
 
-class _AgendaPageState extends State<AgendaPage> {
+class _AgendaPageState extends ConsumerState<AgendaPage> {
   final dummyAgenda = <Agenda>[
     Agenda(
       startTime: DateTime(2022, 10, 23, 9),
@@ -24,8 +27,7 @@ class _AgendaPageState extends State<AgendaPage> {
       sessionTitle: 'WTM + WW Breakfast / Registration',
       venue: 'Hall A',
       status: AgendaStatus.complete,
-      firstName: 'Aise',
-      lastName: 'Idahor',
+      name: 'Aise Idahor',
       avatar: 'Aise',
       role: 'Product Designer, Valist',
       backgroundImage: 'Rectangle_1',
@@ -38,39 +40,10 @@ class _AgendaPageState extends State<AgendaPage> {
       sessionTitle: 'Welcome to GDG Lagos',
       venue: 'Hall A',
       status: AgendaStatus.ongoing,
-      firstName: 'Sodiq',
-      lastName: 'Akinjobi',
+      name: 'Sodiq Akinjobi',
       avatar: 'Sodiq',
       role: 'Lead Product Manager, Google',
       backgroundImage: 'Rectangle_1',
-      sessionSynopsis:
-          'In this talk, Aise instructs all adventurers looking into Web3 and tells them how to find opporunities best suited for them.',
-    ),
-    Agenda(
-      startTime: DateTime(2022, 10, 23, 10, 30),
-      endTime: DateTime(2022, 10, 23, 11),
-      sessionTitle: 'Google DevRel',
-      venue: 'Hall A',
-      status: AgendaStatus.pending,
-      firstName: 'Sodiq',
-      lastName: 'Akinjobi',
-      avatar: 'Sodiq',
-      role: 'Lead Product Manager, Google',
-      backgroundImage: 'Rectangle_2',
-      sessionSynopsis:
-          'In this talk, Aise instructs all adventurers looking into Web3 and tells them how to find opporunities best suited for them.',
-    ),
-    Agenda(
-      startTime: DateTime(2022, 10, 23, 11),
-      endTime: DateTime(2022, 10, 23, 11, 30),
-      sessionTitle: 'Google Country Director(Juliet)',
-      venue: 'Hall A',
-      status: AgendaStatus.pending,
-      firstName: 'Sodiq',
-      lastName: 'Akinjobi',
-      avatar: 'Sodiq',
-      role: 'Lead Product Manager, Google',
-      backgroundImage: 'Rectangle_3',
       sessionSynopsis:
           'In this talk, Aise instructs all adventurers looking into Web3 and tells them how to find opporunities best suited for them.',
     ),
@@ -109,16 +82,50 @@ class _AgendaPageState extends State<AgendaPage> {
                 ),
               ),
             ),
-            ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              padding: const EdgeInsets.symmetric(
-                  vertical: 8, horizontal: AppConstants.horizontalPadding),
-              itemCount: dummyAgenda.length,
-              itemBuilder: (_, i) =>
-                  AgendaCardWidget(agenda: dummyAgenda[i], index: i),
-              separatorBuilder: (_, __) => const Gap(8),
-            ),
+            ref.watch(sessionsStreamProvider).when(
+                  data: (data) {
+                    return ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: AppConstants.horizontalPadding),
+                      itemCount: data?.length ?? 0,
+                      itemBuilder: (_, i) => FutureBuilder<Session>(
+                        future: data?.elementAt(i),
+                        builder: (_, snapshot) {
+                          if (snapshot.hasData) {
+                            final session = snapshot.requireData;
+                            return AgendaCardWidget(
+                                agenda: Agenda(
+                                  startTime:
+                                      session.startTime ?? DateTime.now(),
+                                  endTime: session.endTime ?? DateTime.now(),
+                                  status:
+                                      session.status ?? AgendaStatus.pending,
+                                  sessionTitle: session.title ?? '',
+                                  venue: session.venue?.name ?? '',
+                                  name: session.speaker?.name ?? '',
+                                  avatar: session.speaker?.avatar ?? '',
+                                  role:
+                                      '${session.speaker?.role ?? ''} ${session.speaker?.organisation ?? ''}',
+                                ),
+                                index: i);
+                          }
+                          return const Center(
+                            child: Text('Fetching Session...'),
+                          );
+                        },
+                      ),
+                      separatorBuilder: (_, __) => const Gap(8),
+                    );
+                  },
+                  error: (err, stack) => Center(
+                    child: Text('Error: $err'),
+                  ),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                ),
           ],
         ),
       ),

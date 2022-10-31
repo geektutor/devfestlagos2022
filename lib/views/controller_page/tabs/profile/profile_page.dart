@@ -197,10 +197,7 @@ class ProfilePage extends ConsumerWidget {
                             if (!(userInfo?.checkedIn ?? false))
                               DevFestButton(
                                 text: 'Checkin',
-                                onTap: () async {
-                                  await FirestoreUserDBService.instance
-                                      .checkIn(user?.email ?? '');
-                                },
+                                onTap: () async {},
                               ),
                           ],
                         ),

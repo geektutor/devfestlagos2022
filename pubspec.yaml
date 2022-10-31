@@ -29,6 +29,8 @@ dependencies:
   modal_bottom_sheet: ^2.1.0
   page_transition: ^2.0.9
   shared_preferences: ^2.0.15
+  http: ^0.13.5
+  url_launcher: ^6.1.6
 
 dev_dependencies:
   flutter_test:

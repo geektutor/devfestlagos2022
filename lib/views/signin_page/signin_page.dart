@@ -1,5 +1,3 @@
-import 'package:devfest/core/model/user_info.dart';
-import 'package:devfest/services/firestore_db.dart';
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
 import 'package:devfest/views/signin_page/alert_page.dart';
@@ -86,13 +84,6 @@ class _SignInPageState extends ConsumerState<SignInPage> {
 
                       if (user != null) {
                         final names = user.displayName?.split(' ');
-                        await FirestoreUserDBService.instance
-                            .create(UserAttendanceInfoModel(
-                          checkedIn: false,
-                          email: user.email,
-                          firstName: names?[0],
-                          lastName: names?[names.length - 1],
-                        ));
                         AppNavigator.pushNamed(
                           Routes.alertPage,
                           arguments: {

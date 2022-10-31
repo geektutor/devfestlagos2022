@@ -1,18 +1,19 @@
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/widgets/touchable_opacity.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 
 class DevFestPillWidget extends StatelessWidget {
   const DevFestPillWidget({
     super.key,
     required this.title,
-    required this.icon,
+    this.iconUrl,
   });
 
   final String title;
-  final Icon icon;
+  final String? iconUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,16 @@ class DevFestPillWidget extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              icon,
+              SvgPicture.network(
+                iconUrl ?? '',
+                height: 21,
+                width: 21,
+                placeholderBuilder: (_) => const Icon(
+                  PhosphorIcons.globe,
+                  size: 21,
+                  color: AppColors.pillContent,
+                ),
+              ),
               const Gap(11.5),
               Text(
                 title,

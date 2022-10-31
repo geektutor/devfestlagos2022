@@ -16,8 +16,7 @@ class Agenda {
   final String venue;
   final DateTime startTime;
   final DateTime endTime;
-  final String firstName;
-  final String lastName;
+  final String name;
   final String avatar;
   final String backgroundImage;
   final String role;
@@ -27,8 +26,7 @@ class Agenda {
     this.sessionTitle = '',
     this.venue = '',
     this.sessionSynopsis = '',
-    this.firstName = '',
-    this.lastName = '',
+    this.name = '',
     this.avatar = '',
     this.backgroundImage = '',
     this.role = '',
@@ -61,8 +59,7 @@ class AgendaCardWidget extends HookConsumerWidget {
           venue: agenda.venue,
           bgImage: agenda.backgroundImage,
           role: agenda.role,
-          firstName: agenda.firstName,
-          lastName: agenda.lastName,
+          name: agenda.name,
           time: '${agenda.startTime.timeOfDay} - ${agenda.endTime.timeOfDay}',
         );
       },
@@ -119,7 +116,7 @@ class AgendaCardWidget extends HookConsumerWidget {
               children: [
                 const Gap(12),
                 Text(
-                  agenda.sessionTitle,
+                  agenda.sessionTitle ?? '',
                   style: const TextStyle(
                     color: AppColors.grey0,
                     fontSize: 14,
