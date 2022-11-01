@@ -83,7 +83,6 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                       final user = await auth.signInWithGoogle();
 
                       if (user != null) {
-                        final names = user.displayName?.split(' ');
                         AppNavigator.pushNamed(
                           Routes.alertPage,
                           arguments: {

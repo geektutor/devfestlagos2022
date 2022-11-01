@@ -116,7 +116,7 @@ class AgendaCardWidget extends HookConsumerWidget {
               children: [
                 const Gap(12),
                 Text(
-                  agenda.sessionTitle ?? '',
+                  agenda.sessionTitle,
                   style: const TextStyle(
                     color: AppColors.grey0,
                     fontSize: 14,

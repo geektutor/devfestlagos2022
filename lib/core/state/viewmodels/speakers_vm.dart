@@ -76,6 +76,6 @@ class SpeakersVM extends ChangeNotifier {
     this.role = role;
     this.time = time;
     this.venue = venue;
-    this.status = status;
+    this.status = status ?? AgendaStatus.pending;
   }
 }

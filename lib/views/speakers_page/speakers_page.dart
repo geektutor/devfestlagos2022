@@ -70,7 +70,8 @@ class _SpeakersPageState extends ConsumerState<SpeakersPage> {
       ),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: const EdgeInsets.symmetric(
+              horizontal: AppConstants.horizontalPadding),
           children: [
             const Text(
               'Speakers',
@@ -138,8 +139,8 @@ class _SpeakersPageState extends ConsumerState<SpeakersPage> {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       padding: const EdgeInsets.symmetric(
-                          vertical: 8,
-                          horizontal: AppConstants.horizontalPadding),
+                        vertical: 8,
+                      ),
                       itemCount: data?.length ?? 0,
                       itemBuilder: (_, i) => FutureBuilder<Session>(
                         future: data?.elementAt(i),

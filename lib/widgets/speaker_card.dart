@@ -37,6 +37,7 @@ class SpeakerCard extends HookConsumerWidget {
             name: name,
             role: role,
             time: time,
+            synopsis: '',
             venue: venue);
       },
       child: Column(

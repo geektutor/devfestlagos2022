@@ -65,7 +65,7 @@ class ProfilePage extends ConsumerWidget {
                               ),
                               child: Center(
                                 child: Text(
-                                  userInfo?.firstName?[0].toUpperCase() ?? '',
+                                  user?.displayName?[0].toUpperCase() ?? '',
                                   style: const TextStyle(
                                     color: AppColors.grey2,
                                     fontSize: 57,
