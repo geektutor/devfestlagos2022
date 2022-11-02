@@ -9,26 +9,24 @@ import 'package:devfest/core/model/speakers_response.dart';
 import 'package:devfest/core/model/sponsors_response.dart';
 import 'package:devfest/core/model/user_info.dart';
 import 'package:devfest/core/model/venue_response.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart' as http;
 
 import '../core/model/category_response.dart';
 import '../core/model/team_response.dart';
 
-final checkInProvider =
-    FutureProviderFamily<CheckinResponse, CheckinRequest>((ref, request) async {
-  final httpRequest = await http.post(
+Future<CheckinResponse> checkIn(CheckinRequest request) async {
+  final response = await http.post(
     Uri.parse(
         'https://us-central1-devfestlagos-2022.cloudfunctions.net/api/checkin'),
     body: request.toJson(),
   );
 
-  if (httpRequest.statusCode == 200) {
-    return CheckinResponse.fromJson(jsonDecode(httpRequest.body));
+  if (response.statusCode == 200) {
+    return CheckinResponse.fromJson(jsonDecode(response.body));
   }
 
-  throw CheckinException.fromJson(jsonDecode(httpRequest.body));
-});
+  throw CheckinException.fromJson(jsonDecode(response.body));
+}
 
 class FirestoreUserDBService {
   FirestoreUserDBService._();
