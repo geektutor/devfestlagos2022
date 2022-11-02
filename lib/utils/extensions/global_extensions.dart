@@ -81,7 +81,7 @@ extension IntExtensions on int {
 
 extension CapitalizeStringExtensions on String {
   String get capitalize => isNotEmpty && this[0].isNotEmpty
-      ? '${this[0].toUpperCase()}${substring(1)}'
+      ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}'
       : '';
 }
 

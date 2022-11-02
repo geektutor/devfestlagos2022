@@ -40,3 +40,11 @@ enum AgendaStatus {
   final Color bgColor;
   final Color textColor;
 }
+
+extension AgendaStatusFromString on String? {
+  AgendaStatus? get agendaStatus {
+    return AgendaStatus.values.firstWhere(
+        (element) => element.statusText.toLowerCase() == this,
+        orElse: () => AgendaStatus.pending);
+  }
+}

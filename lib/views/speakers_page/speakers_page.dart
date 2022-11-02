@@ -1,10 +1,15 @@
 import 'package:devfest/utils/colors.dart';
+import 'package:devfest/views/controller_page/widgets/agenda_card.dart';
 import 'package:devfest/widgets/speaker_card.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:devfest/widgets/touchable_opacity.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../core/model/session_response.dart';
+import '../../core/state/providers.dart';
+import '../../utils/constants.dart';
 import '../../widgets/app_bar.dart';
+import '../../widgets/touchable_opacity.dart';
 
 List<String> categories = [
   'All',
@@ -47,13 +52,13 @@ List<Speaker> speakerDets = [
       category: 'Product Management'),
 ];
 
-class SpeakersPage extends StatefulWidget {
+class SpeakersPage extends ConsumerStatefulWidget {
   const SpeakersPage({Key? key}) : super(key: key);
   @override
-  State<SpeakersPage> createState() => _SpeakersPageState();
+  ConsumerState<SpeakersPage> createState() => _SpeakersPageState();
 }
 
-class _SpeakersPageState extends State<SpeakersPage> {
+class _SpeakersPageState extends ConsumerState<SpeakersPage> {
   int selectedCategory = 0;
 
   @override
@@ -65,7 +70,8 @@ class _SpeakersPageState extends State<SpeakersPage> {
       ),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: const EdgeInsets.symmetric(
+              horizontal: AppConstants.horizontalPadding),
           children: [
             const Text(
               'Speakers',
@@ -77,61 +83,97 @@ class _SpeakersPageState extends State<SpeakersPage> {
             const Gap(24),
             SizedBox(
               height: 31,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemCount: categories.length,
-                separatorBuilder: (context, index) => const Gap(8),
-                itemBuilder: ((context, index) {
-                  return TouchableOpacity(
-                    height: 31,
-                    onTap: () {
-                      setState(() {
-                        selectedCategory = index;
-                      });
+              child: ref.watch(categoriesStreamProvider).when(
+                    data: (data) {
+                      return ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: data?.length ?? 0,
+                        separatorBuilder: (context, index) => const Gap(8),
+                        itemBuilder: ((context, index) {
+                          return TouchableOpacity(
+                            height: 31,
+                            onTap: () {
+                              setState(() {
+                                selectedCategory = index;
+                              });
+                            },
+                            decoration: BoxDecoration(
+                                color: selectedCategory == index
+                                    ? AppColors.blue1
+                                    : AppColors.white,
+                                borderRadius: BorderRadius.circular(100),
+                                border: Border.all(
+                                    color: selectedCategory == index
+                                        ? AppColors.blue1
+                                        : AppColors.grey16,
+                                    width: 2)),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                            ),
+                            child: Center(
+                              child: Text(
+                                data?[index].name ?? '',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w700,
+                                    color: selectedCategory == index
+                                        ? AppColors.blue7
+                                        : AppColors.grey6),
+                              ),
+                            ),
+                          );
+                        }),
+                      );
                     },
-                    decoration: BoxDecoration(
-                        color: selectedCategory == index
-                            ? AppColors.blue1
-                            : AppColors.white,
-                        borderRadius: BorderRadius.circular(100),
-                        border: Border.all(
-                            color: selectedCategory == index
-                                ? AppColors.blue1
-                                : AppColors.grey16,
-                            width: 2)),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
+                    error: (err, stack) => Center(
+                      child: Text('Error $err'),
                     ),
-                    child: Center(
-                      child: Text(
-                        categories[index],
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w700,
-                            color: selectedCategory == index
-                                ? AppColors.blue7
-                                : AppColors.grey6),
-                      ),
+                    loading: () => const Center(
+                      child: LinearProgressIndicator(),
                     ),
-                  );
-                }),
-              ),
+                  ),
             ),
-            Column(
-              children: speakerDets
-                  .map((e) => SpeakerCard(
-                        backgroundImage: e.backgroundImage,
-                        title: e.topic,
-                        avatar: e.avatar,
-                        firstName: e.firstName,
-                        lastName: e.lastName,
-                        role: e.role,
-                        time: e.time,
-                        venue: e.venue,
-                        category: e.category,
-                      ))
-                  .toList(),
-            )
+            ref.watch(sessionsStreamProvider).when(
+                  data: (data) {
+                    return ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8,
+                      ),
+                      itemCount: data?.length ?? 0,
+                      itemBuilder: (_, i) => FutureBuilder<Session>(
+                        future: data?.elementAt(i),
+                        builder: (_, snapshot) {
+                          if (snapshot.hasData) {
+                            final session = snapshot.requireData;
+                            return SpeakerCard(
+                              backgroundImage: 'Rectangle_3',
+                              title: session.title ?? '',
+                              avatar: session.speaker?.avatar ?? '',
+                              name: session.speaker?.name ?? '',
+                              role:
+                                  '${session.speaker?.role ?? ''} ${session.speaker?.organisation ?? ''}',
+                              time: (session.startTime ?? DateTime.now())
+                                  .timeOfDay,
+                              venue: session.venue?.name ?? '',
+                              category: session.category?.name ?? '',
+                            );
+                          }
+                          return const Center(
+                            child: Text('Fetching Session...'),
+                          );
+                        },
+                      ),
+                      separatorBuilder: (_, __) => const Gap(8),
+                    );
+                  },
+                  error: (err, stack) => Center(
+                    child: Text('Error: $err'),
+                  ),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                ),
           ],
         ),
       ),

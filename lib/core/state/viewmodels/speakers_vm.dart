@@ -24,17 +24,10 @@ class SpeakersVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  String _firstName = '';
-  String get firstName => _firstName;
-  set firstName(String fName) {
-    _firstName = fName;
-    notifyListeners();
-  }
-
-  String _lastName = '';
-  String get lastName => _lastName;
-  set lastName(String lName) {
-    _lastName = lName;
+  String _name = '';
+  String get name => _name;
+  set name(String name) {
+    _name = name;
     notifyListeners();
   }
 
@@ -74,25 +67,15 @@ class SpeakersVM extends ChangeNotifier {
   }
 
   void updateSpeaker(
-      {var bgImage,
-      title,
-      avatar,
-      firstName,
-      lastName,
-      synopsis,
-      role,
-      time,
-      venue,
-      status}) {
+      {var bgImage, title, avatar, name, synopsis, role, time, venue, status}) {
     backgroundImage = bgImage;
     this.title = title;
     this.avatar = avatar;
-    this.firstName = firstName;
-    this.lastName = lastName;
+    this.name = name;
     this.synopsis = synopsis;
     this.role = role;
     this.time = time;
     this.venue = venue;
-    this.status = status;
+    this.status = status ?? AgendaStatus.pending;
   }
 }

@@ -9,9 +9,11 @@ environment:
 dependencies:
   cached_network_image: ^3.2.1
   card_swiper : ^2.0.1
-  cloud_firestore: ^3.4.6
+  cloud_firestore: ^4.0.2
+  firebase_auth: ^4.0.2
+  google_sign_in: ^5.4.1
 
-  firebase_core: ^1.21.1
+  firebase_core: ^2.1.0
   flutter:
     sdk: flutter
  
@@ -27,6 +29,8 @@ dependencies:
   modal_bottom_sheet: ^2.1.0
   page_transition: ^2.0.9
   shared_preferences: ^2.0.15
+  http: ^0.13.5
+  url_launcher: ^6.1.6
 
 dev_dependencies:
   flutter_test:
