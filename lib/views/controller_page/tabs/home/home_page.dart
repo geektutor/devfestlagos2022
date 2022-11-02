@@ -33,7 +33,7 @@ class HomePage extends HookConsumerWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Text(
-                'Hi there, ${user?.displayName?.split(' ')[0] ?? ''} 🤗',
+                'Hi there, ${user?.displayName?.split(' ')[0].capitalize ?? ''} 🤗',
                 style: const TextStyle(
                   color: AppColors.grey0,
                   fontSize: 28,
