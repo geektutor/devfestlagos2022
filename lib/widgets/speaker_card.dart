@@ -9,9 +9,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../core/router/navigator.dart';
 
 class SpeakerCard extends HookConsumerWidget {
+
+  
+  String synopsis = '';
+
   final String backgroundImage, title, avatar, name, role, time, venue;
+
   final String? category;
-  const SpeakerCard(
+  SpeakerCard(
       {required this.backgroundImage,
       required this.title,
       required this.avatar,
@@ -39,6 +44,7 @@ class SpeakerCard extends HookConsumerWidget {
             time: time,
             synopsis: '',
             venue: venue);
+
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

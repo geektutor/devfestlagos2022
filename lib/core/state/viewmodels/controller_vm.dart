@@ -2,6 +2,7 @@ import 'package:devfest/core/router/navigator.dart';
 import 'package:devfest/views/controller_page/controller_page_item.dart';
 import 'package:devfest/views/controller_page/tabs/home/home_page.dart';
 import 'package:devfest/views/controller_page/tabs/profile/profile_page.dart';
+import 'package:devfest/views/maps_page/maps_page.dart';
 import 'package:devfest/views/speakers_page/speakers_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -48,7 +49,7 @@ class ControllerVM extends ChangeNotifier {
       name: 'Agenda',
     ),
     const ControllerPageItem(
-      page: HomePage(
+      page: MapsPage(
         key: PageStorageKey<String>('map'),
       ),
       image: 'map',
@@ -86,6 +87,11 @@ class ControllerVM extends ChangeNotifier {
 
   void goToAgenda() {
     currentTab = 1;
+    notifyListeners();
+  }
+
+  void goToMap() {
+    currentTab = 2;
     notifyListeners();
   }
 
