@@ -1,7 +1,10 @@
 import 'dart:io';
 
+import 'package:devfest/views/controller_page/tabs/home/sub_pages/sponsors_page.dart';
+import 'package:devfest/views/controller_page/tabs/home/sub_pages/teams_page.dart';
 import 'package:devfest/views/maps_page/maps_page.dart';
 import 'package:devfest/views/maps_page/maps_search_page.dart';
+
 import 'package:devfest/views/onboarding/onboarding_page.dart';
 import 'package:devfest/views/signin_page/signin_page.dart';
 import 'package:devfest/views/splash_page.dart';
@@ -69,11 +72,24 @@ abstract class AppRouter {
           view: const TalkCategoriesSubPage(),
         );
 
-      case Routes.mapsPage:
+
+      case Routes.sponsorsPage:
+        return getPageRoute(
+          settings: settings,
+          view: const SponsorsPage(),
+        );
+
+      case Routes.teamPage:
+        return getPageRoute(
+          settings: settings,
+          view: const TeamsPage(),
+        );
+         case Routes.mapsPage:
         return getPageRoute(settings: settings, view: const MapsPage());
 
       case Routes.mapsSearch:
         return getPageRoute(settings: settings, view: const MapSearchPage());
+
 
       default:
         return getPageRoute(

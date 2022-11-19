@@ -1,25 +1,28 @@
 import 'package:card_swiper/card_swiper.dart';
+import 'package:devfest/core/router/navigator.dart';
 import 'package:devfest/core/state/providers.dart';
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
-import 'package:devfest/views/controller_page/widgets/agenda_status_chip.dart';
+import 'package:devfest/views/controller_page/widgets/info_card_widget.dart';
 import 'package:devfest/widgets/app_bar.dart';
 import 'package:devfest/widgets/pill_widget.dart';
 import 'package:devfest/widgets/touchable_opacity.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../core/model/session_response.dart';
 import '../../../../widgets/speaker_card.dart';
-import '../../../speakers_page/speakers_page.dart';
 import '../../widgets/agenda_card.dart';
+import '../../widgets/agenda_status_chip.dart';
 
 class HomePage extends HookConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ref) {
+    final user = ref.read(authProvider).currentUser;
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: const EmptyAppBar(),
@@ -27,11 +30,11 @@ class HomePage extends HookConsumerWidget {
         child: ListView(
           children: [
             const Gap(10),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Text(
-                'Hi there, Samuel 🤗',
-                style: TextStyle(
+                'Hi there, ${user?.displayName?.split(' ')[0].capitalize ?? ''} 🤗',
+                style: const TextStyle(
                   color: AppColors.grey0,
                   fontSize: 28,
                   fontWeight: FontWeight.w500,
@@ -72,52 +75,29 @@ class HomePage extends HookConsumerWidget {
                     ],
                   ),
                   const Gap(16),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: const [
-                      DevFestPillWidget(
-                        icon: Icon(
-                          PhosphorIcons.robot,
-                          size: 21,
-                          color: AppColors.pillContent,
+                  ref.watch(categoriesStreamProvider).when<Widget>(
+                        data: (data) {
+                          final categories = data?.take(5);
+                          return Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: categories
+                                    ?.map(
+                                      (e) => DevFestPillWidget(
+                                        title: e.name ?? 'NOT_FOUND',
+                                        iconUrl: e.imageUrl,
+                                      ),
+                                    )
+                                    .toList() ??
+                                const [],
+                          );
+                        },
+                        error: (err, stack) =>
+                            Center(child: Text('Error: $err')),
+                        loading: () => const Center(
+                          child: CircularProgressIndicator(),
                         ),
-                        title: 'Machine Learning',
                       ),
-                      DevFestPillWidget(
-                        icon: Icon(
-                          PhosphorIcons.globe,
-                          size: 21,
-                          color: AppColors.pillContent,
-                        ),
-                        title: 'Web',
-                      ),
-                      DevFestPillWidget(
-                        icon: Icon(
-                          PhosphorIcons.paint_brush,
-                          size: 21,
-                          color: AppColors.pillContent,
-                        ),
-                        title: 'Design',
-                      ),
-                      DevFestPillWidget(
-                        icon: Icon(
-                          PhosphorIcons.android_logo,
-                          size: 21,
-                          color: AppColors.pillContent,
-                        ),
-                        title: 'Android',
-                      ),
-                      DevFestPillWidget(
-                        icon: Icon(
-                          PhosphorIcons.device_mobile,
-                          size: 21,
-                          color: AppColors.pillContent,
-                        ),
-                        title: 'Mobile',
-                      ),
-                    ],
-                  ),
                   const Gap(32),
                   Row(
                     children: [
@@ -144,21 +124,45 @@ class HomePage extends HookConsumerWidget {
                     ],
                   ),
                   const Gap(16),
-                  AgendaCardWidget(
-                    agenda: Agenda(
-                      startTime: DateTime(2022, 10, 23, 9),
-                      endTime: DateTime(2022, 10, 23, 10),
-                      status: AgendaStatus.ongoing,
-                      sessionTitle: 'WTM + WW Breakfast / Registration',
-                      venue: 'Hall A',
-                      firstName: 'Sodiq',
-                      lastName: 'Akinjobi',
-                      avatar: 'Sodiq',
-                      role: 'Lead Product Manager, Google',
-                      backgroundImage: 'Rectangle_1',
-                      sessionSynopsis: 'Attendees Registration.',
-                    ),
-                  ),
+                  ref.watch(sessionsStreamProvider).when(
+                        data: (data) {
+                          final session = data?[0];
+                          return FutureBuilder<Session>(
+                            future: session,
+                            builder: (_, snapshot) {
+                              if (snapshot.hasData) {
+                                final session = snapshot.requireData;
+                                return AgendaCardWidget(
+                                    agenda: Agenda(
+                                      startTime:
+                                          session.startTime ?? DateTime.now(),
+                                      endTime:
+                                          session.endTime ?? DateTime.now(),
+                                      status: session.status ??
+                                          AgendaStatus.pending,
+                                      sessionTitle: session.title ?? '',
+                                      venue: session.venue?.name ?? '',
+                                      name: session.speaker?.name ?? '',
+                                      avatar: session.speaker?.avatar ?? '',
+                                      role:
+                                          '${session.speaker?.role ?? ''} ${session.speaker?.organisation ?? ''}',
+                                    ),
+                                    index: 0);
+                              }
+
+                              return const Center(
+                                child: Text('Fetching Session...'),
+                              );
+                            },
+                          );
+                        },
+                        error: (err, stack) => Center(
+                          child: Text('Error: $err'),
+                        ),
+                        loading: () => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
                   const Gap(32),
                   Row(
                     children: [
@@ -184,17 +188,110 @@ class HomePage extends HookConsumerWidget {
                       ),
                     ],
                   ),
-                  SpeakerCard(
-                    backgroundImage: speakerDets.first.backgroundImage,
-                    title: speakerDets.first.topic,
-                    avatar: speakerDets.first.avatar,
-                    firstName: speakerDets.first.firstName,
-                    lastName: speakerDets.first.lastName,
-                    role: speakerDets.first.role,
-                    time: speakerDets.first.time,
-                    venue: speakerDets.first.venue,
-                    category: speakerDets.first.category,
-                  )
+                  ref.watch(sessionsStreamProvider).when(
+                        data: (data) {
+                          return FutureBuilder<Session>(
+                            future: data?[0],
+                            builder: (_, snapshot) {
+                              if (snapshot.hasData) {
+                                final session = snapshot.requireData;
+                                return SpeakerCard(
+                                  backgroundImage: 'Rectangle_1',
+                                  title: session.title ?? '',
+                                  avatar: session.speaker?.avatar ?? '',
+                                  name: session.speaker?.name ?? '',
+                                  role:
+                                      '${session.speaker?.role ?? ''} ${session.speaker?.organisation ?? ''}',
+                                  time: (session.startTime ?? DateTime.now())
+                                      .timeOfDay,
+                                  venue: session.venue?.name ?? '',
+                                  category: session.category?.name ?? '',
+                                );
+                              }
+                              return const Center(
+                                child: Text('Fetching Session...'),
+                              );
+                            },
+                          );
+                        },
+                        error: (err, _) => Center(
+                          child: Text('Error: $err'),
+                        ),
+                        loading: () => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
+                  const Gap(32),
+                  Row(
+                    children: [
+                      const Text(
+                        'Sponsors',
+                        style: TextStyle(
+                          color: AppColors.grey0,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const Spacer(),
+                      TouchableOpacity(
+                        onTap: () =>
+                            AppNavigator.pushNamed(Routes.sponsorsPage),
+                        child: const Text(
+                          'View Sponsors',
+                          style: TextStyle(
+                            color: AppColors.primaryBlue,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: SvgPicture.asset('sponsors'.svg),
+                  ),
+                  const Gap(32),
+                  Row(
+                    children: [
+                      const Text(
+                        'Team',
+                        style: TextStyle(
+                          color: AppColors.grey0,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const Spacer(),
+                      TouchableOpacity(
+                        onTap: () => AppNavigator.pushNamed(Routes.teamPage),
+                        child: const Text(
+                          'View Team',
+                          style: TextStyle(
+                            color: AppColors.primaryBlue,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20, bottom: 10),
+                    child: ref.watch(organizersStreamProvider).when<Widget>(
+                          data: (data) => InfoCardWidget(
+                            title: data?[0].name ?? 'NOT_FOUND',
+                            subtitle:
+                                '${data?[0].role ?? ''} ${data?[0].organization ?? ''}',
+                            externalLinks: data?[0].twitterUrl ?? '',
+                            avatarUrl: data?[0].avatar,
+                          ),
+                          error: (err, stack) =>
+                              Center(child: Text('Error: $err')),
+                          loading: () =>
+                              const Center(child: CircularProgressIndicator()),
+                        ),
+                  ),
                 ],
               ),
             ),

@@ -22,27 +22,6 @@ class TalkCategoriesSubPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    List<TalkCategory> categories = [
-      TalkCategory(name: 'Web', icon: const Icon(PhosphorIcons.globe)),
-      TalkCategory(
-          name: 'Machine Learning', icon: const Icon(PhosphorIcons.robot)),
-      TalkCategory(name: 'Design', icon: const Icon(PhosphorIcons.paint_brush)),
-      TalkCategory(
-          name: 'Android', icon: const Icon(PhosphorIcons.android_logo)),
-      TalkCategory(
-          name: 'Mobile', icon: const Icon(PhosphorIcons.device_mobile)),
-      TalkCategory(
-          name: 'Career Tips', icon: const Icon(PhosphorIcons.suitcase)),
-      TalkCategory(
-          name: 'Mental Health', icon: const Icon(PhosphorIcons.smiley)),
-      TalkCategory(
-          name: 'Product Management',
-          icon: const Icon(PhosphorIcons.handshake)),
-      TalkCategory(
-          name: 'Game Development',
-          icon: const Icon(PhosphorIcons.game_controller)),
-      TalkCategory(name: 'Web3', icon: const Icon(PhosphorIcons.currency_eth)),
-    ];
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: const EmptyAppBar(
@@ -69,43 +48,58 @@ class TalkCategoriesSubPage extends HookConsumerWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            Column(
-              children: categories
-                  .map(
-                    (e) => Column(
-                      children: [
-                        const Gap(21),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            e.icon,
-                            const Gap(11.5),
-                            Text(
-                              e.name,
-                              style: const TextStyle(
-                                color: AppColors.grey0,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            const Spacer(),
-                            SvgPicture.asset('arrow'.svg).rotate(turns: 2),
-                          ],
-                        ),
-                        const Gap(21),
-                        Container(
-                          height: 2,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: const Color.fromRGBO(237, 238, 241, 0.4),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-                  .toList(),
-            )
+            ref.watch(categoriesStreamProvider).when<Widget>(
+                  data: (data) => Column(
+                    children: data
+                            ?.map((e) => Column(
+                                  children: [
+                                    const Gap(21),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        SvgPicture.network(
+                                          e.imageUrl ?? '',
+                                          height: 24,
+                                          width: 24,
+                                          placeholderBuilder: (_) => const Icon(
+                                            PhosphorIcons.globe,
+                                            size: 24,
+                                          ),
+                                        ),
+                                        const Gap(11.5),
+                                        Text(
+                                          e.name ?? 'NOT_FOUND',
+                                          style: const TextStyle(
+                                            color: AppColors.grey0,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        const Spacer(),
+                                        SvgPicture.asset('arrow'.svg)
+                                            .rotate(turns: 2),
+                                      ],
+                                    ),
+                                    const Gap(21),
+                                    Container(
+                                      height: 2,
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        color: const Color.fromRGBO(
+                                            237, 238, 241, 0.4),
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                    )
+                                  ],
+                                ))
+                            .toList() ??
+                        const [],
+                  ),
+                  error: (err, stack) => Text('Error: $err'),
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
           ],
         ),
       ),

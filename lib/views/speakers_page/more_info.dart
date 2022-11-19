@@ -78,17 +78,22 @@ class MoreInfoPage extends HookConsumerWidget {
                   const Gap(16),
                   Row(
                     children: [
-                      Image.asset(
-                        speakers.avatar.png,
+                      Image.network(
+                        speakers.avatar,
                         width: 40,
                         height: 40,
+                        errorBuilder: (_, __, ___) => Image.asset(
+                          'Sodiq'.png,
+                          width: 40,
+                          height: 40,
+                        ),
                       ),
                       const Gap(16),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${speakers.firstName} ${speakers.lastName}',
+                            speakers.name,
                             style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
@@ -132,10 +137,17 @@ class MoreInfoPage extends HookConsumerWidget {
                         child: SizedBox(
                           width: double.infinity,
                           height: 161,
-                          child: Image.asset(
-                            trimmedVenue.png,
+                          child: Image.network(
+                            trimmedVenue,
                             width: 40,
                             height: 40,
+                            fit: BoxFit.fill,
+                            errorBuilder: (_, __, ___) => Image.asset(
+                              'halla'.png,
+                              width: 40,
+                              height: 40,
+                              fit: BoxFit.fill,
+                            ),
                           ),
                         ),
                       ),
