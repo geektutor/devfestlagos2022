@@ -1,4 +1,5 @@
 import 'package:devfest/core/router/navigator.dart';
+import 'package:devfest/core/state/providers.dart';
 import 'package:devfest/views/controller_page/controller_page_item.dart';
 import 'package:devfest/views/controller_page/tabs/home/home_page.dart';
 import 'package:devfest/views/controller_page/tabs/profile/profile_page.dart';
@@ -48,13 +49,6 @@ class ControllerVM extends ChangeNotifier {
       name: 'Agenda',
     ),
     const ControllerPageItem(
-      page: HomePage(
-        key: PageStorageKey<String>('map'),
-      ),
-      image: 'map',
-      name: 'Map',
-    ),
-    const ControllerPageItem(
       page: SpeakersPage(
         key: PageStorageKey<String>('speakers'),
       ),
@@ -89,8 +83,9 @@ class ControllerVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  void goToSpeakers() {
-    currentTab = 3;
+  void goToSpeakers([String? category]) {
+    read(categoryProvider.notifier).state = category;
+    currentTab = 2;
     notifyListeners();
   }
 }

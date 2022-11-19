@@ -50,7 +50,6 @@ class AgendaCardWidget extends HookConsumerWidget {
     return GestureDetector(
       onTap: () {
         AppNavigator.pushNamed(Routes.moreInfoPage);
-
         speakers.updateSpeaker(
           status: agenda.status,
           avatar: agenda.avatar,
@@ -65,7 +64,7 @@ class AgendaCardWidget extends HookConsumerWidget {
       },
       child: Container(
         width: double.infinity,
-        // height: context.screenHeight(.19),
+        height: context.screenHeight(.13) + 56,
         decoration: BoxDecoration(
           color: AppColors.greyWhite80.withOpacity(0.3),
           borderRadius: BorderRadius.circular(18),
@@ -110,40 +109,48 @@ class AgendaCardWidget extends HookConsumerWidget {
               ],
             ),
             const Gap(18),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const Gap(12),
-                Text(
-                  agenda.sessionTitle,
-                  style: const TextStyle(
-                    color: AppColors.grey0,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Gap(24),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Text(
+                      agenda.sessionTitle,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      softWrap: false,
+                      style: const TextStyle(
+                        color: AppColors.grey0,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ),
-                ),
-                const Gap(8),
-                Text(
-                  agenda.venue,
-                  style: const TextStyle(
-                    color: AppColors.grey12,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
+                  const Gap(8),
+                  Text(
+                    agenda.venue,
+                    style: const TextStyle(
+                      color: AppColors.grey12,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-                const Gap(8),
-                Text(
-                  '${agenda.startTime.timeOfDay} - ${agenda.endTime.timeOfDay}',
-                  style: const TextStyle(
-                    color: AppColors.grey12,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
+                  const Gap(8),
+                  Text(
+                    '${agenda.startTime.timeOfDay} - ${agenda.endTime.timeOfDay}',
+                    style: const TextStyle(
+                      color: AppColors.grey12,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-                const Gap(24),
-                StatusChip(status: agenda.status),
-              ],
+                  const Gap(24),
+                  StatusChip(status: agenda.status),
+                ],
+              ),
             )
           ],
         ),

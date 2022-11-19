@@ -78,14 +78,16 @@ class MoreInfoPage extends HookConsumerWidget {
                   const Gap(16),
                   Row(
                     children: [
-                      Image.network(
-                        speakers.avatar,
-                        width: 40,
-                        height: 40,
-                        errorBuilder: (_, __, ___) => Image.asset(
-                          'Sodiq'.png,
+                      ClipOval(
+                        child: Image.network(
+                          speakers.avatar,
                           width: 40,
                           height: 40,
+                          errorBuilder: (_, __, ___) => Image.asset(
+                            'Sodiq'.png,
+                            width: 40,
+                            height: 40,
+                          ),
                         ),
                       ),
                       const Gap(16),

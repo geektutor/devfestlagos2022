@@ -98,15 +98,14 @@ class _AgendaPageState extends ConsumerState<AgendaPage> {
                             final session = snapshot.requireData;
                             return AgendaCardWidget(
                                 agenda: Agenda(
-                                  startTime:
-                                      session.startTime ?? DateTime.now(),
-                                  endTime: session.endTime ?? DateTime.now(),
-                                  status:
-                                      session.status ?? AgendaStatus.pending,
+                                  startTime: DateTime.now(),
+                                  endTime: DateTime.now(),
+                                  status: AgendaStatus.pending,
                                   sessionTitle: session.title ?? '',
                                   venue: session.venue?.name ?? '',
                                   name: session.speaker?.name ?? '',
                                   avatar: session.speaker?.avatar ?? '',
+                                  sessionSynopsis: session.description ?? '',
                                   role:
                                       '${session.speaker?.role ?? ''} ${session.speaker?.organisation ?? ''}',
                                 ),

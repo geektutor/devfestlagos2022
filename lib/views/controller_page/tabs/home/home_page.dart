@@ -8,7 +8,6 @@ import 'package:devfest/widgets/app_bar.dart';
 import 'package:devfest/widgets/pill_widget.dart';
 import 'package:devfest/widgets/touchable_opacity.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -83,9 +82,16 @@ class HomePage extends HookConsumerWidget {
                             runSpacing: 8,
                             children: categories
                                     ?.map(
-                                      (e) => DevFestPillWidget(
-                                        title: e.name ?? 'NOT_FOUND',
-                                        iconUrl: e.imageUrl,
+                                      (e) => TouchableOpacity(
+                                        onTap: () {
+                                          ref
+                                              .read(controllerVM)
+                                              .goToSpeakers(e.name);
+                                        },
+                                        child: DevFestPillWidget(
+                                          title: e.name ?? 'NOT_FOUND',
+                                          iconUrl: e.imageUrl,
+                                        ),
                                       ),
                                     )
                                     .toList() ??
@@ -134,16 +140,15 @@ class HomePage extends HookConsumerWidget {
                                 final session = snapshot.requireData;
                                 return AgendaCardWidget(
                                     agenda: Agenda(
-                                      startTime:
-                                          session.startTime ?? DateTime.now(),
-                                      endTime:
-                                          session.endTime ?? DateTime.now(),
-                                      status: session.status ??
-                                          AgendaStatus.pending,
+                                      startTime: DateTime.now(),
+                                      endTime: DateTime.now(),
+                                      status: AgendaStatus.pending,
                                       sessionTitle: session.title ?? '',
                                       venue: session.venue?.name ?? '',
                                       name: session.speaker?.name ?? '',
                                       avatar: session.speaker?.avatar ?? '',
+                                      sessionSynopsis:
+                                          session.description ?? '',
                                       role:
                                           '${session.speaker?.role ?? ''} ${session.speaker?.organisation ?? ''}',
                                     ),
@@ -202,8 +207,7 @@ class HomePage extends HookConsumerWidget {
                                   name: session.speaker?.name ?? '',
                                   role:
                                       '${session.speaker?.role ?? ''} ${session.speaker?.organisation ?? ''}',
-                                  time: (session.startTime ?? DateTime.now())
-                                      .timeOfDay,
+                                  time: (DateTime.now()).timeOfDay,
                                   venue: session.venue?.name ?? '',
                                   category: session.category?.name ?? '',
                                 );
@@ -249,7 +253,29 @@ class HomePage extends HookConsumerWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 16),
-                    child: SvgPicture.asset('sponsors'.svg),
+                    child: ref.watch(sponsorsStreamProvider).when(
+                          data: (data) {
+                            data?.sort((a, b) =>
+                                (a.order ?? 0).compareTo((b.order ?? 0)));
+                            return SizedBox(
+                              height: 50,
+                              child: Swiper(
+                                autoplay: true,
+                                itemCount: data?.length ?? 0,
+                                itemBuilder: (_, i) => SizedBox(
+                                  height: 50,
+                                  child: AvatarImage(
+                                      fit: BoxFit.contain,
+                                      url: data?.elementAt(i).logoUrl ?? ''),
+                                ),
+                              ),
+                            );
+                          },
+                          error: (err, stack) =>
+                              Center(child: Text('Error: $err')),
+                          loading: () =>
+                              const Center(child: CircularProgressIndicator()),
+                        ),
                   ),
                   const Gap(32),
                   Row(
