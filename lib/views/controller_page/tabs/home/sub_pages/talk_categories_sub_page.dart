@@ -51,46 +51,56 @@ class TalkCategoriesSubPage extends HookConsumerWidget {
             ref.watch(categoriesStreamProvider).when<Widget>(
                   data: (data) => Column(
                     children: data
-                            ?.map((e) => Column(
-                                  children: [
-                                    const Gap(21),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        SvgPicture.network(
-                                          e.imageUrl ?? '',
-                                          height: 24,
-                                          width: 24,
-                                          placeholderBuilder: (_) => const Icon(
-                                            PhosphorIcons.globe,
-                                            size: 24,
+                            ?.map((e) => GestureDetector(
+                                  onTap: () {
+                                    ref
+                                        .read(controllerVM)
+                                        .returnToDefaultPage();
+                                    ref.read(controllerVM).goToSpeakers(e.name);
+                                  },
+                                  child: Column(
+                                    children: [
+                                      const Gap(21),
+                                      Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Image.network(
+                                            e.imageUrl ?? '',
+                                            height: 24,
+                                            width: 24,
+                                            errorBuilder: (_, __, ___) =>
+                                                const Icon(
+                                              PhosphorIcons.globe,
+                                              size: 24,
+                                            ),
                                           ),
-                                        ),
-                                        const Gap(11.5),
-                                        Text(
-                                          e.name ?? 'NOT_FOUND',
-                                          style: const TextStyle(
-                                            color: AppColors.grey0,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
+                                          const Gap(11.5),
+                                          Text(
+                                            e.name ?? 'NOT_FOUND',
+                                            style: const TextStyle(
+                                              color: AppColors.grey0,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                            ),
                                           ),
-                                        ),
-                                        const Spacer(),
-                                        SvgPicture.asset('arrow'.svg)
-                                            .rotate(turns: 2),
-                                      ],
-                                    ),
-                                    const Gap(21),
-                                    Container(
-                                      height: 2,
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        color: const Color.fromRGBO(
-                                            237, 238, 241, 0.4),
-                                        borderRadius: BorderRadius.circular(16),
+                                          const Spacer(),
+                                          SvgPicture.asset('arrow'.svg)
+                                              .rotate(turns: 2),
+                                        ],
                                       ),
-                                    )
-                                  ],
+                                      const Gap(21),
+                                      Container(
+                                        height: 2,
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: const Color.fromRGBO(
+                                              237, 238, 241, 0.4),
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ))
                             .toList() ??
                         const [],

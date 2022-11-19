@@ -61,23 +61,36 @@ class SpeakerCard extends HookConsumerWidget {
                   Text(
                     title,
                     textAlign: TextAlign.center,
+                    maxLines: 1,
                     style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w500,
                         color: AppColors.white),
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const Gap(16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.network(
-                        avatar,
-                        width: 40,
+                      Container(
                         height: 40,
-                        errorBuilder: (_, __, ___) => Image.asset(
-                          'Sodiq'.png,
-                          height: 40,
-                          width: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: AppColors.greyWhite40),
+                          shape: BoxShape.circle,
+                          color: AppColors.greyWhite40,
+                        ),
+                        alignment: Alignment.center,
+                        child: ClipOval(
+                          child: Image.network(
+                            avatar,
+                            fit: BoxFit.contain,
+                            errorBuilder: (_, __, ___) => Image.asset(
+                              'Sodiq'.png,
+                              height: 40,
+                              width: 40,
+                            ),
+                          ),
                         ),
                       ),
                       const Gap(8),

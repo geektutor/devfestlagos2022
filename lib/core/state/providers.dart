@@ -18,6 +18,7 @@ final speakersVM = ChangeNotifierProvider((_) => SpeakersVM());
 final authProvider = Provider((_) => AuthImpl());
 final categoriesStreamProvider = StreamProvider.autoDispose<List<Category>?>(
     (ref) => FirestoreUserDBService.instance.categoriesStream());
+final categoryProvider = StateProvider<String?>((ref) => null);
 final hallsStreamProvider = StreamProvider.autoDispose<List<Hall>?>(
     (ref) => FirestoreUserDBService.instance.hallsStream());
 final organizersStreamProvider = StreamProvider.autoDispose<List<TeamMember>?>(

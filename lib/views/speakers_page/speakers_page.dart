@@ -11,58 +11,11 @@ import '../../utils/constants.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/touchable_opacity.dart';
 
-List<String> categories = [
-  'All',
-  'Career',
-  'Design',
-  'Web3',
-  'Product Management'
-];
-
-List<Speaker> speakerDets = [
-  Speaker(
-      firstName: 'Aise',
-      lastName: 'Idahor',
-      avatar: 'Aise',
-      role: 'Product Designer, Valist',
-      time: '9.00 AM',
-      topic: 'Building a Career In the Web3 Space',
-      venue: 'Hall A',
-      backgroundImage: 'Rectangle_1',
-      category: 'Career'),
-  Speaker(
-      firstName: 'Sodiq',
-      lastName: 'Akinjobi',
-      avatar: 'Sodiq',
-      role: 'Lead Product Manager, Google',
-      time: '9.00 AM',
-      topic: 'Understanding Product Management',
-      venue: 'Hall A',
-      backgroundImage: 'Rectangle_2',
-      category: 'Product Management'),
-  Speaker(
-      firstName: 'Sodiq',
-      lastName: 'Akinjobi',
-      avatar: 'Sodiq',
-      role: 'Lead Product Manager, Google',
-      time: '9.00 AM',
-      topic: 'Understanding Product Management',
-      venue: 'Hall A',
-      backgroundImage: 'Rectangle_3',
-      category: 'Product Management'),
-];
-
-class SpeakersPage extends ConsumerStatefulWidget {
+class SpeakersPage extends ConsumerWidget {
   const SpeakersPage({Key? key}) : super(key: key);
-  @override
-  ConsumerState<SpeakersPage> createState() => _SpeakersPageState();
-}
-
-class _SpeakersPageState extends ConsumerState<SpeakersPage> {
-  int selectedCategory = 0;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: const EmptyAppBar(
@@ -70,59 +23,58 @@ class _SpeakersPageState extends ConsumerState<SpeakersPage> {
       ),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.symmetric(
-              horizontal: AppConstants.horizontalPadding),
           children: [
-            const Text(
-              'Speakers',
-              style: TextStyle(
-                  color: AppColors.grey0,
-                  fontSize: 28,
-                  fontWeight: FontWeight.w500),
+            const Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: AppConstants.horizontalPadding),
+              child: Text(
+                'Speakers',
+                style: TextStyle(
+                    color: AppColors.grey0,
+                    fontSize: 28,
+                    fontWeight: FontWeight.w500),
+              ),
             ),
             const Gap(24),
             SizedBox(
               height: 31,
               child: ref.watch(categoriesStreamProvider).when(
                     data: (data) {
-                      return ListView.separated(
+                      return SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        itemCount: data?.length ?? 0,
-                        separatorBuilder: (context, index) => const Gap(8),
-                        itemBuilder: ((context, index) {
-                          return TouchableOpacity(
-                            height: 31,
-                            onTap: () {
-                              setState(() {
-                                selectedCategory = index;
-                              });
-                            },
-                            decoration: BoxDecoration(
-                                color: selectedCategory == index
-                                    ? AppColors.blue1
-                                    : AppColors.white,
-                                borderRadius: BorderRadius.circular(100),
-                                border: Border.all(
-                                    color: selectedCategory == index
-                                        ? AppColors.blue1
-                                        : AppColors.grey16,
-                                    width: 2)),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
+                        child: Row(
+                          children: [
+                            const SizedBox(
+                                width: AppConstants.horizontalPadding),
+                            _CategoryChip(
+                              title: 'All',
+                              selected: ref.watch(categoryProvider) == null,
+                              onTap: () {
+                                ref.read(categoryProvider.notifier).state =
+                                    null;
+                              },
                             ),
-                            child: Center(
-                              child: Text(
-                                data?[index].name ?? '',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w700,
-                                    color: selectedCategory == index
-                                        ? AppColors.blue7
-                                        : AppColors.grey6),
-                              ),
+                            const SizedBox(width: 8),
+                            Wrap(
+                              spacing: 8,
+                              children: data?.map((e) {
+                                    return _CategoryChip(
+                                      title: e.name ?? '',
+                                      selected:
+                                          ref.watch(categoryProvider) == e.name,
+                                      onTap: () {
+                                        ref
+                                            .read(categoryProvider.notifier)
+                                            .state = e.name;
+                                      },
+                                    );
+                                  }).toList() ??
+                                  const [],
                             ),
-                          );
-                        }),
+                            const SizedBox(
+                                width: AppConstants.horizontalPadding),
+                          ],
+                        ),
                       );
                     },
                     error: (err, stack) => Center(
@@ -135,11 +87,12 @@ class _SpeakersPageState extends ConsumerState<SpeakersPage> {
             ),
             ref.watch(sessionsStreamProvider).when(
                   data: (data) {
-                    return ListView.separated(
+                    return ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       padding: const EdgeInsets.symmetric(
                         vertical: 8,
+                        horizontal: AppConstants.horizontalPadding,
                       ),
                       itemCount: data?.length ?? 0,
                       itemBuilder: (_, i) => FutureBuilder<Session>(
@@ -147,17 +100,25 @@ class _SpeakersPageState extends ConsumerState<SpeakersPage> {
                         builder: (_, snapshot) {
                           if (snapshot.hasData) {
                             final session = snapshot.requireData;
-                            return SpeakerCard(
-                              backgroundImage: 'Rectangle_3',
-                              title: session.title ?? '',
-                              avatar: session.speaker?.avatar ?? '',
-                              name: session.speaker?.name ?? '',
-                              role:
-                                  '${session.speaker?.role ?? ''} ${session.speaker?.organisation ?? ''}',
-                              time: (session.startTime ?? DateTime.now())
-                                  .timeOfDay,
-                              venue: session.venue?.name ?? '',
-                              category: session.category?.name ?? '',
+                            return Visibility(
+                              visible: ref.watch(categoryProvider) == null ||
+                                  ref.watch(categoryProvider) ==
+                                      session.category?.name,
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 8),
+                                child: SpeakerCard(
+                                  backgroundImage:
+                                      session.bgColor ?? 'Rectangle_3',
+                                  title: session.title ?? '',
+                                  avatar: session.speaker?.avatar ?? '',
+                                  name: session.speaker?.name ?? '',
+                                  role:
+                                      '${session.speaker?.role ?? ''} ${session.speaker?.organisation ?? ''}',
+                                  time: (DateTime.now()).timeOfDay,
+                                  venue: session.venue?.name ?? '',
+                                  category: session.category?.name ?? '',
+                                ),
+                              ),
                             );
                           }
                           return const Center(
@@ -165,7 +126,6 @@ class _SpeakersPageState extends ConsumerState<SpeakersPage> {
                           );
                         },
                       ),
-                      separatorBuilder: (_, __) => const Gap(8),
                     );
                   },
                   error: (err, stack) => Center(
@@ -175,6 +135,42 @@ class _SpeakersPageState extends ConsumerState<SpeakersPage> {
                       const Center(child: CircularProgressIndicator()),
                 ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CategoryChip extends StatelessWidget {
+  const _CategoryChip({
+    this.selected = false,
+    required this.title,
+    this.onTap,
+  });
+  final VoidCallback? onTap;
+  final bool selected;
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return TouchableOpacity(
+      height: 31,
+      onTap: onTap,
+      decoration: BoxDecoration(
+          color: selected ? AppColors.blue1 : AppColors.white,
+          borderRadius: BorderRadius.circular(100),
+          border: Border.all(
+              color: selected ? AppColors.blue1 : AppColors.grey16, width: 2)),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+      ),
+      child: Center(
+        child: Text(
+          title,
+          style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+              color: selected ? AppColors.blue7 : AppColors.grey6),
         ),
       ),
     );

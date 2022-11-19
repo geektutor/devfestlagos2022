@@ -13,6 +13,7 @@ import 'package:http/http.dart' as http;
 
 import '../core/model/category_response.dart';
 import '../core/model/team_response.dart';
+import '../utils/utils.dart';
 
 Future<CheckinResponse> checkIn(CheckinRequest request) async {
   final response = await http.post(
@@ -44,23 +45,35 @@ class FirestoreUserDBService {
   Stream<List<Future<Session>>?> sessionsStream() {
     final snapshots = _firestore.collection('Session').snapshots();
 
-    return snapshots.map((event) {
-      return event.docs.map((e) async {
-        final category =
-            await (e.data()['category'] as DocumentReference).get();
-        final speaker = await (e.data()['speaker'] as DocumentReference).get();
-        final venue = await (e.data()['venue'] as DocumentReference).get();
+    try {
+      return snapshots.map((event) {
+        return event.docs.map((e) async {
+          final category = await _firestore
+              .collection('Category')
+              .doc(e.data()['category'] as String?)
+              .get();
+          final speaker = await _firestore
+              .collection('Speaker')
+              .doc(e.data()['ownerEmail'] as String?)
+              .get();
+          final venue = await _firestore
+              .collection('Hall')
+              // TODO: update when hall isn't empty
+              .doc('SjXceDGScVO5GlBWl2Vv')
+              .get();
 
-        return Session.fromJson(
-          e.data(),
-          category: Category.fromJson(
-              (category.data() as Map<String, dynamic>?) ?? {}),
-          speaker:
-              Speaker.fromJson((speaker.data() as Map<String, dynamic>?) ?? {}),
-          venue: Hall.fromJson((venue.data() as Map<String, dynamic>?) ?? {}),
-        );
-      }).toList();
-    });
+          return Session.fromJson(
+            e.data(),
+            category: Category.fromJson(category.data() ?? {}),
+            speaker: Speaker.fromJson(speaker.data() ?? {}),
+            venue: Hall.fromJson(venue.data() ?? {}),
+            bgColor: getSpeakerCardBg,
+          );
+        }).toList();
+      });
+    } on Exception {
+      rethrow;
+    }
   }
 
   Stream<List<Category>?> categoriesStream() {
