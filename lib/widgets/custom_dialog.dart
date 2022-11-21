@@ -1,3 +1,4 @@
+import 'package:devfest/core/router/navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -6,7 +7,16 @@ import 'button.dart';
 import 'touchable_opacity.dart';
 
 class CustomDialogWidget<T> extends StatelessWidget {
-  const CustomDialogWidget({Key? key}) : super(key: key);
+  const CustomDialogWidget({
+    Key? key,
+    this.actionText,
+    required this.title,
+    required this.subtitle,
+  }) : super(key: key);
+
+  final String title;
+  final String subtitle;
+  final String? actionText;
 
   Future<void> show(BuildContext context) async {
     await showDialog<T>(
@@ -76,10 +86,10 @@ class CustomDialogWidget<T> extends StatelessWidget {
             ),
             const Gap(16),
             Column(
-              children: const [
+              children: [
                 Text(
-                  'This email has not been registered yet',
-                  style: TextStyle(
+                  title,
+                  style: const TextStyle(
                     color: AppColors.grey0,
                     fontSize: 24,
                     height: 30 / 24,
@@ -87,23 +97,25 @@ class CustomDialogWidget<T> extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                Gap(8),
+                const Gap(8),
                 Text(
-                  'Visit Devfest.com to register your email address',
-                  style: TextStyle(
+                  subtitle,
+                  style: const TextStyle(
                     color: AppColors.grey6,
                     fontSize: 16,
                     height: 22 / 16,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w400,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ],
             ),
             const Gap(24),
-            const DevFestButton(
-              text: 'Register Email Address',
-            ),
+            if (actionText != null)
+              DevFestButton(
+                text: actionText!,
+                onTap: () => AppNavigator.maybePop(),
+              ),
           ],
         ),
       ),

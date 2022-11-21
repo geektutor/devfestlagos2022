@@ -66,14 +66,14 @@ class DevFestControllerBottomNav extends HookConsumerWidget {
                                 duration: const Duration(milliseconds: 350),
                                 child: SvgPicture.asset(
                                   item.image.svg,
-                                  width: i == 1 || i == 4 ? 20 : 26,
+                                  width: i == 1 || i == 4 ? 20 : 24,
                                   fit: BoxFit.fitWidth,
                                   color: selected
                                       ? AppColors.blueIcon
                                       : AppColors.grey12,
                                 ),
                               ),
-                              const Gap(13),
+                              const Gap(6),
                               Text(
                                 item.name,
                                 style: TextStyle(

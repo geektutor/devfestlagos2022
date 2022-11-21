@@ -43,7 +43,7 @@ class FirestoreUserDBService {
       return snapshots
           .map((event) => UserAttendanceInfoModel.fromJson(event.data() ?? {}));
     } catch (e) {
-      return Stream.empty();
+      return const Stream.empty();
     }
   }
 

@@ -69,7 +69,7 @@ class HomePage extends HookConsumerWidget {
                           style: TextStyle(
                             color: AppColors.primaryBlue,
                             fontSize: 18,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ),
@@ -79,25 +79,30 @@ class HomePage extends HookConsumerWidget {
                   ref.watch(categoriesStreamProvider).when<Widget>(
                         data: (data) {
                           final categories = data?.take(5);
-                          return Wrap(
-                            spacing: 8,
-                            runSpacing: 8,
-                            children: categories
-                                    ?.map(
-                                      (e) => TouchableOpacity(
-                                        onTap: () {
-                                          ref
-                                              .read(controllerVM)
-                                              .goToSessions(e.name);
-                                        },
-                                        child: DevFestPillWidget(
-                                          title: e.name ?? 'NOT_FOUND',
-                                          iconUrl: e.imageUrl,
+                          return SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: categories
+                                      ?.map(
+                                        (e) => Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
+                                          child: TouchableOpacity(
+                                            onTap: () {
+                                              ref
+                                                  .read(controllerVM)
+                                                  .goToSessions(e.name);
+                                            },
+                                            child: DevFestPillWidget(
+                                              title: e.name ?? 'NOT_FOUND',
+                                              iconUrl: e.imageUrl,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    )
-                                    .toList() ??
-                                const [],
+                                      )
+                                      .toList() ??
+                                  const [],
+                            ),
                           );
                         },
                         error: (err, stack) =>
@@ -125,7 +130,7 @@ class HomePage extends HookConsumerWidget {
                           style: TextStyle(
                             color: AppColors.primaryBlue,
                             fontSize: 18,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ),
@@ -234,7 +239,7 @@ class HomePage extends HookConsumerWidget {
                           style: TextStyle(
                             color: AppColors.primaryBlue,
                             fontSize: 18,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ),
@@ -283,7 +288,7 @@ class HomePage extends HookConsumerWidget {
                           style: TextStyle(
                             color: AppColors.primaryBlue,
                             fontSize: 18,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ),
@@ -334,7 +339,7 @@ class HomePage extends HookConsumerWidget {
                           style: TextStyle(
                             color: AppColors.primaryBlue,
                             fontSize: 18,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ),
@@ -376,7 +381,7 @@ class HomePage extends HookConsumerWidget {
                           style: TextStyle(
                             color: AppColors.primaryBlue,
                             fontSize: 18,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ),

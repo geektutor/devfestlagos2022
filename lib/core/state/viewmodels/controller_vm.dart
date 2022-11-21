@@ -60,7 +60,7 @@ class ControllerVM extends ChangeNotifier {
       page: SessionsPage(
         key: PageStorageKey<String>('sessions'),
       ),
-      image: 'agenda',
+      image: 'session',
       name: 'Sessions',
     ),
     const ControllerPageItem(

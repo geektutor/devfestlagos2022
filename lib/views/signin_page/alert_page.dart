@@ -106,7 +106,7 @@ class AlertPage extends ConsumerWidget {
                     color: AppColors.grey6,
                     fontSize: 16,
                     height: 1.4,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w400,
                   ),
                   textAlign: TextAlign.center,
                 ),

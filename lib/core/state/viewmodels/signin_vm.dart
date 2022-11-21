@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../views/controller_page/tabs/profile/profile_page.dart';
 import '../../../views/signin_page/alert_page.dart';
+import '../../../widgets/custom_dialog.dart';
 
 enum VmState { busy, none, error }
 
@@ -26,7 +27,10 @@ class SigninVM extends ChangeNotifier {
 
   void scanQrCode(User? user) async {
     if (user?.email?.isEmpty ?? true) {
-      return;
+      return const CustomDialogWidget(
+              title: "User not logged in",
+              subtitle: "Please login before proceeding to check-in")
+          .show(AppNavigator.currentContext);
     }
     setState(VmState.busy);
     try {
@@ -44,7 +48,7 @@ class SigninVM extends ChangeNotifier {
             'type': AlertParams(
               type: AlertType.success,
               title:
-                  'Welcome to DevFest Lagos, ${user?.displayName?.capitalize}! 🤗',
+                  'Welcome to DevFest Lagos, ${user?.displayName?.capitalizeFirstofEach}! 🤗',
               description:
                   'We are glad to have you at DevFest 2022. We hope this becomes a memorable event for you! Stay awesome! 🥰',
               primaryAction: () =>

@@ -5,7 +5,6 @@ import 'package:devfest/widgets/app_bar.dart';
 import 'package:devfest/widgets/button.dart';
 import 'package:devfest/widgets/stories/flutter_stories.dart';
 import 'package:devfest/widgets/touchable_opacity.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
@@ -71,7 +70,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
         var auth = ref.read(authProvider);
 
         if (auth.currentUser != null) {
-          print('i caused skip');
           WidgetsBinding.instance.addPostFrameCallback((_) {
             vm.skip();
           });
@@ -80,27 +78,20 @@ class _OnboardingPageState extends State<OnboardingPage> {
         return Scaffold(
           backgroundColor: bgColor,
           appBar: EmptyAppBar(color: bgColor),
-          body: Stack(
-            children: [
-              Positioned.fill(
-                child: Story(
-                  controller: controller,
-                  momentCount: storyList.length,
-                  fullscreen: false,
-                  onFlashForward: () =>
-                      AppNavigator.pushNamed(Routes.signInPage),
-                  momentDurationGetter: (idx) => _momentDuration,
-                  topOffset: 40,
-                  momentBuilder: (context, index) {
-                    return _OnboardingBuilder(
-                      item: storyList[index],
-                      controller: controller,
-                      index: index,
-                    );
-                  },
-                ),
-              ),
-            ],
+          body: Story(
+            controller: controller,
+            momentCount: storyList.length,
+            fullscreen: false,
+            onFlashForward: () => AppNavigator.pushNamed(Routes.signInPage),
+            momentDurationGetter: (idx) => _momentDuration,
+            topOffset: 40,
+            momentBuilder: (context, index) {
+              return _OnboardingBuilder(
+                item: storyList[index],
+                controller: controller,
+                index: index,
+              );
+            },
           ),
         );
       },
@@ -140,7 +131,7 @@ class _OnboardingBuilder extends StatelessWidget {
           style: const TextStyle(
             fontSize: 16,
             color: AppColors.grey6,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w400,
           ),
         ),
         const Spacer(),

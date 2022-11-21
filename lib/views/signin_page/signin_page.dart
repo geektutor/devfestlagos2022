@@ -74,6 +74,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                     style: TextStyle(
                       color: AppColors.grey6,
                       fontSize: 16,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
                   const Gap(32),

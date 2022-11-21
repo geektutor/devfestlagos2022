@@ -31,7 +31,7 @@ class StatusChip extends StatelessWidget {
 
 enum AgendaStatus {
   ongoing('ONGOING', AppColors.yellow1, AppColors.yellowPrimary),
-  pending('PENDING', AppColors.lightRed2, AppColors.redPrimary),
+  pending('PENDING', AppColors.greyWhite40, AppColors.grey2),
   complete('COMPLETE', AppColors.lightGreen2, AppColors.greenPrimary);
 
   const AgendaStatus(this.statusText, this.bgColor, this.textColor);
