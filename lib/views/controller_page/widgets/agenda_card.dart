@@ -64,11 +64,12 @@ class AgendaCardWidget extends HookConsumerWidget {
       },
       child: Container(
         width: double.infinity,
-        height: context.screenHeight(.13) + 56,
+        // height: context.screenHeight(.13) + 56,
         decoration: BoxDecoration(
           color: AppColors.greyWhite80.withOpacity(0.3),
           borderRadius: BorderRadius.circular(18),
         ),
+
         child: Row(
           children: [
             const Gap(16),
@@ -130,18 +131,20 @@ class AgendaCardWidget extends HookConsumerWidget {
                     ),
                   ),
                   const Gap(8),
-                  Text(
-                    agenda.venue,
-                    style: const TextStyle(
+                  const Text(
+                    "",
+                    // agenda.venue,
+                    style: TextStyle(
                       color: AppColors.grey12,
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   const Gap(8),
-                  Text(
-                    '${agenda.startTime.timeOfDay} - ${agenda.endTime.timeOfDay}',
-                    style: const TextStyle(
+                  const Text(
+                    "",
+                    // '${agenda.startTime.timeOfDay} - ${agenda.endTime.timeOfDay}',
+                    style: TextStyle(
                       color: AppColors.grey12,
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
@@ -149,6 +152,7 @@ class AgendaCardWidget extends HookConsumerWidget {
                   ),
                   const Gap(24),
                   StatusChip(status: agenda.status),
+                  const Gap(8),
                 ],
               ),
             )

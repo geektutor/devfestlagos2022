@@ -1,8 +1,11 @@
+import 'package:devfest/core/state/viewmodels/signin_vm.dart';
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../core/state/providers.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/button.dart';
 
@@ -16,6 +19,7 @@ class AlertParams {
   final void Function()? secondaryAction;
   final String primaryBtnText;
   final String? secondaryBtnText;
+  final bool primaryLoading;
 
   AlertParams({
     required this.type,
@@ -25,10 +29,11 @@ class AlertParams {
     this.secondaryAction,
     required this.primaryBtnText,
     this.secondaryBtnText,
+    this.primaryLoading = false,
   });
 }
 
-class AlertPage extends StatelessWidget {
+class AlertPage extends ConsumerWidget {
   const AlertPage({
     Key? key,
     required this.params,
@@ -37,7 +42,8 @@ class AlertPage extends StatelessWidget {
   final AlertParams params;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    var vm = ref.watch(signinVM);
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: const EmptyAppBar(color: AppColors.white),
@@ -108,7 +114,8 @@ class AlertPage extends StatelessWidget {
                 DevFestButton(
                   width: double.infinity,
                   text: params.primaryBtnText,
-                  onTap: params.primaryAction,
+                  onTap: vm.state == VmState.busy ? null : params.primaryAction,
+                  loading: vm.state == VmState.busy,
                 ),
                 if (params.secondaryAction != null)
                   DevFestButton(

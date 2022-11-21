@@ -7,6 +7,8 @@ class Speaker {
   final String? github;
   final String? twitter;
   final String? linkedIn;
+  final num? order;
+  final String? bgColor;
 
   const Speaker({
     this.name,
@@ -17,9 +19,13 @@ class Speaker {
     this.github,
     this.twitter,
     this.linkedIn,
+    this.order,
+    this.bgColor,
   });
 
-  factory Speaker.fromJson(Map<String, dynamic> json) => Speaker(
+  factory Speaker.fromJson(Map<String, dynamic> json,
+          {Speaker? speaker, String? bgColor}) =>
+      Speaker(
         name: json['name'],
         role: json['role'],
         avatar: json['avatar'],
@@ -28,5 +34,7 @@ class Speaker {
         github: json['github'],
         twitter: json['twitter'],
         linkedIn: json['linkedIn'],
+        order: num.tryParse(json['order'].toString()),
+        bgColor: bgColor,
       );
 }

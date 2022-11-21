@@ -29,7 +29,7 @@ class InfoCardWidget extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: AppColors.greyWhite80,
+        color: const Color(0xFFF6F6F8),
         borderRadius: BorderRadius.circular(16),
       ),
       child: ClipRRect(

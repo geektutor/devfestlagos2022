@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../views/controller_page/tabs/agenda/agenda_page.dart';
+import '../../../views/sessions_page/sessions_page.dart';
 
 class ControllerVM extends ChangeNotifier {
   final Reader read;
@@ -56,6 +57,13 @@ class ControllerVM extends ChangeNotifier {
       name: 'Speakers',
     ),
     const ControllerPageItem(
+      page: SessionsPage(
+        key: PageStorageKey<String>('sessions'),
+      ),
+      image: 'agenda',
+      name: 'Sessions',
+    ),
+    const ControllerPageItem(
       page: ProfilePage(
         key: PageStorageKey<String>('You'),
       ),
@@ -84,8 +92,13 @@ class ControllerVM extends ChangeNotifier {
   }
 
   void goToSpeakers([String? category]) {
-    read(categoryProvider.notifier).state = category;
     currentTab = 2;
+    notifyListeners();
+  }
+
+  void goToSessions([String? category]) {
+    read(categoryProvider.notifier).state = category;
+    currentTab = 3;
     notifyListeners();
   }
 }

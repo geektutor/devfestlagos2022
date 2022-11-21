@@ -50,6 +50,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
+      await Future.delayed(const Duration(seconds: 3));
       runApp(await builder());
     },
     (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
