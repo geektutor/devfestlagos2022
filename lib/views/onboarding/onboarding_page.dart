@@ -5,7 +5,6 @@ import 'package:devfest/widgets/app_bar.dart';
 import 'package:devfest/widgets/button.dart';
 import 'package:devfest/widgets/stories/flutter_stories.dart';
 import 'package:devfest/widgets/touchable_opacity.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
@@ -163,7 +162,8 @@ class _OnboardingBuilder extends StatelessWidget {
           )
         ],
         const Spacer(),
-        SvgPicture.asset(item.image.svg),
+        SvgPicture.asset(item.image.svg,
+            width: MediaQuery.of(context).size.width, fit: BoxFit.fitWidth),
       ],
     );
   }
