@@ -154,7 +154,8 @@ class _OnboardingBuilder extends StatelessWidget {
           )
         ],
         const Spacer(),
-        SvgPicture.asset(item.image.svg),
+        SvgPicture.asset(item.image.svg,
+            width: MediaQuery.of(context).size.width, fit: BoxFit.fitWidth),
       ],
     );
   }
