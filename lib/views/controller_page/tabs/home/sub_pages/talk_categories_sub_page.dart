@@ -56,7 +56,7 @@ class TalkCategoriesSubPage extends HookConsumerWidget {
                                     ref
                                         .read(controllerVM)
                                         .returnToDefaultPage();
-                                    ref.read(controllerVM).goToSessions(e.name);
+                                    ref.read(controllerVM).goToSpeakers(e.name);
                                   },
                                   child: Column(
                                     children: [

@@ -4,23 +4,22 @@ class Sponsor {
   final String? backgroundImage;
   final String? logoUrl;
   final String? twitterHandle;
-  final num? order;
+  final int? order;
 
-  const Sponsor({
-    this.name,
-    this.website,
-    this.backgroundImage,
-    this.logoUrl,
-    this.twitterHandle,
-    this.order,
-  });
+  const Sponsor(
+      {this.name,
+      this.website,
+      this.backgroundImage,
+      this.logoUrl,
+      this.twitterHandle,
+      this.order});
 
   factory Sponsor.fromJson(Map<String, dynamic> json) => Sponsor(
         name: json['name'],
         website: json['website'],
-        backgroundImage: json['backgroundUrl'],
+        backgroundImage: json['backgroundImageUrl'],
         logoUrl: json['logoUrl'],
-        order: num.tryParse(json['order'].toString()),
+        order: json['order'],
         twitterHandle: json['twitterHande'],
       );
 }

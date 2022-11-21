@@ -51,35 +51,31 @@ class MoreInfoPage extends HookConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Gap(24),
-                  if (speakers.title.isNotEmpty) ...[
-                    Text(
-                      speakers.title,
-                      style: const TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.grey0),
-                    ),
-                    const Gap(8),
-                    const Text(
-                      "",
-                      // speakers.venue,
-                      style: TextStyle(
-                        fontSize: 18,
+                  Text(
+                    speakers.title,
+                    style: const TextStyle(
+                        fontSize: 28,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.grey12,
-                        letterSpacing: 1.5,
-                      ),
+                        color: AppColors.grey0),
+                  ),
+                  const Gap(8),
+                  Text(
+                    speakers.venue,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.grey12,
+                      letterSpacing: 1.5,
                     ),
-                    const Text(
-                      "",
-                      // speakers.time,
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.grey12),
-                    ),
-                    const Gap(16),
-                  ],
+                  ),
+                  Text(
+                    speakers.time,
+                    style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.grey12),
+                  ),
+                  const Gap(16),
                   Row(
                     children: [
                       ClipOval(
@@ -118,8 +114,7 @@ class MoreInfoPage extends HookConsumerWidget {
                     ],
                   ),
                   const Gap(16),
-                  if (speakers.title.isNotEmpty)
-                    StatusChip(status: speakers.status),
+                  StatusChip(status: speakers.status),
                   const Gap(24),
                   Text(
                     speakers.synopsis,
@@ -129,57 +124,53 @@ class MoreInfoPage extends HookConsumerWidget {
                         color: AppColors.grey6),
                   ),
                   const Gap(32),
-                  if (speakers.title.isNotEmpty) ...[
-                    const Text(
-                      'VENUE',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.grey0),
-                    ),
-                    const Gap(8),
-                    Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: 161,
-                            child: Image.network(
-                              trimmedVenue,
+                  const Text(
+                    'VENUE',
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.grey0),
+                  ),
+                  const Gap(8),
+                  Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: 161,
+                          child: Image.network(
+                            trimmedVenue,
+                            width: 40,
+                            height: 40,
+                            fit: BoxFit.fill,
+                            errorBuilder: (_, __, ___) => Image.asset(
+                              'halla'.png,
                               width: 40,
                               height: 40,
                               fit: BoxFit.fill,
-                              errorBuilder: (_, __, ___) => Image.asset(
-                                'halla'.png,
-                                width: 40,
-                                height: 40,
-                                fit: BoxFit.fill,
-                              ),
                             ),
                           ),
                         ),
-                        if (speakers.venue.isNotEmpty)
-                          Positioned(
-                            left: 8,
-                            bottom: 16,
-                            child: CustomChip(
-                              color: AppColors.white,
-                              text: speakers.venue,
-                              textColor: AppColors.grey6,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 8,
-                              ),
-                            ),
+                      ),
+                      Positioned(
+                        left: 8,
+                        bottom: 16,
+                        child: CustomChip(
+                          color: AppColors.white,
+                          text: speakers.venue,
+                          textColor: AppColors.grey6,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 8,
                           ),
-                      ],
-                    )
-                  ]
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
-            const Gap(16),
           ],
         ),
       ),
