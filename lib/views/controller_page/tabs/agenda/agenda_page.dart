@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../core/model/session_response.dart';
 import '../../../../utils/colors.dart';
 import '../../../../widgets/app_bar.dart';
 
@@ -19,6 +20,35 @@ class AgendaPage extends ConsumerStatefulWidget {
 }
 
 class _AgendaPageState extends ConsumerState<AgendaPage> {
+  final dummyAgenda = <Agenda>[
+    Agenda(
+      startTime: DateTime(2022, 10, 23, 9),
+      endTime: DateTime(2022, 10, 23, 10),
+      sessionTitle: 'WTM + WW Breakfast / Registration',
+      venue: 'Hall A',
+      status: AgendaStatus.complete,
+      name: 'Aise Idahor',
+      avatar: 'Aise',
+      role: 'Product Designer, Valist',
+      backgroundImage: 'Rectangle_1',
+      sessionSynopsis:
+          'In this talk, Aise instructs all adventurers looking into Web3 and tells them how to find opporunities best suited for them.',
+    ),
+    Agenda(
+      startTime: DateTime(2022, 10, 23, 10),
+      endTime: DateTime(2022, 10, 23, 10, 30),
+      sessionTitle: 'Welcome to GDG Lagos',
+      venue: 'Hall A',
+      status: AgendaStatus.ongoing,
+      name: 'Sodiq Akinjobi',
+      avatar: 'Sodiq',
+      role: 'Lead Product Manager, Google',
+      backgroundImage: 'Rectangle_1',
+      sessionSynopsis:
+          'In this talk, Aise instructs all adventurers looking into Web3 and tells them how to find opporunities best suited for them.',
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,24 +91,31 @@ class _AgendaPageState extends ConsumerState<AgendaPage> {
                           vertical: 8,
                           horizontal: AppConstants.horizontalPadding),
                       itemCount: data?.length ?? 0,
-                      itemBuilder: (_, i) {
-                        data?.sort(
-                            (a, b) => (a.order ?? 0).compareTo((b.order ?? 0)));
-                        return AgendaCardWidget(
-                            agenda: Agenda(
-                              startTime: DateTime.now(),
-                              endTime: DateTime.now(),
-                              status: AgendaStatus.pending,
-                              sessionTitle: data?[0].title ?? '',
-                              venue: data?.elementAt(i).venue ?? '',
-                              name: data?.elementAt(i).speaker ?? '',
-                              avatar: data?.elementAt(i).speakerImage ?? '',
-                              sessionSynopsis:
-                                  data?.elementAt(i).description ?? '',
-                              role: data?.elementAt(i).speakerTagline ?? '',
-                            ),
-                            index: i);
-                      },
+                      itemBuilder: (_, i) => FutureBuilder<Session>(
+                        future: data?.elementAt(i),
+                        builder: (_, snapshot) {
+                          if (snapshot.hasData) {
+                            final session = snapshot.requireData;
+                            return AgendaCardWidget(
+                                agenda: Agenda(
+                                  startTime: DateTime.now(),
+                                  endTime: DateTime.now(),
+                                  status: AgendaStatus.pending,
+                                  sessionTitle: session.title ?? '',
+                                  venue: session.venue?.name ?? '',
+                                  name: session.speaker?.name ?? '',
+                                  avatar: session.speaker?.avatar ?? '',
+                                  sessionSynopsis: session.description ?? '',
+                                  role:
+                                      '${session.speaker?.role ?? ''} ${session.speaker?.organisation ?? ''}',
+                                ),
+                                index: i);
+                          }
+                          return const Center(
+                            child: Text('Fetching Session...'),
+                          );
+                        },
+                      ),
                       separatorBuilder: (_, __) => const Gap(8),
                     );
                   },
