@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:devfest/core/state/providers.dart';
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
@@ -64,11 +65,11 @@ class TalkCategoriesSubPage extends HookConsumerWidget {
                                       Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Image.network(
-                                            e.imageUrl ?? '',
+                                          CachedNetworkImage(
+                                            imageUrl: e.imageUrl ?? '',
                                             height: 24,
                                             width: 24,
-                                            errorBuilder: (_, __, ___) =>
+                                            errorWidget: (_, __, ___) =>
                                                 const Icon(
                                               PhosphorIcons.globe,
                                               size: 24,
