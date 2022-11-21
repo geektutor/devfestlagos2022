@@ -7,10 +7,7 @@ String get getSpeakerCardBg {
   return backgrounds.elementAt(index);
 }
 
-String parseUrl(String url, {bool isMail = false}) {
-  if (isMail) {
-    return 'mailto:$url';
-  }
+String parseUrl(String url) {
   if (url.contains('https://')) {
     return url;
   }
