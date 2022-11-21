@@ -141,7 +141,7 @@ class ProfilePage extends ConsumerWidget {
                       )
                     else
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -164,7 +164,7 @@ class ProfilePage extends ConsumerWidget {
                                 decoration: BoxDecoration(
                                   color: isCheckedIn
                                       ? const Color(0xFFF3FBF5)
-                                      : const Color(0xFFF2F2F2),
+                                      : const Color(0xFFFFFBF0),
                                   borderRadius: BorderRadius.circular(100),
                                 ),
                                 child: Text(
@@ -172,13 +172,14 @@ class ProfilePage extends ConsumerWidget {
                                   style: TextStyle(
                                     color: isCheckedIn
                                         ? AppColors.greenPrimary
-                                        : AppColors.grey0,
+                                        : const Color(0xFFE2A904),
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
                               ),
                             ),
+                            const SizedBox(height: 12),
                             CircleAvatar(
                               backgroundColor:
                                   const Color(0xFF1DA1F2).withOpacity(.1),
@@ -190,6 +191,7 @@ class ProfilePage extends ConsumerWidget {
                                 width: 32,
                               ),
                             ),
+                            const SizedBox(height: 5),
                             Text(
                                 !(userInfo?.checkedIn ?? false)
                                     ? "Want to let everyone know you're here? Make a tweet!!"
@@ -199,6 +201,14 @@ class ProfilePage extends ConsumerWidget {
                                   fontSize: 24,
                                   fontWeight: FontWeight.w500,
                                 )),
+                            const Gap(8),
+                            const Text(
+                              'Make a tweet! Spread the word about DevFest Lagos!',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: AppColors.grey6,
+                              ),
+                            ),
                             const Gap(40),
                             Center(
                                 child: DevFestButton(
