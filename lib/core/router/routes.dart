@@ -1,7 +1,7 @@
 abstract class Routes {
   Routes._();
 
-  static const splashPage = '/splash';
+  static const splashPage = '/';
   static const onboardingPage = '/onboarding_page';
   static const signInPage = '/signin_page';
   static const alertPage = '/alert_page';
@@ -11,5 +11,4 @@ abstract class Routes {
   static const allTalkPage = '/all_talk_page';
   static const sponsorsPage = '/sponsors_page';
   static const teamPage = '/team_page';
-  static const contributorPage = '/contributors_page';
 }

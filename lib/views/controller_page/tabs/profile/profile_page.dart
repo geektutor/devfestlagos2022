@@ -1,5 +1,4 @@
 import 'package:devfest/core/model/user_info.dart';
-import 'package:devfest/core/router/navigator.dart';
 import 'package:devfest/core/state/providers.dart';
 import 'package:devfest/services/firestore_db.dart';
 import 'package:devfest/utils/colors.dart';
@@ -10,17 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-
-import '../../../../core/state/viewmodels/signin_vm.dart';
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ref) {
-    final auth = ref.watch(authProvider);
-    final signinVm = ref.watch(signinVM);
+    final auth = ref.read(authProvider);
     final user = auth.currentUser;
     return Scaffold(
       appBar: const PreferredSize(
@@ -29,9 +24,8 @@ class ProfilePage extends ConsumerWidget {
       ),
       body: StreamBuilder<UserAttendanceInfoModel?>(
         initialData: const UserAttendanceInfoModel(),
-        stream: (user?.email?.isNotEmpty ?? false)
-            ? FirestoreUserDBService.instance.userInfoStream(user?.email ?? '')
-            : null,
+        stream:
+            FirestoreUserDBService.instance.userInfoStream(user?.email ?? ''),
         builder: (context, snapshot) {
           final userInfo = snapshot.data;
           final isCheckedIn = userInfo?.checkedIn ?? false;
@@ -157,13 +151,7 @@ class ProfilePage extends ConsumerWidget {
                             const Gap(32),
                             TouchableOpacity(
                               onTap: () async {
-                                var user = await ref
-                                    .read(authProvider)
-                                    .signInWithGoogle();
-                                if (user != null) {
-                                  AppNavigator.pushNamedAndClear(
-                                      Routes.controllerPage);
-                                }
+                                await ref.read(authProvider).signInWithGoogle();
                               },
                               child: Container(
                                 width: double.infinity,
@@ -190,20 +178,28 @@ class ProfilePage extends ConsumerWidget {
                               ),
                             ),
                             const Gap(24),
-                            // SvgPicture.asset('or'.svg),
+                            SvgPicture.asset('or'.svg),
                             const Gap(24),
+                            TextFormField(
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: const InputDecoration(
+                                labelText: 'Email Address',
+                                hintText: 'Enter your email address',
+                                border: OutlineInputBorder(),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: AppColors.greyWhite80,
+                                  ),
+                                ),
+                                focusColor: AppColors.blue2,
+                              ),
+                            ),
                             const Gap(24),
                           ],
                           if (!(userInfo?.checkedIn ?? false))
-                            Column(
-                              children: [
-                                const Gap(24),
-                                DevFestButton(
-                                  loading: signinVm.state == VmState.busy,
-                                  text: 'Checkin',
-                                  onTap: () => signinVm.scanQrCode(user),
-                                ),
-                              ],
+                            DevFestButton(
+                              text: 'Checkin',
+                              onTap: () {},
                             ),
                         ],
                       ),
@@ -215,27 +211,6 @@ class ProfilePage extends ConsumerWidget {
           );
         },
       ),
-    );
-  }
-}
-
-class ScannerView extends StatelessWidget {
-  const ScannerView({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: MobileScanner(
-          allowDuplicates: false,
-          onDetect: (barcode, args) {
-            if (barcode.rawValue == null) {
-              debugPrint('Failed to scan Barcode');
-            } else {
-              final String code = barcode.rawValue!;
-              debugPrint('Barcode found! $code');
-              Navigator.pop(context, code);
-            }
-          }),
     );
   }
 }
