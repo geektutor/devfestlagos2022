@@ -1,11 +1,7 @@
-import 'package:devfest/core/model/category_response.dart';
-import 'package:devfest/core/model/speakers_response.dart';
-import 'package:devfest/core/model/venue_response.dart';
-
 class Session {
-  final Category? category;
+  final String? category;
   final String? description;
-  final Hall? venue;
+  final String? venue;
   final String? level;
   final String? owner;
   final String? ownerEmail;
@@ -13,10 +9,13 @@ class Session {
   final String? scheduledDuration;
   final String? sessionFormat;
   final String? sessionId;
-  final Speaker? speaker;
+  final String? speaker;
   // final AgendaStatus? status;
   final String? title;
   final String? bgColor;
+  final num? order;
+  final String? speakerImage;
+  final String? speakerTagline;
 
   const Session({
     this.category,
@@ -33,18 +32,19 @@ class Session {
     // this.status,
     this.title,
     this.bgColor,
+    this.order,
+    this.speakerImage,
+    this.speakerTagline,
   });
 
-  factory Session.fromJson(Map<String, dynamic> json,
-          {Speaker? speaker,
-          Category? category,
-          Hall? venue,
-          String? bgColor}) =>
+  factory Session.fromJson(Map<String, dynamic> json, {String? bgColor}) =>
       Session(
         title: json['title'],
-        category: category,
-        speaker: speaker,
-        venue: venue,
+        category: json['category'],
+        speaker: json['owner'],
+        speakerImage: json['speakerImage'],
+        speakerTagline: json['tagLine'],
+        venue: json['hall'],
         description: json['description'],
         level: json['level'],
         owner: json['owner'],
@@ -54,5 +54,6 @@ class Session {
         sessionFormat: json['sessionFormat'],
         sessionId: json['sessionId'],
         bgColor: bgColor,
+        order: num.tryParse(json['order'].toString()),
       );
 }

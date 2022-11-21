@@ -68,8 +68,7 @@ class TeamsPage extends ConsumerWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (_, i) => InfoCardWidget(
                     title: data?.elementAt(i).name ?? 'NOT_FOUND',
-                    subtitle:
-                        '${data?.elementAt(i).role ?? ''} ${data?.elementAt(i).organization ?? ''}',
+                    subtitle: data?.elementAt(i).organization ?? '',
                     externalLinks: data?.elementAt(i).twitterUrl ?? '',
                     avatarUrl: data?.elementAt(i).avatar,
                   ),

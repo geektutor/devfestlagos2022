@@ -10,11 +10,13 @@ import 'package:devfest/widgets/touchable_opacity.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../core/model/session_response.dart';
+import '../../../../utils/utils.dart';
 import '../../../../widgets/speaker_card.dart';
 import '../../widgets/agenda_card.dart';
 import '../../widgets/agenda_status_chip.dart';
+import '../../widgets/contributor_card.dart';
 
 class HomePage extends HookConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -86,7 +88,7 @@ class HomePage extends HookConsumerWidget {
                                         onTap: () {
                                           ref
                                               .read(controllerVM)
-                                              .goToSpeakers(e.name);
+                                              .goToSessions(e.name);
                                         },
                                         child: DevFestPillWidget(
                                           title: e.name ?? 'NOT_FOUND',
@@ -132,34 +134,21 @@ class HomePage extends HookConsumerWidget {
                   const Gap(16),
                   ref.watch(sessionsStreamProvider).when(
                         data: (data) {
-                          final session = data?[0];
-                          return FutureBuilder<Session>(
-                            future: session,
-                            builder: (_, snapshot) {
-                              if (snapshot.hasData) {
-                                final session = snapshot.requireData;
-                                return AgendaCardWidget(
-                                    agenda: Agenda(
-                                      startTime: DateTime.now(),
-                                      endTime: DateTime.now(),
-                                      status: AgendaStatus.pending,
-                                      sessionTitle: session.title ?? '',
-                                      venue: session.venue?.name ?? '',
-                                      name: session.speaker?.name ?? '',
-                                      avatar: session.speaker?.avatar ?? '',
-                                      sessionSynopsis:
-                                          session.description ?? '',
-                                      role:
-                                          '${session.speaker?.role ?? ''} ${session.speaker?.organisation ?? ''}',
-                                    ),
-                                    index: 0);
-                              }
-
-                              return const Center(
-                                child: Text('Fetching Session...'),
-                              );
-                            },
-                          );
+                          data?.sort((a, b) =>
+                              (a.order ?? 0).compareTo((b.order ?? 0)));
+                          return AgendaCardWidget(
+                              agenda: Agenda(
+                                startTime: DateTime.now(),
+                                endTime: DateTime.now(),
+                                status: AgendaStatus.pending,
+                                sessionTitle: data?[0].title ?? '',
+                                venue: data?[0].venue ?? '',
+                                name: data?[0].speaker ?? '',
+                                avatar: data?[0].speakerImage ?? '',
+                                sessionSynopsis: data?[0].description ?? '',
+                                role: data?[0].speakerTagline ?? '',
+                              ),
+                              index: 0);
                         },
                         error: (err, stack) => Center(
                           child: Text('Error: $err'),
@@ -168,6 +157,64 @@ class HomePage extends HookConsumerWidget {
                           child: CircularProgressIndicator(),
                         ),
                       ),
+                  // const Gap(32),
+                  // Row(
+                  //   children: [
+                  //     const Text(
+                  //       'Speakers',
+                  //       style: TextStyle(
+                  //         color: AppColors.grey0,
+                  //         fontSize: 18,
+                  //         fontWeight: FontWeight.w500,
+                  //       ),
+                  //     ),
+                  //     const Spacer(),
+                  //     TouchableOpacity(
+                  //       onTap: () => ref.read(controllerVM).goToSpeakers(),
+                  //       child: const Text(
+                  //         'View Sessions',
+                  //         style: TextStyle(
+                  //           color: AppColors.primaryBlue,
+                  //           fontSize: 18,
+                  //           fontWeight: FontWeight.w500,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  // ref.watch(sessionsStreamProvider).when(
+                  //       data: (data) {
+                  //         return FutureBuilder<Session>(
+                  //           future: data?[0],
+                  //           builder: (_, snapshot) {
+                  //             if (snapshot.hasData) {
+                  //               final session = snapshot.requireData;
+                  //               return SpeakerCard(
+                  //                 backgroundImage: 'Rectangle_1',
+                  //                 title: session.title ?? '',
+                  //                 avatar: session.speaker?.avatar ?? '',
+                  //                 name: session.speaker?.name ?? '',
+                  //                 role:
+                  //                     '${session.speaker?.role ?? ''} ${session.speaker?.organisation ?? ''}',
+                  //                 time: (DateTime.now()).timeOfDay,
+                  //                 venue: session.venue?.name ?? '',
+                  //                 category: session.category?.name ?? '',
+                  //               );
+                  //             }
+                  //             return const Center(
+                  //               child: Text('Fetching Session...'),
+                  //             );
+                  //           },
+                  //         );
+                  //       },
+                  //       error: (err, _) => Center(
+                  //         child: Text('Error: $err'),
+                  //       ),
+                  //       loading: () => const Center(
+                  //         child: CircularProgressIndicator(),
+                  //       ),
+                  //     ),
+                  // const Gap(32),
                   const Gap(32),
                   Row(
                     children: [
@@ -193,29 +240,20 @@ class HomePage extends HookConsumerWidget {
                       ),
                     ],
                   ),
-                  ref.watch(sessionsStreamProvider).when(
+                  ref.watch(speakersStreamProvider).when(
                         data: (data) {
-                          return FutureBuilder<Session>(
-                            future: data?[0],
-                            builder: (_, snapshot) {
-                              if (snapshot.hasData) {
-                                final session = snapshot.requireData;
-                                return SpeakerCard(
-                                  backgroundImage: 'Rectangle_1',
-                                  title: session.title ?? '',
-                                  avatar: session.speaker?.avatar ?? '',
-                                  name: session.speaker?.name ?? '',
-                                  role:
-                                      '${session.speaker?.role ?? ''} ${session.speaker?.organisation ?? ''}',
-                                  time: (DateTime.now()).timeOfDay,
-                                  venue: session.venue?.name ?? '',
-                                  category: session.category?.name ?? '',
-                                );
-                              }
-                              return const Center(
-                                child: Text('Fetching Session...'),
-                              );
-                            },
+                          data?.sort((a, b) =>
+                              (a.order ?? 0).compareTo((b.order ?? 0)));
+                          return SpeakerCard(
+                            backgroundImage: data?[0].bgColor ?? 'Rectangle_1',
+                            title: data?[0].name ?? '',
+                            avatar: data?[0].avatar ?? '',
+                            name: data?[0].name ?? '',
+                            role: data?[0].role ?? '',
+                            time: '',
+                            venue: '',
+                            category: '',
+                            description: data?[0].bio,
                           );
                         },
                         error: (err, _) => Center(
@@ -252,7 +290,7 @@ class HomePage extends HookConsumerWidget {
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 16),
+                    padding: const EdgeInsets.only(top: 16, bottom: 16),
                     child: ref.watch(sponsorsStreamProvider).when(
                           data: (data) {
                             data?.sort((a, b) =>
@@ -281,7 +319,7 @@ class HomePage extends HookConsumerWidget {
                   Row(
                     children: [
                       const Text(
-                        'Team',
+                        'Organizers',
                         style: TextStyle(
                           color: AppColors.grey0,
                           fontSize: 18,
@@ -292,7 +330,7 @@ class HomePage extends HookConsumerWidget {
                       TouchableOpacity(
                         onTap: () => AppNavigator.pushNamed(Routes.teamPage),
                         child: const Text(
-                          'View Team',
+                          'View Organizers',
                           style: TextStyle(
                             color: AppColors.primaryBlue,
                             fontSize: 18,
@@ -312,6 +350,46 @@ class HomePage extends HookConsumerWidget {
                             externalLinks: data?[0].twitterUrl ?? '',
                             avatarUrl: data?[0].avatar,
                           ),
+                          error: (err, stack) =>
+                              Center(child: Text('Error: $err')),
+                          loading: () =>
+                              const Center(child: CircularProgressIndicator()),
+                        ),
+                  ),
+                  const Gap(32),
+                  Row(
+                    children: [
+                      const Text(
+                        'Contributors',
+                        style: TextStyle(
+                          color: AppColors.grey0,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const Spacer(),
+                      TouchableOpacity(
+                        onTap: () =>
+                            AppNavigator.pushNamed(Routes.contributorPage),
+                        child: const Text(
+                          'View Contributors',
+                          style: TextStyle(
+                            color: AppColors.primaryBlue,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20, bottom: 10),
+                    child: ref.watch(contributorsStreamProvider).when<Widget>(
+                          data: (data) {
+                            data?.sort((a, b) =>
+                                (a.order ?? 0).compareTo((b.order ?? 0)));
+                            return ContributorCard(contributor: data?[0]);
+                          },
                           error: (err, stack) =>
                               Center(child: Text('Error: $err')),
                           loading: () =>
@@ -342,6 +420,34 @@ class HomeSlider extends StatelessWidget {
         curve: Curves.fastOutSlowIn,
         duration: 500,
         itemBuilder: (context, i) {
+          if (i == 1) {
+            return GestureDetector(
+              onTap: () => launchUrl(
+                  Uri.parse(parseUrl("https://medium.com/@gdglagos")),
+                  mode: LaunchMode.externalApplication),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: Container(
+                        height: 207,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: ExactAssetImage(
+                              'banner_${i + 1}'.png,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
           return Column(
             children: [
               Padding(

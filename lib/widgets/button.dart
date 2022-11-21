@@ -14,6 +14,7 @@ class DevFestButton extends StatelessWidget {
     this.textColor,
     this.borderColor,
     this.fontSize,
+    this.loading = false,
     this.enabled = true,
     required this.text,
   }) : super(key: key);
@@ -23,6 +24,7 @@ class DevFestButton extends StatelessWidget {
   final String text;
   final EdgeInsetsGeometry? padding;
   final bool enabled;
+  final bool loading;
   final Color? color, textColor, borderColor;
 
   @override
@@ -34,7 +36,7 @@ class DevFestButton extends StatelessWidget {
         width: width ?? context.screenWidth(.7),
         height: height,
         child: TouchableOpacity(
-          onTap: enabled ? onTap : null,
+          onTap: (enabled && !loading) ? onTap : null,
           decoration: BoxDecoration(
             color: color ?? AppColors.primaryBlue,
             borderRadius: BorderRadius.circular(32),
@@ -47,14 +49,22 @@ class DevFestButton extends StatelessWidget {
           child: Padding(
             padding: padding ?? const EdgeInsets.symmetric(vertical: 20),
             child: Center(
-              child: Text(
-                text,
-                style: TextStyle(
-                  fontSize: fontSize ?? 17,
-                  color: textColor ?? AppColors.white,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+              child: loading
+                  ? SizedBox(
+                      height: fontSize ?? 17,
+                      width: fontSize ?? 17,
+                      child: const CircularProgressIndicator(
+                        color: AppColors.white,
+                      ),
+                    )
+                  : Text(
+                      text,
+                      style: TextStyle(
+                        fontSize: fontSize ?? 17,
+                        color: textColor ?? AppColors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
             ),
           ),
         ),

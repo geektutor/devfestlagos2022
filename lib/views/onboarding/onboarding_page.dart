@@ -70,42 +70,39 @@ class _OnboardingPageState extends State<OnboardingPage> {
         var vm = ref.read(signinVM);
         var auth = ref.read(authProvider);
 
-        return StreamBuilder<User?>(
-            stream: auth.authStateChanges,
-            builder: (context, snapshot) {
-              if (snapshot.data != null) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  vm.skip();
-                });
-              }
+        if (auth.currentUser != null) {
+          print('i caused skip');
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            vm.skip();
+          });
+        }
 
-              return Scaffold(
-                backgroundColor: bgColor,
-                appBar: EmptyAppBar(color: bgColor),
-                body: Stack(
-                  children: [
-                    Positioned.fill(
-                      child: Story(
-                        controller: controller,
-                        momentCount: storyList.length,
-                        fullscreen: false,
-                        onFlashForward: () =>
-                            AppNavigator.pushNamed(Routes.signInPage),
-                        momentDurationGetter: (idx) => _momentDuration,
-                        topOffset: 40,
-                        momentBuilder: (context, index) {
-                          return _OnboardingBuilder(
-                            item: storyList[index],
-                            controller: controller,
-                            index: index,
-                          );
-                        },
-                      ),
-                    ),
-                  ],
+        return Scaffold(
+          backgroundColor: bgColor,
+          appBar: EmptyAppBar(color: bgColor),
+          body: Stack(
+            children: [
+              Positioned.fill(
+                child: Story(
+                  controller: controller,
+                  momentCount: storyList.length,
+                  fullscreen: false,
+                  onFlashForward: () =>
+                      AppNavigator.pushNamed(Routes.signInPage),
+                  momentDurationGetter: (idx) => _momentDuration,
+                  topOffset: 40,
+                  momentBuilder: (context, index) {
+                    return _OnboardingBuilder(
+                      item: storyList[index],
+                      controller: controller,
+                      index: index,
+                    );
+                  },
                 ),
-              );
-            });
+              ),
+            ],
+          ),
+        );
       },
     );
   }

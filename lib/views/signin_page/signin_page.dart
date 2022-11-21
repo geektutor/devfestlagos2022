@@ -3,7 +3,6 @@ import 'package:devfest/utils/extensions/extensions.dart';
 import 'package:devfest/views/signin_page/alert_page.dart';
 import 'package:devfest/widgets/button.dart';
 import 'package:devfest/widgets/touchable_opacity.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
@@ -11,7 +10,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../core/router/navigator.dart';
 import '../../core/state/providers.dart';
-import '../../widgets/custom_dialog.dart';
+import '../../core/state/viewmodels/signin_vm.dart';
 
 class SignInPage extends StatefulHookConsumerWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -71,7 +70,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                   ),
                   const Gap(8),
                   const Text(
-                    'Input the email you used to register for DevFest Lagos to get started',
+                    'Sign in with the email you used to register for DevFest Lagos to get started',
                     style: TextStyle(
                       color: AppColors.grey6,
                       fontSize: 16,
@@ -81,7 +80,6 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                   TouchableOpacity(
                     onTap: () async {
                       final user = await auth.signInWithGoogle();
-
                       if (user != null) {
                         AppNavigator.pushNamed(
                           Routes.alertPage,
@@ -91,7 +89,8 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                               title: 'Almost there!',
                               description:
                                   'All that is left is to scan the nearest QR code to check-in to the event. You can also do this later.',
-                              primaryAction: () => vm.scanQrCode(),
+                              primaryAction: () => vm.scanQrCode(user),
+                              primaryLoading: vm.state == VmState.busy,
                               primaryBtnText: 'Scan QR Code',
                               secondaryAction: () => vm.skip(),
                               secondaryBtnText: 'Skip For Now',
@@ -124,56 +123,58 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                     ),
                   ),
                   const Gap(24),
-                  SvgPicture.asset('or'.svg),
+                  // SvgPicture.asset('or'.svg),
                   const Gap(24),
-                  TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                      labelText: 'Email Address',
-                      hintText: 'Enter your email address',
-                      border: OutlineInputBorder(),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: AppColors.greyWhite80,
-                        ),
-                      ),
-                      focusColor: AppColors.blue2,
-                    ),
-                  ),
+                  // TextFormField(
+                  //   keyboardType: TextInputType.emailAddress,
+                  //   decoration: const InputDecoration(
+                  //     labelText: 'Email Address',
+                  //     hintText: 'Enter your email address',
+                  //     border: OutlineInputBorder(),
+                  //     enabledBorder: OutlineInputBorder(
+                  //       borderSide: BorderSide(
+                  //         color: AppColors.greyWhite80,
+                  //       ),
+                  //     ),
+                  //     focusColor: AppColors.blue2,
+                  //   ),
+                  // ),
                   const Gap(33),
-                  Text.rich(
-                    TextSpan(
-                      text: 'You have not registered yet? ',
-                      children: [
-                        TextSpan(
-                          text: 'Register',
-                          recognizer: TapGestureRecognizer()..onTap = () {},
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: AppColors.primaryBlue,
-                            fontFamily: 'CerebriSans',
-                            fontWeight: FontWeight.w500,
-                          ),
-                        )
-                      ],
-                    ),
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: AppColors.grey0,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+                  // Text.rich(
+                  //   TextSpan(
+                  //     text: 'You have not registered yet? ',
+                  //     children: [
+                  //       TextSpan(
+                  //         text: 'Register',
+                  //         recognizer: TapGestureRecognizer()..onTap = () {},
+                  //         style: const TextStyle(
+                  //           fontSize: 16,
+                  //           color: AppColors.primaryBlue,
+                  //           fontFamily: 'CerebriSans',
+                  //           fontWeight: FontWeight.w500,
+                  //         ),
+                  //       )
+                  //     ],
+                  //   ),
+                  //   style: const TextStyle(
+                  //     fontSize: 16,
+                  //     color: AppColors.grey0,
+                  //     fontWeight: FontWeight.w500,
+                  //   ),
+                  // ),
                   const Gap(80),
-                  DevFestButton(
-                    text: 'Verify Email Address',
-                    onTap: () => const CustomDialogWidget().show(context),
-                  ),
+                  // DevFestButton(
+                  //   text: 'Verify Email Address',
+                  //   onTap: () => const CustomDialogWidget().show(context),
+                  // ),
                   const Gap(30),
                   DevFestButton(
+                    // borderColor: ,
                     text: 'Skip For Now',
-                    color: Colors.transparent,
-                    textColor: AppColors.grey16,
-                    onTap: () => AppNavigator.pushNamed(Routes.controllerPage),
+                    // color: Colors.transparent,
+                    // textColor: AppColors.grey16,
+                    onTap: () =>
+                        AppNavigator.pushNamedAndClear(Routes.controllerPage),
                   ),
                 ],
               ),
