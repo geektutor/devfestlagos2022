@@ -1,6 +1,6 @@
 name: devfest
 description: A Very Good Project created by Very Good CLI.
-version: 1.0.0+1
+version: 0.0.3+4
 publish_to: none
 
 environment:
@@ -9,11 +9,11 @@ environment:
 dependencies:
   cached_network_image: ^3.2.1
   card_swiper : ^2.0.1
-  cloud_firestore: ^4.0.2
-  firebase_auth: ^4.0.2
-  google_sign_in: ^5.4.1
+  cloud_firestore:
+  firebase_auth:
+  google_sign_in:
 
-  firebase_core: ^2.1.0
+  firebase_core:
   flutter:
     sdk: flutter
  

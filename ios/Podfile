@@ -1,7 +1,7 @@
 # Uncomment this line to define a global platform for your project
 platform :ios, '12.0'
 
-pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => '9.5.0'
+pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => '10.0.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
@@ -29,11 +29,15 @@ require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelpe
 
 flutter_ios_podfile_setup
 
-target 'Runner' do
+target 'Devfest' do
+
+  pod 'MLKitVision', :podspec => 'MLKitVision.podspec.json'
+  pod 'MLKitCommon', :podspec => 'MLKitCommon.podspec.json'
+
   use_frameworks!
   use_modular_headers!
 
-  pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => '9.5.0'
+  pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => '10.0.0'
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end

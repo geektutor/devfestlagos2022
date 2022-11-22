@@ -27,8 +27,15 @@
       "name": "Launch production",
       "request": "launch",
       "type": "dart",
-      "program": "lib/main_production.dart",
-      "args": ["--flavor", "production", "--target", "lib/main_production.dart"]
+      "program": "lib/main.dart",
+      "args": ["--flavor", "production", "--target", "lib/main.dart"]
+    },
+    {
+      "name": "iOS Launch production",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": ["--target", "lib/main.dart"]
     }
   ]
 }
