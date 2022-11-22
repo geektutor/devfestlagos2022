@@ -69,7 +69,7 @@ class _AgendaPageState extends ConsumerState<AgendaPage> {
                               startTime: DateTime.now(),
                               endTime: DateTime.now(),
                               status: AgendaStatus.pending,
-                              sessionTitle: data?[0].title ?? '',
+                              sessionTitle: data?.elementAt(i).title ?? '',
                               venue: data?.elementAt(i).venue ?? '',
                               name: data?.elementAt(i).speaker ?? '',
                               avatar: data?.elementAt(i).speakerImage ?? '',
