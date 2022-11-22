@@ -6,6 +6,7 @@ import 'package:devfest/core/model/team_response.dart';
 import 'package:devfest/core/state/viewmodels/viewmodels.dart';
 import 'package:devfest/services/auth.dart';
 import 'package:devfest/services/firestore_db.dart';
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../model/contributor_response.dart';
@@ -34,3 +35,19 @@ final sponsorsStreamProvider = StreamProvider.autoDispose<List<Sponsor>?>(
 
 final sessionsStreamProvider = StreamProvider.autoDispose<List<Session>?>(
     (ref) => FirestoreUserDBService.instance.sessionsStream());
+
+class ValueProvider<T> extends InheritedWidget {
+  final T value;
+  const ValueProvider({
+    Key? key,
+    required Widget child,
+    required this.value,
+  }) : super(key: key, child: child);
+
+  static ValueProvider<T> of<T>(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<ValueProvider<T>>()!;
+  }
+
+  @override
+  bool updateShouldNotify(covariant InheritedWidget oldWidget) => false;
+}

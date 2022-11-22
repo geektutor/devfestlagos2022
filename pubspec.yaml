@@ -35,7 +35,7 @@ dependencies:
   mobile_scanner: ^2.1.0
   dio: ^4.0.6
   flutter_native_splash: ^2.2.9
-  the_apple_sign_in: ^1.1.1
+  sign_in_with_apple: ^4.2.0
 
 dev_dependencies:
   flutter_test:

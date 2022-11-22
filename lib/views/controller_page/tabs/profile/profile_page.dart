@@ -10,15 +10,16 @@ import 'package:devfest/utils/extensions/extensions.dart';
 import 'package:devfest/widgets/button.dart';
 import 'package:devfest/widgets/touchable_opacity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:the_apple_sign_in/apple_sign_in_button.dart' as apple_sign_in;
-import 'package:the_apple_sign_in/scope.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/state/viewmodels/signin_vm.dart';
+import '../../../../services/auth.dart';
 import '../../../../utils/utils.dart';
 
 List<String> checkedInTweets = [
@@ -44,6 +45,7 @@ class ProfilePage extends ConsumerWidget {
     final auth = ref.watch(authProvider);
     final signinVm = ref.watch(signinVM);
     final user = auth.currentUser;
+    final appleSignInProvider = ValueProvider.of<AppleSignInAvailable>(context);
     return Scaffold(
       appBar: const PreferredSize(
         preferredSize: Size.zero,
@@ -293,17 +295,40 @@ class ProfilePage extends ConsumerWidget {
                                 ),
                               ),
                             ),
-                            if (Platform.isIOS) ...[
+                            if (Platform.isIOS &&
+                                appleSignInProvider.value.isAvailable) ...[
                               const Gap(12),
-                              apple_sign_in.AppleSignInButton(
-                                style: apple_sign_in.ButtonStyle.black,
-                                type: apple_sign_in.ButtonType.signIn,
-                                onPressed: () async {
+                              TouchableOpacity(
+                                child: Container(
+                                  width: double.infinity,
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 24),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.black,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: const [
+                                      Icon(PhosphorIcons.apple_logo_fill,
+                                          color: AppColors.white),
+                                      Gap(10),
+                                      Text(
+                                        'Sign in with Apple',
+                                        style: TextStyle(
+                                          color: AppColors.white,
+                                          fontSize: 17,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                onTap: () async {
                                   final user = await ref
                                       .read(authProvider)
                                       .signInWithApple(scopes: [
-                                    Scope.email,
-                                    Scope.fullName
+                                    AppleIDAuthorizationScopes.email,
+                                    AppleIDAuthorizationScopes.fullName
                                   ]);
                                   if (user != null) {
                                     AppNavigator.pushNamedAndClear(
