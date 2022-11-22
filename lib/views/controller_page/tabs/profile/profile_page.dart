@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:devfest/core/model/user_info.dart';
@@ -13,6 +14,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:the_apple_sign_in/apple_sign_in_button.dart' as apple_sign_in;
+import 'package:the_apple_sign_in/scope.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/state/viewmodels/signin_vm.dart';
@@ -290,6 +293,25 @@ class ProfilePage extends ConsumerWidget {
                                 ),
                               ),
                             ),
+                            if (Platform.isIOS) ...[
+                              const Gap(12),
+                              apple_sign_in.AppleSignInButton(
+                                style: apple_sign_in.ButtonStyle.black,
+                                type: apple_sign_in.ButtonType.signIn,
+                                onPressed: () async {
+                                  final user = await ref
+                                      .read(authProvider)
+                                      .signInWithApple(scopes: [
+                                    Scope.email,
+                                    Scope.fullName
+                                  ]);
+                                  if (user != null) {
+                                    AppNavigator.pushNamedAndClear(
+                                        Routes.controllerPage);
+                                  }
+                                },
+                              ),
+                            ],
                             const Gap(24),
                             // SvgPicture.asset('or'.svg),
                             const Gap(24),

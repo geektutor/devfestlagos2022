@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
 import 'package:devfest/views/signin_page/alert_page.dart';
@@ -7,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:the_apple_sign_in/apple_sign_in_button.dart' as apple_sign_in;
+import 'package:the_apple_sign_in/scope.dart';
 
 import '../../core/router/navigator.dart';
 import '../../core/state/providers.dart';
@@ -123,6 +127,36 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                       ),
                     ),
                   ),
+
+                  if (Platform.isIOS) ...[
+                    const Gap(12),
+                    apple_sign_in.AppleSignInButton(
+                      style: apple_sign_in.ButtonStyle.black,
+                      type: apple_sign_in.ButtonType.signIn,
+                      onPressed: () async {
+                        final user = await auth.signInWithApple(
+                            scopes: [Scope.email, Scope.fullName]);
+                        if (user != null) {
+                          AppNavigator.pushNamed(
+                            Routes.alertPage,
+                            arguments: {
+                              'type': AlertParams(
+                                type: AlertType.almost,
+                                title: 'Almost there!',
+                                description:
+                                    'All that is left is to scan the nearest QR code to check-in to the event. You can also do this later.',
+                                primaryAction: () => vm.scanQrCode(user),
+                                primaryLoading: vm.state == VmState.busy,
+                                primaryBtnText: 'Scan QR Code',
+                                secondaryAction: () => vm.skip(),
+                                secondaryBtnText: 'Skip For Now',
+                              )
+                            },
+                          );
+                        }
+                      },
+                    ),
+                  ],
                   const Gap(24),
                   // SvgPicture.asset('or'.svg),
                   const Gap(24),
