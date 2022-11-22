@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/utils/extensions/global_extensions.dart';
 import 'package:devfest/utils/utils.dart';
@@ -41,11 +42,11 @@ class InfoCardWidget extends StatelessWidget {
               top: 0,
               right: 0,
               child: bgImgUrl != 'google_banner'
-                  ? Image.network(
-                      bgImgUrl,
+                  ? CachedNetworkImage(
+                      imageUrl: bgImgUrl,
                       height: 90,
                       fit: BoxFit.fill,
-                      errorBuilder: (_, __, ___) => Image.asset(
+                      errorWidget: (_, __, ___) => Image.asset(
                         'google_banner'.png,
                         height: 90,
                         fit: BoxFit.fill,
@@ -156,8 +157,8 @@ class AvatarImage extends StatelessWidget {
         fit: BoxFit.scaleDown,
       );
     }
-    return Image.network(
-      url,
+    return CachedNetworkImage(
+      imageUrl: url,
       fit: fit ?? BoxFit.scaleDown,
     );
   }

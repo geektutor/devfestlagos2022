@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:devfest/core/state/providers.dart';
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
@@ -83,10 +84,10 @@ class SessionCard extends HookConsumerWidget {
                         ),
                         alignment: Alignment.center,
                         child: ClipOval(
-                          child: Image.network(
-                            avatar,
+                          child: CachedNetworkImage(
+                            imageUrl: avatar,
                             fit: BoxFit.contain,
-                            errorBuilder: (_, __, ___) => Image.asset(
+                            errorWidget: (_, __, ___) => Image.asset(
                               'Sodiq'.png,
                               height: 40,
                               width: 40,
@@ -210,10 +211,12 @@ class SpeakerCard extends HookConsumerWidget {
                 ),
                 alignment: Alignment.center,
                 child: ClipOval(
-                  child: Image.network(
-                    avatar,
-                    fit: BoxFit.contain,
-                    errorBuilder: (_, __, ___) => Image.asset(
+                  child: CachedNetworkImage(
+                    imageUrl: avatar,
+                    fit: BoxFit.cover,
+                    height: 64,
+                    width: 64,
+                    errorWidget: (_, __, ___) => Image.asset(
                       'Sodiq'.png,
                       height: 64,
                       width: 64,

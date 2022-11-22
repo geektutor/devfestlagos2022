@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:devfest/core/state/providers.dart';
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
@@ -83,11 +84,11 @@ class MoreInfoPage extends HookConsumerWidget {
                   Row(
                     children: [
                       ClipOval(
-                        child: Image.network(
-                          speakers.avatar,
+                        child: CachedNetworkImage(
+                          imageUrl: speakers.avatar,
                           width: 40,
                           height: 40,
-                          errorBuilder: (_, __, ___) => Image.asset(
+                          errorWidget: (_, __, ___) => Image.asset(
                             'Sodiq'.png,
                             width: 40,
                             height: 40,
@@ -145,12 +146,12 @@ class MoreInfoPage extends HookConsumerWidget {
                           child: SizedBox(
                             width: double.infinity,
                             height: 161,
-                            child: Image.network(
-                              trimmedVenue,
+                            child: CachedNetworkImage(
+                              imageUrl: trimmedVenue,
                               width: 40,
                               height: 40,
                               fit: BoxFit.fill,
-                              errorBuilder: (_, __, ___) => Image.asset(
+                              errorWidget: (_, __, ___) => Image.asset(
                                 'halla'.png,
                                 width: 40,
                                 height: 40,
