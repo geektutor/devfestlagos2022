@@ -14,17 +14,18 @@ class StatusChip extends StatelessWidget {
         vertical: 8,
       ),
       decoration: BoxDecoration(
-        color: status.bgColor,
+        // color: status.bgColor,
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Text(
-        status.statusText,
-        style: TextStyle(
-          color: status.textColor,
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
+      child: const SizedBox(height: 12),
+      // child: Text(
+      //   status.statusText,
+      //   style: TextStyle(
+      //     color: status.textColor,
+      //     fontSize: 12,
+      //     fontWeight: FontWeight.w500,
+      //   ),
+      // ),
     );
   }
 }

@@ -52,7 +52,7 @@ class _AgendaPageState extends ConsumerState<AgendaPage> {
                 ),
               ),
             ),
-            ref.watch(sessionsStreamProvider).when(
+            ref.watch(agendaStreamProvider).when(
                   data: (data) {
                     return ListView.separated(
                       shrinkWrap: true,
@@ -65,19 +65,23 @@ class _AgendaPageState extends ConsumerState<AgendaPage> {
                         data?.sort(
                             (a, b) => (a.order ?? 0).compareTo((b.order ?? 0)));
                         return AgendaCardWidget(
-                            agenda: Agenda(
-                              startTime: DateTime.now(),
-                              endTime: DateTime.now(),
+                          agenda: Agenda(
+                              time: data?.elementAt(i).time ?? '',
                               status: AgendaStatus.pending,
-                              sessionTitle: data?.elementAt(i).title ?? '',
-                              venue: data?.elementAt(i).venue ?? '',
-                              name: data?.elementAt(i).speaker ?? '',
-                              avatar: data?.elementAt(i).speakerImage ?? '',
-                              sessionSynopsis:
-                                  data?.elementAt(i).description ?? '',
-                              role: data?.elementAt(i).speakerTagline ?? '',
-                            ),
-                            index: i);
+                              sessionTitle:
+                                  (data?.elementAt(i).schedule?.isNotEmpty ??
+                                          false)
+                                      ? data?.elementAt(i).schedule ?? ''
+                                      : data?.elementAt(i).time ?? '',
+                              venue: '',
+                              name: data?.elementAt(i).facilitator ?? '',
+                              avatar: '',
+                              sessionSynopsis: '',
+                              role: '',
+                              breakoutSession:
+                                  data?.elementAt(i).sessions ?? []),
+                          index: i,
+                        );
                       },
                       separatorBuilder: (_, __) => const Gap(8),
                     );

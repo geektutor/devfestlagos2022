@@ -5,8 +5,10 @@ import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/model/agenda_response.dart';
 import '../../../core/state/providers.dart';
 import '../../../utils/colors.dart';
+import '../../../utils/constants.dart';
 import 'agenda_status_chip.dart';
 
 class Agenda {
@@ -14,12 +16,12 @@ class Agenda {
   final String sessionTitle;
   final String sessionSynopsis;
   final String venue;
-  final DateTime startTime;
-  final DateTime endTime;
+  final String time;
   final String name;
   final String avatar;
   final String backgroundImage;
   final String role;
+  final List<BreakoutSession> breakoutSession;
 
   const Agenda({
     this.status = AgendaStatus.pending,
@@ -30,8 +32,8 @@ class Agenda {
     this.avatar = '',
     this.backgroundImage = '',
     this.role = '',
-    required this.startTime,
-    required this.endTime,
+    this.time = '',
+    this.breakoutSession = const [],
   });
 }
 
@@ -49,6 +51,57 @@ class AgendaCardWidget extends HookConsumerWidget {
         : AppColors.blue1;
     return GestureDetector(
       onTap: () {
+        if (agenda.breakoutSession.isNotEmpty) {
+          var data = agenda.breakoutSession;
+          AppNavigator.push(
+            Scaffold(
+              backgroundColor: AppColors.white,
+              appBar: AppBar(
+                backgroundColor: AppColors.white,
+                elevation: 0,
+                automaticallyImplyLeading: true,
+                leading: IconButton(
+                  onPressed: () {
+                    AppNavigator.maybePop();
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: AppColors.black,
+                  ),
+                ),
+              ),
+              body: SafeArea(
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 8, horizontal: AppConstants.horizontalPadding),
+                  itemCount: data.length,
+                  itemBuilder: (_, i) {
+                    return AgendaCardWidget(
+                      agenda: Agenda(
+                        time: data.elementAt(i).time ?? '',
+                        status: AgendaStatus.pending,
+                        sessionTitle:
+                            (data.elementAt(i).schedule?.isNotEmpty ?? false)
+                                ? data.elementAt(i).schedule ?? ''
+                                : data.elementAt(i).time ?? '',
+                        venue: data.elementAt(i).venue ?? '',
+                        name: data.elementAt(i).facilitator ?? '',
+                        avatar: '',
+                        sessionSynopsis: '',
+                        role: '',
+                      ),
+                      index: i,
+                    );
+                  },
+                  separatorBuilder: (_, __) => const Gap(8),
+                ),
+              ),
+            ),
+          );
+          return;
+        }
         AppNavigator.pushNamed(Routes.moreInfoPage);
         speakers.updateSpeaker(
           status: agenda.status,
@@ -59,7 +112,7 @@ class AgendaCardWidget extends HookConsumerWidget {
           bgImage: agenda.backgroundImage,
           role: agenda.role,
           name: agenda.name,
-          time: '${agenda.startTime.timeOfDay} - ${agenda.endTime.timeOfDay}',
+          time: agenda.time,
         );
       },
       child: Container(
@@ -131,20 +184,20 @@ class AgendaCardWidget extends HookConsumerWidget {
                     ),
                   ),
                   const Gap(8),
-                  const Text(
-                    "",
-                    // agenda.venue,
-                    style: TextStyle(
+                  Text(
+                    agenda.breakoutSession.isEmpty
+                        ? agenda.venue
+                        : 'ROOM 1 - 6',
+                    style: const TextStyle(
                       color: AppColors.grey12,
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   const Gap(8),
-                  const Text(
-                    "",
-                    // '${agenda.startTime.timeOfDay} - ${agenda.endTime.timeOfDay}',
-                    style: TextStyle(
+                  Text(
+                    agenda.time,
+                    style: const TextStyle(
                       color: AppColors.grey12,
                       fontSize: 14,
                       fontWeight: FontWeight.w500,

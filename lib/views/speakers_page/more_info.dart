@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:devfest/core/state/providers.dart';
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
-import 'package:devfest/views/controller_page/widgets/agenda_status_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -61,20 +60,18 @@ class MoreInfoPage extends HookConsumerWidget {
                           color: AppColors.grey0),
                     ),
                     const Gap(8),
-                    const Text(
-                      "",
-                      // speakers.venue,
-                      style: TextStyle(
+                    Text(
+                      speakers.venue,
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
                         color: AppColors.grey12,
                         letterSpacing: 1.5,
                       ),
                     ),
-                    const Text(
-                      "",
-                      // speakers.time,
-                      style: TextStyle(
+                    Text(
+                      speakers.time,
+                      style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                           color: AppColors.grey12),
@@ -83,19 +80,21 @@ class MoreInfoPage extends HookConsumerWidget {
                   ],
                   Row(
                     children: [
-                      ClipOval(
-                        child: CachedNetworkImage(
-                          imageUrl: speakers.avatar,
-                          width: 40,
-                          height: 40,
-                          errorWidget: (_, __, ___) => Image.asset(
-                            'Sodiq'.png,
+                      if (speakers.avatar.isNotEmpty) ...[
+                        ClipOval(
+                          child: CachedNetworkImage(
+                            imageUrl: speakers.avatar,
                             width: 40,
                             height: 40,
+                            errorWidget: (_, __, ___) => Image.asset(
+                              'Sodiq'.png,
+                              width: 40,
+                              height: 40,
+                            ),
                           ),
                         ),
-                      ),
-                      const Gap(16),
+                        const Gap(16),
+                      ],
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -119,9 +118,6 @@ class MoreInfoPage extends HookConsumerWidget {
                     ],
                   ),
                   const Gap(16),
-                  if (speakers.title.isNotEmpty)
-                    StatusChip(status: speakers.status),
-                  const Gap(24),
                   Text(
                     speakers.synopsis,
                     style: const TextStyle(

@@ -1,6 +1,6 @@
 name: devfest
 description: A Very Good Project created by Very Good CLI.
-version: 0.0.3+4
+version: 0.0.3+5
 publish_to: none
 
 environment:

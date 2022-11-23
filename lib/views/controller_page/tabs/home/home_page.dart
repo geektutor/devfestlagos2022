@@ -137,21 +137,26 @@ class HomePage extends HookConsumerWidget {
                     ],
                   ),
                   const Gap(16),
-                  ref.watch(sessionsStreamProvider).when(
+                  ref.watch(agendaStreamProvider).when(
                         data: (data) {
                           data?.sort((a, b) =>
                               (a.order ?? 0).compareTo((b.order ?? 0)));
                           return AgendaCardWidget(
                               agenda: Agenda(
-                                startTime: DateTime.now(),
-                                endTime: DateTime.now(),
+                                time: data?[0].time ?? '',
                                 status: AgendaStatus.pending,
-                                sessionTitle: data?[0].title ?? '',
-                                venue: data?[0].venue ?? '',
-                                name: data?[0].speaker ?? '',
-                                avatar: data?[0].speakerImage ?? '',
-                                sessionSynopsis: data?[0].description ?? '',
-                                role: data?[0].speakerTagline ?? '',
+                                sessionTitle:
+                                    (data?.elementAt(0).schedule?.isNotEmpty ??
+                                            false)
+                                        ? data?.elementAt(0).schedule ?? ''
+                                        : data?.elementAt(0).time ?? '',
+                                venue: '',
+                                name: data?[0].facilitator ?? '',
+                                avatar: '',
+                                sessionSynopsis: '',
+                                role: '',
+                                breakoutSession:
+                                    data?.elementAt(0).sessions ?? [],
                               ),
                               index: 0);
                         },

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'router.dart';
 export 'routes.dart';
 export 'router.dart';
 
@@ -18,6 +20,17 @@ abstract class AppNavigator {
 
   static Future pushNamed(String route, {arguments}) {
     return key.currentState!.pushNamed(route, arguments: arguments);
+  }
+
+  static Future push(Widget view, {String? routeName}) {
+    return key.currentState!.push(
+      AppRouter.getPageRoute(
+        settings: RouteSettings(
+          name: routeName,
+        ),
+        view: view,
+      ),
+    );
   }
 
   static Future pushNamedReplacement(String route, {arguments}) {

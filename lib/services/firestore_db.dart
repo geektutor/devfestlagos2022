@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:devfest/core/model/agenda_response.dart';
 import 'package:devfest/core/model/checkin_error_exception.dart';
 import 'package:devfest/core/model/checkin_request.dart';
 import 'package:devfest/core/model/checkin_response.dart';
@@ -52,6 +53,12 @@ class FirestoreUserDBService {
     return snapshots.map((event) => event.docs
         .map((e) => Session.fromJson(e.data(), bgColor: getSpeakerCardBg))
         .toList());
+  }
+
+  Stream<List<Schedule>?> agendaStream() {
+    final snapshots = _firestore.collection('Agenda').snapshots();
+    return snapshots.map(
+        (event) => event.docs.map((e) => Schedule.fromJson(e.data())).toList());
   }
 
   Stream<List<Category>?> categoriesStream() {
