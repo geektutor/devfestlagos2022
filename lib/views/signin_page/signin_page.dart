@@ -1,12 +1,17 @@
+import 'dart:io';
+
+import 'package:devfest/services/auth.dart';
 import 'package:devfest/utils/colors.dart';
 import 'package:devfest/utils/extensions/extensions.dart';
 import 'package:devfest/views/signin_page/alert_page.dart';
 import 'package:devfest/widgets/button.dart';
 import 'package:devfest/widgets/touchable_opacity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../core/router/navigator.dart';
 import '../../core/state/providers.dart';
@@ -24,6 +29,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
   Widget build(BuildContext context) {
     var vm = ref.read(signinVM);
     var auth = ref.read(authProvider);
+    final appleSignInProvider = ValueProvider.of<AppleSignInAvailable>(context);
     return Scaffold(
       backgroundColor: AppColors.white,
       body: Stack(
@@ -123,6 +129,60 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                       ),
                     ),
                   ),
+
+                  if (Platform.isIOS &&
+                      appleSignInProvider.value.isAvailable) ...[
+                    const Gap(12),
+                    TouchableOpacity(
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 24),
+                        decoration: BoxDecoration(
+                          color: AppColors.black,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Icon(PhosphorIcons.apple_logo_fill,
+                                color: AppColors.white),
+                            Gap(10),
+                            Text(
+                              'Sign in with Apple',
+                              style: TextStyle(
+                                color: AppColors.white,
+                                fontSize: 17,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      onTap: () async {
+                        final user = await auth.signInWithApple(scopes: [
+                          AppleIDAuthorizationScopes.email,
+                          AppleIDAuthorizationScopes.fullName
+                        ]);
+                        if (user != null) {
+                          AppNavigator.pushNamed(
+                            Routes.alertPage,
+                            arguments: {
+                              'type': AlertParams(
+                                type: AlertType.almost,
+                                title: 'Almost there!',
+                                description:
+                                    'All that is left is to scan the nearest QR code to check-in to the event. You can also do this later.',
+                                primaryAction: () => vm.scanQrCode(user),
+                                primaryLoading: vm.state == VmState.busy,
+                                primaryBtnText: 'Scan QR Code',
+                                secondaryAction: () => vm.skip(),
+                                secondaryBtnText: 'Skip For Now',
+                              )
+                            },
+                          );
+                        }
+                      },
+                    ),
+                  ],
                   const Gap(24),
                   // SvgPicture.asset('or'.svg),
                   const Gap(24),

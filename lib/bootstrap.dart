@@ -8,6 +8,8 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:devfest/core/state/providers.dart';
+import 'package:devfest/services/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -50,8 +52,10 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
+
+      final appleSignInValue = await AppleSignInAvailable.check();
       await Future.delayed(const Duration(seconds: 2));
-      runApp(await builder());
+      runApp(ValueProvider(value: appleSignInValue, child: await builder()));
     },
     (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
   );
