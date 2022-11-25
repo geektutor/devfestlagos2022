@@ -111,120 +111,69 @@ class HomePage extends HookConsumerWidget {
                           child: CircularProgressIndicator(),
                         ),
                       ),
-                  const Gap(32),
-                  Row(
-                    children: [
-                      const Text(
-                        'Agenda',
-                        style: TextStyle(
-                          color: AppColors.grey0,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      const Spacer(),
-                      TouchableOpacity(
-                        onTap: () => ref.read(controllerVM).goToAgenda(),
-                        child: const Text(
-                          'View Agenda',
+                  if (DateTime(2022, 11, 26)
+                          .difference(DateTime.now())
+                          .inHours <=
+                      24) ...[
+                    const Gap(32),
+                    Row(
+                      children: [
+                        const Text(
+                          'Agenda',
                           style: TextStyle(
-                            color: AppColors.primaryBlue,
+                            color: AppColors.grey0,
                             fontSize: 18,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const Gap(16),
-                  ref.watch(agendaStreamProvider).when(
-                        data: (data) {
-                          data?.sort((a, b) =>
-                              (a.order ?? 0).compareTo((b.order ?? 0)));
-                          return AgendaCardWidget(
-                              agenda: Agenda(
-                                time: data?[0].time ?? '',
-                                status: AgendaStatus.pending,
-                                sessionTitle:
-                                    (data?.elementAt(0).schedule?.isNotEmpty ??
-                                            false)
-                                        ? data?.elementAt(0).schedule ?? ''
-                                        : data?.elementAt(0).time ?? '',
-                                venue: '',
-                                name: data?[0].facilitator ?? '',
-                                avatar: '',
-                                sessionSynopsis: '',
-                                role: '',
-                                breakoutSession:
-                                    data?.elementAt(0).sessions ?? [],
-                              ),
-                              index: 0);
-                        },
-                        error: (err, stack) => Center(
-                          child: Text('Error: $err'),
+                        const Spacer(),
+                        TouchableOpacity(
+                          onTap: () => ref.read(controllerVM).goToAgenda(),
+                          child: const Text(
+                            'View Agenda',
+                            style: TextStyle(
+                              color: AppColors.primaryBlue,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
                         ),
-                        loading: () => const Center(
-                          child: CircularProgressIndicator(),
+                      ],
+                    ),
+                    const Gap(16),
+                    ref.watch(agendaStreamProvider).when(
+                          data: (data) {
+                            data?.sort((a, b) =>
+                                (a.order ?? 0).compareTo((b.order ?? 0)));
+                            return AgendaCardWidget(
+                                agenda: Agenda(
+                                  time: data?[0].time ?? '',
+                                  status: AgendaStatus.pending,
+                                  sessionTitle: (data
+                                              ?.elementAt(0)
+                                              .schedule
+                                              ?.isNotEmpty ??
+                                          false)
+                                      ? data?.elementAt(0).schedule ?? ''
+                                      : data?.elementAt(0).time ?? '',
+                                  venue: '',
+                                  name: data?[0].facilitator ?? '',
+                                  avatar: '',
+                                  sessionSynopsis: '',
+                                  role: '',
+                                  breakoutSession:
+                                      data?.elementAt(0).sessions ?? [],
+                                ),
+                                index: 0);
+                          },
+                          error: (err, stack) => Center(
+                            child: Text('Error: $err'),
+                          ),
+                          loading: () => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
                         ),
-                      ),
-                  // const Gap(32),
-                  // Row(
-                  //   children: [
-                  //     const Text(
-                  //       'Speakers',
-                  //       style: TextStyle(
-                  //         color: AppColors.grey0,
-                  //         fontSize: 18,
-                  //         fontWeight: FontWeight.w500,
-                  //       ),
-                  //     ),
-                  //     const Spacer(),
-                  //     TouchableOpacity(
-                  //       onTap: () => ref.read(controllerVM).goToSpeakers(),
-                  //       child: const Text(
-                  //         'View Sessions',
-                  //         style: TextStyle(
-                  //           color: AppColors.primaryBlue,
-                  //           fontSize: 18,
-                  //           fontWeight: FontWeight.w500,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                  // ref.watch(sessionsStreamProvider).when(
-                  //       data: (data) {
-                  //         return FutureBuilder<Session>(
-                  //           future: data?[0],
-                  //           builder: (_, snapshot) {
-                  //             if (snapshot.hasData) {
-                  //               final session = snapshot.requireData;
-                  //               return SpeakerCard(
-                  //                 backgroundImage: 'Rectangle_1',
-                  //                 title: session.title ?? '',
-                  //                 avatar: session.speaker?.avatar ?? '',
-                  //                 name: session.speaker?.name ?? '',
-                  //                 role:
-                  //                     '${session.speaker?.role ?? ''} ${session.speaker?.organisation ?? ''}',
-                  //                 time: (DateTime.now()).timeOfDay,
-                  //                 venue: session.venue?.name ?? '',
-                  //                 category: session.category?.name ?? '',
-                  //               );
-                  //             }
-                  //             return const Center(
-                  //               child: Text('Fetching Session...'),
-                  //             );
-                  //           },
-                  //         );
-                  //       },
-                  //       error: (err, _) => Center(
-                  //         child: Text('Error: $err'),
-                  //       ),
-                  //       loading: () => const Center(
-                  //         child: CircularProgressIndicator(),
-                  //       ),
-                  //     ),
-                  // const Gap(32),
+                  ],
                   const Gap(32),
                   Row(
                     children: [

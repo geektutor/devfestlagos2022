@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="google.devfest2022.devfest">
+    package="com.gdglagos.devfest22">
     <queries>
         <intent>
             <action android:name="android.intent.action.VIEW" />

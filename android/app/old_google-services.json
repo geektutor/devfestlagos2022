@@ -7,20 +7,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:163954857780:android:4d45af7f9a23b6c1ae3761",
+        "mobilesdk_app_id": "1:163954857780:android:514c9330015df742ae3761",
         "android_client_info": {
-          "package_name": "com.gdglagos.devfest22"
+          "package_name": "google.devfest2022.devfest"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "163954857780-9ijr6due97v02ilkcp42hncnuocfqcp1.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.gdglagos.devfest22",
-            "certificate_hash": "29faf42239b0f9b246501b3b49b9b87f162661d0"
-          }
-        },
         {
           "client_id": "163954857780-vieq7ei97tna2tc755to85l2dge5hfu3.apps.googleusercontent.com",
           "client_type": 3
@@ -39,11 +31,10 @@
               "client_type": 3
             },
             {
-              "client_id": "163954857780-guggkvl3euja9qm3l3op70h19prpffj1.apps.googleusercontent.com",
+              "client_id": "163954857780-vo9kvg7ntmka55454t4s8549ricv3cq5.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.gdglagos.devfest22",
-                "app_store_id": "6444653663"
+                "bundle_id": "google.devfest2022.devfest"
               }
             }
           ]

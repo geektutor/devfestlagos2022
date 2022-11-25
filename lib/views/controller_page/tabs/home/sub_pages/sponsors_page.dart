@@ -43,7 +43,7 @@ class SponsorsPage extends ConsumerWidget {
           ),
           const Gap(8),
           const Text(
-            'Without these companies there will have been no DevFest',
+            'Without these companies there would have been no DevFest',
             style: TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 18,

@@ -1,6 +1,6 @@
 name: devfest
 description: A Very Good Project created by Very Good CLI.
-version: 0.0.3+5
+version: 0.0.3+9
 publish_to: none
 
 environment:
@@ -35,6 +35,8 @@ dependencies:
   mobile_scanner: ^2.1.0
   dio: ^4.0.6
   flutter_native_splash: ^2.2.9
+  sign_in_with_apple: ^4.2.0
+  story_view: ^0.14.0
 
 dev_dependencies:
   flutter_test:

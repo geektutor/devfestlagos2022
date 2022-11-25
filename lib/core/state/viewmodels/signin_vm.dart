@@ -34,12 +34,32 @@ class SigninVM extends ChangeNotifier {
     }
     setState(VmState.busy);
     try {
-      var data = await Navigator.of(AppNavigator.currentContext)
+      String? data = await Navigator.of(AppNavigator.currentContext)
           .push(MaterialPageRoute(
         builder: (context) => const ScannerView(),
       ));
+      if (data == null ||
+          !data.contains(
+              "https://us-central1-devfestlagos-2022.cloudfunctions.net/")) {
+        setState(VmState.error);
+        AppNavigator.pushNamed(
+          Routes.alertPage,
+          arguments: {
+            'type': AlertParams(
+              type: AlertType.error,
+              title: "An error ocurred",
+              description:
+                  'You must have scanned the wrong qr code. Please try again',
+              primaryAction: () => AppNavigator.maybePop(),
+              primaryBtnText: 'Go Back',
+            )
+          },
+        );
+        return;
+      }
       Response<dynamic> response =
           await Dio().post(data, data: {"email": user?.email});
+
       if (response.statusCode == 200) {
         setState(VmState.none);
         AppNavigator.pushNamed(
@@ -57,6 +77,7 @@ class SigninVM extends ChangeNotifier {
             )
           },
         );
+        return;
       }
     } catch (e) {
       setState(VmState.error);
@@ -68,13 +89,14 @@ class SigninVM extends ChangeNotifier {
               type: AlertType.error,
               title: (e as DioError).response?.data["message"] ??
                   "An error ocurred",
-              description:
-                  'It seems you did not register before the deadline. Please speak with any volunteer for assistance. Thank you.',
+              description: (e).response?.data["error"] ??
+                  'An error ocurred. please try again later.',
               primaryAction: () => AppNavigator.maybePop(),
               primaryBtnText: 'Go Back',
             )
           },
         );
+        return;
       } else {
         AppNavigator.pushNamed(
           Routes.alertPage,
@@ -88,6 +110,7 @@ class SigninVM extends ChangeNotifier {
             )
           },
         );
+        return;
       }
     }
   }
