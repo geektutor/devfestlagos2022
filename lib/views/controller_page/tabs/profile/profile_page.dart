@@ -353,6 +353,16 @@ class ProfilePage extends ConsumerWidget {
                                 ),
                               ],
                             ),
+                          if (user != null) ...[
+                            const Gap(12),
+                            DevFestButton(
+                              onTap: () async =>
+                                  await ref.read(authProvider).signOut(),
+                              color: AppColors.greyWhite80,
+                              textColor: AppColors.grey2,
+                              text: 'Logout',
+                            ),
+                          ],
                         ],
                       ),
                     ),
